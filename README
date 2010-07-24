@@ -11,3 +11,6 @@ This application will be used to track M1/M2 medical students to track their cli
 
 This application is built on Rails 2.3.8. It uses MySQL 5.1 as the backend database. 
 
+This is at a prototype stage now. Just invoke ./script/server to fire up the app. It is configured to use sqlite3 for now. 
+
+
