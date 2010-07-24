@@ -1,0 +1,2 @@
+class ClerkshipsController < ApplicationController
+end

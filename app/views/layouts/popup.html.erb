@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title><%= controller.controller_name.humanize + ': ' + controller.action_name.humanize %></title>
+		
+		<%= stylesheet_link_tag "reset-fonts-grids", :cache => true %>
+		<%= stylesheet_link_tag "jquery-ui-1.8.1.custom/themes/aristo/jquery-ui-1.8rc3.custom", :cache => true %>
+		<%= stylesheet_link_tag 'styles', :cache => false %>
+		<%= stylesheet_link_tag 'scaffold' %>
+		<%= stylesheet_link_tag "token-input", :cache => true %>
+		<link href="/javascripts/dataTables/css/demo_table_jui.css" media="screen" rel="stylesheet" type="text/css" />
+		<link href="/javascripts/dataTables/media/css/TableTools.css" media="screen" rel="stylesheet" type="text/css" />
+		<%= stylesheet_link_tag "autoSuggest", :cache => true %>
+	
+		<%= javascript_include_tag "jquery-1.4.2.min", :cache => true %>
+		<%= javascript_include_tag "jquery-ui-1.8.1.custom.min", :cache => true %>
+		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+		<%= javascript_include_tag "jquery.tokeninput", :cache => true %>
+		<%= javascript_include_tag "application", :cache => false %>
+		<%= javascript_include_tag "dataTables/js/jquery.dataTables.min", :cache => true %>
+		<%= javascript_include_tag "dataTables/media/ZeroClipboard/ZeroClipboard", :cache => true %>
+		<%= javascript_include_tag "dataTables/media/js/TableTools.min", :cache => true %>
+		<%= javascript_include_tag "autoresize.jquery.min", :cache => true %>
+		<%= javascript_include_tag "jquery.autoSuggest.minified", :cache => true %>
+		
+	</head>
+	<body>
+	
+		<!-- main content -->
+			<%= yield %>
+		<!-- end main content -->
+		
+	</body>
+</html>

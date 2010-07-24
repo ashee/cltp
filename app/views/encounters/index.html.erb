@@ -1,0 +1,116 @@
+<p><%= link_to "Home", root_path %> > List Encounters </p><br/>
+<h1>My Encounters</h1>
+
+<table id="encList" class="display">
+<thead>
+  <tr style="background-color: #CFCFCF; font-weight: bold">
+    <th></th>
+    <th></th>
+    <th>Clerkship</th>
+    <th>Date</th>
+    <th>Patient ID</th>
+    <th>Patient Info</th>
+    <th>Problems (Primary in bold)</th>
+    <th>Procedures</th>
+	<th></th>
+  </tr>
+</thead>
+<tbody>
+<% @encounters.each do |encounter| cls = cycle("odd", "even") %>
+  <tr class='<%= cls %>' valign="top" align="left">
+    <td><% if cls == "odd" then %><img alt="" src="images/cleardot.gif" class="star"><% else %><img alt="" src="images/cleardot.gif" class="emptystar"><%end%></td>
+    <td><a href="encounters/show/<%=h encounter.id %>">View</a></td>
+    <td><%=h encounter.clerkship %></td>
+    <td><%=h encounter.created_at.strftime '%m/%d/%Y' %></td>
+    <td><%=h encounter.pid %></td>
+    <td><%=h encounter.age %> year old <%=h encounter.gender %></td>
+    <td><b><%=h encounter.chief_complaint %></b>, <%=h encounter.co_mobidity %></td>
+    <td>Lumbar Puncture, IV Placement</td>
+	<td valign="middle" align="middle" style="position:relative" nowrap>
+		<span id="popup_link_<%=h encounter.id %>"  ><img alt="" src="images/cleardot.gif" class="bluedownarrow"></span>
+		<span id="popup_<%=h encounter.id %>" class="ui-widget popupMenu" >
+		<ul>
+			<li><a href="#">Add Resource</a></li>
+			<li><a href="">View Resources</a></li>
+			<li><a href="">Clone</a></li>
+			<li><a href="#">Delete</a></li>
+		</ul>
+		</span>
+	</td>
+  </tr>
+  
+<script type="text/javascript" charset="utf-8">
+$(function() {
+	$("span#popup_link_<%=h encounter.id %>").bind('click', function(e) {
+		$("#popup_<%=h encounter.id %>").toggle();	
+	});
+});
+</script>
+
+<% end %>
+
+</tbody>
+
+<tfoot>
+	<tr>
+		<th><input type="text" name="search_0" value="Search this" class="search_init" style="display:none;" /></th>
+		<th><input type="text" name="search_1" value="Search this" class="search_init" style="display:none;" /></th>
+		<th><input type="text" name="search_clerkship" value="Search this" class="search_init" /></th>
+		<th><input type="text" name="search_date" value="Search this" class="search_init" /></th>
+		<th><input type="text" name="search_date" value="Search this" class="search_init" /></th>
+		<th><input type="text" name="search_patient" value="Search this" class="search_init" /></th>
+		<th><input type="text" name="search_cc" value="Search this" class="search_init" /></th>
+		<th><input type="text" name="search_period" value="Search this" class="search_init" /></th>
+		<th><input type="text" name="search_7" value="Search this" class="search_init" style="display:none;" /></th>
+	</tr>
+</tfoot>
+
+</table>
+
+<script>
+var oTable;
+var asInitVals = new Array();
+		//"sDom": 'T<"clear">lfrtip',
+$(function() {
+	TableToolsInit.sSwfPath = "<%= javascript_path 'dataTables/media/swf/ZeroClipboard.swf' %>";
+	oTable = $('#encList').dataTable( {
+		"oLanguage": {
+			"sSearch": "Search all columns:"
+		},
+		"sDom": 'T<"clear"><"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"if>rt<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"lp>',
+		"bJQueryUI": true,
+		"aaSorting": [[3,'desc']],
+		"aoColumns": [{ "bSortable": false },{ "bSortable": false },null,null,null,null,null,null,{ "bSortable": false }],
+		"iDisplayLength": 10,
+		"sPaginationType" : "full_numbers"
+	} );
+	
+	$("tfoot input").keyup( function () {
+		/* Filter on the column (the index) of this element */
+		oTable.fnFilter( this.value, $("tfoot input").index(this) );
+	} );
+
+	$("tfoot input").each( function (i) {
+		asInitVals[i] = this.value;
+	} );
+	
+	$("tfoot input").focus( function () {
+		if ( this.className == "search_init" )
+		{
+			this.className = "";
+			this.value = "";
+		}
+	} );
+	
+	$("tfoot input").blur( function (i) {
+		if ( this.value == "" )
+		{
+			this.className = "search_init";
+			this.value = asInitVals[$("tfoot input").index(this)];
+		}
+	} );
+	
+	$('.popupMenu').hide();
+
+} );
+</script>

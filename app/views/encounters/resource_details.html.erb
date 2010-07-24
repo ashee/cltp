@@ -1,0 +1,71 @@
+<script src="/javascripts/jquery.ui.stars.min.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="/stylesheets/jquery.ui.stars.min.css">
+
+<table>
+<tr>
+	<td>
+	<strong>Resource Details </strong>
+	</td>
+</tr>
+<tr>
+	<td><strong>Title</strong></td>
+</tr>
+<tr>
+	<td><strong>Date</strong></td>
+</tr>
+<tr>
+	<td><strong>URL</strong>	</td>
+</tr>
+<tr>
+	<td><strong>Description</strong>	</td>
+</tr>
+
+<tr>
+	<td>
+<form>
+	<strong>My Rating:</strong> <span id="stars-wrapper1-cap"></span>
+	<div id="stars-wrapper1">
+		<select name="selrate">
+			<option value="1">Very poor</option>
+			<option value="2">Not that bad</option>
+			<option value="3" selected="selected">Average</option>
+			<option value="4">Good</option>
+			<option value="5">Perfect</option>
+		</select>
+	</div>
+</form>
+	</td>
+</tr>
+<tr>
+	<td>
+<form>
+	<strong>Average Rating:</strong> <span id="stars-wrapper2-cap"></span>
+	<div id="stars-wrapper2">
+		<select name="selrate">
+			<option value="1">Very poor</option>
+			<option value="2">Not that bad</option>
+			<option value="3">Average</option>
+			<option value="4" selected="selected">Good</option>
+			<option value="5">Perfect</option>
+		</select>
+	</div>
+</form>
+
+	</td>
+</tr>
+</table>
+
+<script>
+$("#stars-wrapper2").stars({ // already disabled via markup
+	inputType: "select",
+	disabled: true,
+	captionEl: $("#stars-wrapper2-cap")
+});
+$("#stars-wrapper1").stars({
+	inputType: "select",
+	captionEl: $("#stars-wrapper1-cap"),
+	callback: function(ui, type, value){
+		alert("callback: {\n type: " + type + ",\n value: " + value + ",\n event: " + event.type + "\n}");
+	}
+});
+</script>

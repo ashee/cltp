@@ -1,0 +1,52 @@
+<h1>Editing encounter</h1>
+
+<% form_for(@encounter) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :pid %><br />
+    <%= f.text_field :pid %>
+  </p>
+  <p>
+    <%= f.label :age %><br />
+    <%= f.text_field :age %>
+  </p>
+  <p>
+    <%= f.label :gender %><br />
+    <%= f.text_field :gender %>
+  </p>
+  <p>
+    <%= f.label :patient_type %><br />
+    <%= f.text_field :patient_type %>
+  </p>
+  <p>
+    <%= f.label :chief_complaint %><br />
+    <%= f.text_area :chief_complaint %>
+  </p>
+  <p>
+    <%= f.label :co_mobidity %><br />
+    <%= f.text_field :co_mobidity %>
+  </p>
+  <p>
+    <%= f.label :student %><br />
+    <%= f.text_field :student %>
+  </p>
+  <p>
+    <%= f.label :academic_year %><br />
+    <%= f.text_field :academic_year %>
+  </p>
+  <p>
+    <%= f.label :period %><br />
+    <%= f.text_field :period %>
+  </p>
+  <p>
+    <%= f.label :clerkship %><br />
+    <%= f.text_field :clerkship %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @encounter %> |
+<%= link_to 'Back', encounters_path %>

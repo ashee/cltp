@@ -1,0 +1,498 @@
+<div class="yui-ge">
+
+<div class="yui-u first">
+
+<p><%= link_to "Home", root_path %> > New Encounter </p><br/>
+
+<% form_for(@encounter, :html => { :class  => "encounter"} ) do |f| %>
+  <%= f.error_messages %>
+
+<fieldset>
+  	<p>
+    	<%= f.label :encounter_date %><br />
+    	<%= f.text_field :encounter_date, :size=>10, :value => Time.now.strftime("%m/%d/%Y"), :class => 'datepicker ui-widget ui-widget-content ui-corner-all', :tabindex=>1 %>
+  	</p>
+	<p>
+    	<%= f.label :clerkship %><br />
+    	<%= select( "clerkship", "id", { "Pediatrics" => "Pediatrics" }) %>
+  	</p>
+  	<p>
+    	<%= f.label :site %><br />
+   	 	<%= select( "site", "id", { "Emergency" => "E", "Briarwood" => "B", "Ann Arbor West" => "W" }) %>
+	</p>
+</fieldset>
+
+<fieldset>
+	<p>
+	    <%= f.label :patientID %><br />
+    	<%= f.text_field :pid, :size=>10, :class=>'ui-widget ui-widget-content ui-corner-all', :tabindex=>30 %>
+	</p>
+	<p>
+	    <%= f.label :age %><br />
+    	<%= f.text_field :age, :size=>5, :class=>'ui-widget ui-widget-content ui-corner-all', :tabindex=>40  %>
+	</p>
+	<p>
+    	<%= f.label :gender %><br />
+   	 	<%= select( "gender", "id", { "Male" => "M", "Female" => "F", "Other" => "O" }) %>
+	</p> 
+	<p>
+    	<%= f.label :patient_type %><br />
+    	<%= select("patient_type", "id", { "Outpatient" => "O", "Inpatient" => "I", "Newborn" => "N" }) %>
+	</p>
+
+</fieldset>
+
+<fieldset>
+	<p>
+		<%= f.label :patient_history %><br />
+	  	<%= check_box 'patient_history', 'P'  %> Performed
+	  	<%= check_box 'patient_history', 'O'  %> Observed
+	</p>
+	<p>
+		<%= f.label :physical_exam %><br />
+	  	<%= check_box 'physical_exam', 'P'  %> Performed
+	  	<%= check_box 'physical_exam', 'O'  %> Observed
+	</p>
+	<p>
+    	<%= f.label :primary_problem %><br />
+		<input type="text" tabindex="70" size="50" name="encounter[primary_problem]" id="encounter_primary_problem" class="ui-widget ui-widget-content ui-corner-left">
+		<button id="encounter_primary_problem_drop" class="drop_button"></button>
+	</p>
+	<p>
+	   	<%= f.label :secondary_problems %><br />
+	  	<textarea tabindex="100" rows="1" name="encounter[secondary_problems]" id="encounter_secondary_problems" cols="50" class="ui-widget ui-widget-content ui-corner-left"></textarea>
+	  	<button id="encounter_secondary_problems_drop" class="drop_button"></button>
+	</p>
+	<p>
+	   	<%= f.label :procedures_performed %><br />
+	  	<%= f.text_area :procedures_performed, :size=>"50x1", :class => "ui-widget ui-widget-content ui-corner-left", :tabindex=>110  %>
+	  	<button id="encounter_procedures_performed_drop" class="drop_button"></button>
+	</p>
+	<p>
+	   	<%= f.label :procedures_observed %><br />
+	  	<%= f.text_area :procedures_observed, :size=>"50x1", :class => "ui-widget ui-widget-content ui-corner-left", :tabindex=>120  %>
+	  	<button id="encounter_procedures_observed_drop" class="drop_button"></button>
+	</p>
+
+</fieldset>
+
+<fieldset>
+	<p>
+		<%= f.label :notes %><br />
+	  	<%= f.text_area :notes, :size=>"40x1", :class => "ui-widget ui-widget-content ui-corner-all", :tabindex=>130  %>
+	</p>
+</fieldset>
+
+<fieldset style="background-color: #FFF; border: 0;">
+  	<p>
+    	<%= link_to 'Create Encounter', '#', :class=>'submit_encounter' %>
+  	</p>
+  	<p>
+  		<%= link_to 'Cancel and Return', encounters_path, :class=>'cancel_encounter' %>
+  	</p>
+</fieldset>
+
+<% end %>
+
+
+
+</div> <!-- end yui-u first -->
+
+<div class="yui-u">
+
+	<div id="rightbar" class="ui-widget ">
+	
+	<!--
+		<div class="rightbar_header ui-widget-content ui-state-highlight ui-corner-all">
+			<span class="ui-icon ui-icon-note" style="float: left; margin-right: 0.3em;"></span>
+			<strong>Writeups</strong>
+		</div>
+		<div class="rightbar_section">
+			<ul id="rightbar_writeups" class="rightbar_list">
+				<li><a href="/encounters/writeup/1">Writeup</a></li>
+			</ul>
+			<div id="request_writeup_div">
+				<span id="request_feedback" class="button">Send Writeup</span>
+				<form id="request_feedback_form">
+					<input type="hidden" name="writeup_id" value="1" />
+					<label class="add_form_label">To:</label>
+					<br/> 
+					<input type="text" id="notify_input" />
+					<br />
+					<label class="add_form_label">Message (optional)</label>
+					<textarea rows="3" style="width: 95%;" id="notify_textarea" name="notify_textarea"></textarea>
+				</form>
+			</div>
+			
+<script>
+	var notify_data = {faculty: [
+    	{value: "1", name: "Mick Jagger"},
+    	{value: "2", name: "Jennifer Christener"},
+    	{value: "3", name: "Jocelyn Schiller"},
+   	 	{value: "4", name: "Cyril Grum"}
+	]};
+	$(function() {
+		$("#request_feedback_form").dialog({
+			title: 'Request Feedback',
+			autoOpen: false,
+			height: 300,
+			width: 450,
+			modal: true,
+			buttons: {
+				'Request Feedback': function() {
+					$(this).dialog('close');
+				},
+				'Cancel': function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+		$('#request_feedback')
+			.button()
+			.click(function() {
+				$('#request_feedback_form').dialog('open');
+		});
+		$("#notify_input").autoSuggest(notify_data.faculty, {selectedItemProp: "name", searchObjProps: "name"});
+		$('#notify_textarea').autoResize();
+	});
+</script>
+
+		</div>
+		-->
+		<div class="rightbar_header ui-widget-content ui-state-highlight ui-corner-all">
+			<span class="ui-icon ui-icon-folder-open" style="float: left; margin-right: 0.3em;"></span>
+			<strong>My Resources</strong>
+		</div>
+		<div class="rightbar_section">
+			<ul id="rightbar_artifacts" class="rightbar_list">
+				<li><a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2871548/pdf/GRP2010-526486.pdf">Resource 1</a> 
+					<span class="action_menu">
+						<a href="/resources/show/1" class="iconlink show_resource_details" title="Resource Title">View Details</a>
+						<a href="#" class="iconlink">More</a>
+					</span>
+				</li>
+				<li><a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2871548/pdf/GRP2010-526486.pdf">Resource 2</a> 
+					<span class="action_menu">
+						<a href="/resources/show/1" class="iconlink show_resource_details" title="Resource Title">View Details</a>
+						<a href="#" class="iconlink">More</a>
+					</span>
+				</li>
+			</ul>
+			<span id="add_artifact" class="button" title="Add a Resource">Add Resource</span>
+				
+	<form method="post" enctype="multipart/form-data" action="#" class="form" id="add_artifact_form">
+	<table>
+		<tr>
+			<th><label>From:</label></th>
+			<td>
+				<input type="radio" id="local" name="res_from" class="from" value="local" /> Your Computer 
+				<br> 
+				<input type="radio" id="remote" name="res_from" class="from" value="remote" /> Internet link
+			</td>
+		</tr>
+		<tr class="hide" id="from_local">
+			<th><label>Upload File:</label></th>
+			<td><input type="file" name="filename" size="30" /></td>
+		</tr>
+		<tr class="hide" id="from_remote">
+			<th>Enter a link:</th>
+			<td><input type="text" name="url" size="25" /></td>
+		</tr>
+		<tr>
+			<th>Title</th>
+			<td><input type="text" name="title" id="title" validation="required" size="31" /></td>
+		</tr>
+		<tr>
+			<th>Description</th>
+			<td><textarea name="description" id="artifact_description" style="width:100%"></textarea></td>
+		</tr>
+		<tr>
+			<th>Privacy Settings</th>
+			<td><select><option>Only I can view</option><option>Everybody can view</option></select></td>
+		</tr>
+		<tr>
+			<th>Tagged With</th>
+			<td>Cardiovascular Problem</td>
+		</tr>
+	</table>
+
+<div class="error"></div>
+
+<script>
+	$(function() {
+		$("#add_artifact_form").dialog({
+			title: 'Add a Resource',
+			autoOpen: false,
+			height: 400,
+			width: 550,
+			modal: true,
+			buttons: {
+				'Save Resource': function() {
+					$(this).dialog('close');
+				},
+				'Cancel': function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+		$('#add_artifact')
+			.button()
+			.click(function() {
+				$('#add_artifact_form').dialog('open');
+		});
+		$('#artifact_description').autoResize();
+		$('.hide').hide();
+		$('.from').change(function(e) {
+			$('.hide').hide();
+			$('#from_'+$(this).val()).toggle();
+		});
+	});
+</script>
+</form>
+
+		</div>
+		
+		<div class="rightbar_header ui-widget-content ui-state-highlight ui-corner-all">
+			<span class="ui-icon ui-icon-suitcase" style="float: left; margin-right: 0.3em;"></span>
+			<strong>Related Resources</strong>
+		</div>
+		<div class="rightbar_section">
+			<ul id="rightbar_resources" class="rightbar_list"></ul>
+		</div>
+		
+	</div>
+	
+</div> <!-- end yui-u -->
+
+</div> <!-- end yui-ge -->
+
+<script type="text/javascript">
+$(function() {
+	var availableProblems = ["Behavior Problems","Central Nervous System","Chronic Medical Problem","Dermatologic Problem","Developmental Problem","Emergent Clinical Problem","Gastrointestinal Tract","Growth Problem","Health Maintenance / Well child - Newborn to 1 month","Health Maintenance / Well child - 1 Mo. to 1 Yr","Health Maintenance / Well child - 1 to 5 yrs","Health Maintenance / Well child - 6 to 12 yrs","Health Maintenance / Well child - 13 to 20 yrs","Musculoskeletal Complaint","Nutrition","Unique Condition","Upper Respiratory Tract"];
+	var availableProceduresPerformed = ["Lumbar Puncture","Other","Suturing/Wound Closure","Warts"];
+	var availableProceduresObserved = ["IV Placement","Lumbar Puncture","Venipuncture","Circumcision","Electroencephalogram","Other","Suturing/Wound Closure"];
+	$(".datepicker").datepicker();
+	$("#encounter_secondary_problems").autocomplete({
+			minLength: 0,
+			source: function(request, response) {
+				// delegate back to autocomplete, but extract the last term
+				response($.ui.autocomplete.filter(availableProblems, extractLast(request.term)));
+			},
+			focus: function() {
+				// prevent value inserted on focus
+				return false;
+			},
+			select: function(event, ui) {
+				var terms = split( this.value );
+				// remove the current input
+				terms.pop();
+				// add the selected item
+				terms.push( ui.item.value );
+				// add placeholder to get the comma-and-space at the end
+				terms.push("");
+				this.value = terms.join(", ");
+				var arr = ui.item.value.split(',');
+				$.each(arr, function(i, val) {
+      				$('#rightbar_resources').append('<li><a href="#">'+val+' Guidelines</a></li>');
+     				$('#rightbar_resources li:last-child').css("background-color","yellow").animate({'backgroundColor' : '#FFFFFF'}, 3000);
+    			});
+				return false;
+			}
+		});
+				
+		$("#encounter_secondary_problems_drop").attr("tabIndex", -1)
+				.attr("title", "Show All Items")
+				.button({
+					icons: {
+						primary: "ui-icon-triangle-1-s"
+					},
+					text: false
+				}).removeClass("ui-corner-all")
+				.addClass("ui-corner-right ui-button-icon")
+				.click(function(e) {
+					e.preventDefault();
+					// close if already visible
+					if ($("#encounter_secondary_problems").autocomplete("widget").is(":visible")) {
+						$("#encounter_secondary_problems").autocomplete("close");
+						return;
+					}
+					// pass empty string as value to search for, displaying all results
+					$("#encounter_secondary_problems").autocomplete("search", "");
+					$("#encounter_secondary_problems").focus();
+					return false;
+				});
+	$('textarea#encounter_secondary_problems').autoResize();
+		
+  	$("#encounter_primary_problem").autocomplete({
+			source: availableProblems,
+			minLength: 0,
+			change: function(event, ui) {
+				$('#rightbar_resources').append('<li><a href="#">'+ui.item.value+' Guidelines</a></li>');
+				$('#rightbar_resources li:last-child').css("background-color","yellow").animate({'backgroundColor' : '#FFFFFF'}, 3000);
+			}
+	});
+
+	$("#encounter_primary_problem_drop").attr("tabIndex", -1)
+				.attr("title", "Show All Items")
+				.button({
+					icons: {
+						primary: "ui-icon-triangle-1-s"
+					},
+					text: false
+				}).removeClass("ui-corner-all")
+				.addClass("ui-corner-right ui-button-icon")
+				.click(function(e) {
+					e.preventDefault();
+					if ($("#encounter_primary_problem").autocomplete("widget").is(":visible")) {
+						$("#encounter_primary_problem").autocomplete("close");
+						return;
+					}
+					$("#encounter_primary_problem").autocomplete("search", "");
+					$("#encounter_primary_problem").focus();
+					return false;
+				});
+		function split(val) {
+			return val.split(/,\s*/);
+		}
+		function extractLast(term) {
+			return split(term).pop();
+		}		
+		$("#encounter_procedures_performed").autocomplete({
+			minLength: 0,
+			source: function(request, response) {
+				response($.ui.autocomplete.filter(availableProceduresPerformed, extractLast(request.term)));
+			},
+			focus: function() {
+				return false;
+			},
+			select: function(event, ui) {
+				var terms = split( this.value );
+				terms.pop();
+				terms.push( ui.item.value );
+				terms.push("");
+				this.value = terms.join(", ");
+				var arr = ui.item.value.split(',');
+				$.each(arr, function(i, val) {
+      				$('#rightbar_resources').append('<li><a href="#">'+val+' Guidelines</a></li>');
+      				$('#rightbar_resources li:last-child').css("background-color","yellow").animate({'backgroundColor' : '#FFFFFF'}, 3000);
+
+    			});
+				return false;
+			}
+		});
+				
+		$("#encounter_procedures_performed_drop").attr("tabIndex", -1)
+				.attr("title", "Show All Items")
+				.button({
+					icons: {
+						primary: "ui-icon-triangle-1-s"
+					},
+					text: false
+				}).removeClass("ui-corner-all")
+				.addClass("ui-corner-right ui-button-icon")
+				.click(function(e) {
+					e.preventDefault();
+					// close if already visible
+					if ($("#encounter_procedures_performed").autocomplete("widget").is(":visible")) {
+						$("#encounter_procedures_performed").autocomplete("close");
+						return;
+					}
+					// pass empty string as value to search for, displaying all results
+					$("#encounter_procedures_performed").autocomplete("search", "");
+					$("#encounter_procedures_performed").focus();
+					return false;
+				});
+		$('textarea#encounter_procedures_performed').autoResize();
+		
+		$("#encounter_procedures_observed").autocomplete({
+			minLength: 0,
+			source: function(request, response) {
+				// delegate back to autocomplete, but extract the last term
+				response($.ui.autocomplete.filter(availableProceduresObserved, extractLast(request.term)));
+			},
+			focus: function() {
+				// prevent value inserted on focus
+				return false;
+			},
+			select: function(event, ui) {
+				var terms = split( this.value );
+				// remove the current input
+				terms.pop();
+				// add the selected item
+				terms.push( ui.item.value );
+				// add placeholder to get the comma-and-space at the end
+				terms.push("");
+				this.value = terms.join(", ");
+				var arr = ui.item.value.split(',');
+				$.each(arr, function(i, val) {
+      				$('#rightbar_resources').append('<li><a href="#">'+val+' Guidelines</a></li>');
+      				$('#rightbar_resources li:last-child').css("background-color","yellow").animate({'backgroundColor' : '#FFFFFF'}, 3000);
+
+    			});
+				return false;
+			}
+		});
+				
+		$("#encounter_procedures_observed_drop").attr("tabIndex", -1)
+				.attr("title", "Show All Items")
+				.button({
+					icons: {
+						primary: "ui-icon-triangle-1-s"
+					},
+					text: false
+				}).removeClass("ui-corner-all")
+				.addClass("ui-corner-right ui-button-icon")
+				.click(function(e) {
+					e.preventDefault();
+					// close if already visible
+					if ($("#encounter_procedures_observed").autocomplete("widget").is(":visible")) {
+						$("#encounter_procedures_observed").autocomplete("close");
+						return;
+					}
+					// pass empty string as value to search for, displaying all results
+					$("#encounter_procedures_observed").autocomplete("search", "");
+					$("#encounter_procedures_observed").focus();
+					return false;
+				});
+		$('textarea#encounter_procedures_observed').autoResize();
+		$('textarea#notes').autoResize();
+		$('.submit_encounter').button();
+		$('.cancel_encounter').button();
+		$('.add_resource').button();
+		$('.show_resource_details').button()
+		.click(function(e) {
+			e.preventDefault();
+			var url = this.href;
+			var restitle = this.title;
+			var dialog = $('<div style="display:hidden"></div>').appendTo('body');
+			dialog.load(
+				url, 
+				{},
+				function (responseText, textStatus, XMLHttpRequest) {
+					dialog.dialog({
+					title: restitle,
+           			modal: true,
+           			height: 600,
+           			width: '50%'
+					});
+				}
+			);
+		})
+		.next()
+			.button( {
+				text: false,
+				icons: {
+					primary: "ui-icon-triangle-1-s"
+				}
+			})
+			.click( function() {
+				alert( "Could display a menu to select an action" );
+			})
+		.parent()
+			.buttonset();
+		$('.rightbar_list > li:nth-child(even)').addClass('even');
+		$('.submit_encounter').click(function() {
+			$('#new_encounter').submit();
+		});
+	});
+</script>

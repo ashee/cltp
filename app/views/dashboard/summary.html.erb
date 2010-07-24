@@ -1,0 +1,33 @@
+<style type="text/css" media="screen">
+	.ui-tabs .ui-tabs-hide {
+	    position: absolute;
+	    left: -10000px;
+		display:block;
+	}
+</style>
+
+<script type="text/javascript">
+	$(function() {
+		$("#tabs").tabs();
+	});
+</script>
+
+
+<%= javascript_include_tag 'dashboard', :cache => false %>
+<p><%= link_to "Home", root_path %> > Dashboard </p>
+<hr size="1"/>
+<h1 id="progress_status">Dashboard</h1>
+<div id="tabs">
+	<ul>
+		<li><a href="#tabs-1">All</a></li>
+		<li><a href="#tabs-2">Internal Medicine</a></li>
+	</ul>
+	<div id="tabs-1">
+		<div id="chart_div"></div>
+	</div>
+	<div id="tabs-2">
+		<div>TBD</div>
+	</div>
+</div>
+
+

@@ -1,0 +1,25 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  pid: MyString
+  age: MyString
+  gender: MyString
+  patient_type: MyString
+  chief_complaint: MyText
+  co_mobidity: MyString
+  student: MyString
+  academic_year: MyString
+  period: 
+  clerkship: 
+
+two:
+  pid: MyString
+  age: MyString
+  gender: MyString
+  patient_type: MyString
+  chief_complaint: MyText
+  co_mobidity: MyString
+  student: MyString
+  academic_year: MyString
+  period: 
+  clerkship: 

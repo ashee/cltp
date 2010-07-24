@@ -1,0 +1,116 @@
+<script src="/javascripts/jquery.wysiwyg.js" type="text/javascript"></script>
+<script src="/javascripts/jquery.jeditable.min.js" type="text/javascript"></script>
+<script src="/javascripts/jquery.jeditable.wysiwyg.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/stylesheets/jquery.wysiwyg.css" type="text/css">
+
+<p style="margin: 1em;"><a href="/encounters/show/<%=h @encounter.id %>">Back to Encounter</a></p>
+
+<h1 class="page_title">Clinical Writeup</h1>
+
+<style>
+#recent_writeup {
+	margin: 0.5em;
+	padding: 0.5em;
+	border: 1px solid #DDD;
+}
+#recent_writeup p {
+	margin: 0.5em 0;
+}
+#recent_writeup h1 {
+	font-size: 108%;
+	font-weight: bolder;
+}
+.page_title {
+	-moz-border-radius:8px 8px 8px 8px;
+	background-color:#336699;
+	color:white;
+	font-size:16pt;
+	font-weight:normal;
+	letter-spacing:0;
+	line-height:30px;
+	margin:0.5em;
+	padding-left:20px;
+}
+</style>
+
+<div>
+	<span>This is version 3 of the document <a href="#">Go Back a Version <img alt="" src="images/cleardot.gif" class="blueversion"></a></span>
+</div>
+<div id="recent_writeup">
+	<div id="editable" class="editable">		
+		
+			<h1>Chief Complaint</h1>
+<p>Mr. U is a 77 year old gentleman who presents with chronic kidney disease, and to follow up on a recent hospitalization due to elevated creatinine levels.
+</p>
+<h1>History of the Present Illness</h1>
+<p>Mr. U was first noted to have an elevated creatinine by his PCP about 20 years ago.  At this time, his creatinine was 1.1-1.2, which was a significant increase above previous levels.  He was admitted to the hospital, where a biopsy revealed IgA nephropathy.  He was then told to control his blood pressure better.  After the visit, his creatinine continued to rise about 0.1 mg/dl per year.  When the creatinine reached 2.2, his blood pressure medications were increased for tighter control.  This stopped the kidney deterioration, and he has had a pretty stable creatinine of 2.4-2.5.
+</p>
+<p>
+In the past few months, Mr. U had been increasingly exhausted, and was unable to complete a round of golf.  He cited polydipsia at night, to the point of waking up every hour to take a drink.  He was sleeping very lightly, and was suffering from restless legs while recumbent.  He gets cramps monthly, but this has not changed with his fluctuating creatinine levels.  He also found difficulty in playing the computer games he was used to.  He was not experiencing SOB, lightheadedness or edema.
+</p>
+<h1>Past Medical and Surgical History</h1>
+<p>Mr. U also mentioned problems with stomach acid, for which he uses Tums.  He had diagnoses of cataracts, glaucoma, and macular degeneration in 2004.</p>
+<h1>Medications and Allergies</h1>
+<p>Mr. U is currently taking 100 mg Allopurinol EOD, 10 mg Amlodipine daily, 20 mg Atorvastatin, Etanercept weekly, topical Fluocinolone daily, 300 units Insulin daily, 100 mg Metoprolol daily, 650 mg Sodium Bicarbonate TID, and 50 mg Thiamine daily.</p>
+<p>Mr. U has NKDA.</p>
+<h1>Physical Examination</h1>
+<p>Mr. U is a pleasant gentleman in NAD.  Sitting: R arm 124/60, P 66.  Standing: R arm 114/62, P 72.</p>
+<h1>Important Diagnostic Tests/Studies</h1>
+<p>Positive for proteinuria, hematuria, and uremia.  GFR 19, Cr 3.4, BUN 40, K+ 5.3, glucose 72, 0.51 protein:creatinine.</p>
+<h1>Brief Summary</h1>
+<p>Mr. U is a 77 year old retired professor with IgA nephropathy who is following up from a recent hospital admission for elevated creatinine levels and hypercalcemia.  His creatinine has come down but remains high – 3.4 mg/dl today, which is no change since being seen three weeks ago.  Although he suffered from fatigue, polydipsia, RLS, and decreased concentration prior to hospitalization, he is feeling much better today.</p>	
+
+	</div>
+</div>
+
+<div id="status">
+	<span id="pdf_writeup" class="button">Create PDF </span>
+	<span id="request_feedback" class="button">Send Writeup</span>
+	<form id="request_feedback_form">
+		<input type="hidden" name="writeup_id" value="1" />
+		<label class="add_form_label">To:</label>
+		<br/> 
+		<input type="text" id="notify_input" />
+		<br />
+		<label class="add_form_label">Message (optional)</label>
+		<textarea rows="3" style="width: 95%;" id="notify_textarea" name="notify_textarea"></textarea>
+	</form>
+</div>
+
+<script>
+	var notify_data = {faculty: [
+    	{value: "1", name: "Mick Jagger"},
+    	{value: "2", name: "Jennifer Christener"},
+    	{value: "3", name: "Jocelyn Schiller"},
+   	 	{value: "4", name: "Cyril Grum"}
+	]};
+	$(function() {
+		$('#save_writeup')
+			.button()
+			.click(function() {
+				alert('Saved writeup');
+		});
+		$("#request_feedback_form").dialog({
+			title: 'Request Feedback',
+			autoOpen: false,
+			height: 300,
+			width: 450,
+			modal: true,
+			buttons: {
+				'Request Feedback': function() {
+					$(this).dialog('close');
+				},
+				'Cancel': function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+		$('#request_feedback')
+			.button()
+			.click(function() {
+				$('#request_feedback_form').dialog('open');
+		});
+		$("#notify_input").autoSuggest(notify_data.faculty, {selectedItemProp: "name", searchObjProps: "name"});
+		$('#notify_textarea').autoResize();
+	});
+</script>

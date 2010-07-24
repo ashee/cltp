@@ -1,0 +1,52 @@
+<script src="/javascripts/jquery.ui.stars.min.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="/stylesheets/jquery.ui.stars.min.css">
+
+<p> Resource Details </p><br/>
+
+    <td>Title</td>
+    <td>Date</td>
+    <td>URL</td>
+    <td>Description</td>
+
+<form>
+	Rating: <span id="stars-cap"></span>
+	<div id="stars-wrapper1">
+		<select name="selrate">
+			<option value="1">Very poor</option>
+			<option value="2">Not that bad</option>
+			<option value="3">Average</option>
+			<option value="4" selected="selected">Good</option>
+			<option value="5">Perfect</option>
+		</select>
+	</div>
+</form>
+
+<form>
+	Rating: <span id="stars-cap"></span>
+	<div id="stars-wrapper2">
+		<select name="selrate">
+			<option value="1">Very poor</option>
+			<option value="2">Not that bad</option>
+			<option value="3">Average</option>
+			<option value="4" selected="selected">Good</option>
+			<option value="5">Perfect</option>
+		</select>
+	</div>
+</form>
+
+<script>
+$("#stars-wrapper1").stars({ // already disabled via markup
+	inputType: "select",
+	split: 2,
+	captionEl: $("#stars-wrapper2-cap")
+});
+$("#stars-wrapper2").stars({
+	split: 2,
+	captionEl: $("#stars-wrapper2-cap"),
+	callback: function(ui, type, value){
+		$("#stars-wrapper1").stars("select", value);
+		$("#stars-wrapper1-red").html(value==ui.options.cancelValue ? "Rating removed" : "Rating saved! ("+value+")").stop().css("opacity", 1).fadeIn(30);
+		setTimeout(function(){ $("#stars-wrapper1-red").fadeOut(1000) }, 2000);
+	}
+});
+</script>
