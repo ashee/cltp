@@ -17,10 +17,13 @@ To get going you need to:
 
 1. Copy config/database.yml.template to config/database.yml
 2. Create a database named cltp_dev in MySQL
-3. Change "development:" stanza in the config/database.yml so that the
-   "username:" and "password:" specify a user that has sufficient privileges
-   in the cltp_dev database.
+3. Change the "development:" stanza in the config/database.yml so that
+   the "username:" and "password:" specify a user that has sufficient
+   privileges in the cltp_dev database.
+4. Initialize the database. Details on how to do so will be shared
+shortly.
 
-This is at a prototype stage now. Just invoke ./script/server to fire up the app.
+This is at a prototype stage at present. Just invoke ./script/server
+to fire up the app.
 
 
