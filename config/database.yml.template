@@ -1,0 +1,38 @@
+# MySQL DB Config
+#
+# You must create the databases before they are used. You will likely
+# get errors if the DBs are not created in advance. Also the users
+# specified must have appropriate privileges for the DB.
+#
+# You MUST specify the DB username and password for the development,
+# test and production databases.
+
+development:
+  adapter: mysql
+  database: cltp_dev
+  encoding: utf8
+  username: <dev db username>
+  password: <dev db password>
+  pool: 5
+  timeout: 5000
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  adapter: mysql
+  database: cltp_test
+  encoding: utf8
+  username: <test db username>
+  password: <test db password>
+  pool: 5
+  timeout: 5000
+
+production:
+  adapter: mysql
+  database: cltp
+  encoding: utf8
+  username: <production db username>
+  password: <production db password>
+  pool: 5
+  timeout: 5000
