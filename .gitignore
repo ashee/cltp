@@ -5,3 +5,4 @@ doc/app
 o-rdoc/**
 doc/app
 config/database.yml
+nbproject
