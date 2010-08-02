@@ -94,8 +94,12 @@ Just invoke ./script/server to fire up the app within a
 ruby built-in webserver called webrick. 
 
 ## Production Envrionment
-1. We plan to deploy this application on 
+
+We plan to
+
+1. Deploy this application on 
 [Apache 2.2](http://httpd.apache.org/docs/2.2/) and 
 [Phusion Passenger](http://www.modrails.com/).
+2. Use [ruby enterprise edition (REE)](http://www.rubyenterpriseedition.com/)
 
-We plan to use [ruby enterprise edition (REE)](http://www.rubyenterpriseedition.com/)
+Documentation forthcoming
