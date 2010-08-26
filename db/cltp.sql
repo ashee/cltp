@@ -19,6 +19,95 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Database: `cltp`
 --
 
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(80) NOT NULL,
+  `firstname` varchar(200) DEFAULT NULL,
+  `lastname` varchar(200) DEFAULT NULL,
+  `password` char(40) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `last_login` datetime NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(80) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` VALUES(1, 'Student');
+INSERT INTO `roles` VALUES(2, 'Faculty');
+INSERT INTO `roles` VALUES(3, 'Clerkship');
+INSERT INTO `roles` VALUES(4, 'Program');
+INSERT INTO `roles` VALUES(5, 'Staff');
+INSERT INTO `roles` VALUES(6, 'Admin');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `privileges`
+--
+
+CREATE TABLE `privileges` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role_privileges`
+--
+
+CREATE TABLE `role_privileges` (
+  `role_id` int(11) NOT NULL,
+  `privilege_id` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`role_id`,`privilege_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_roles`
+--
+
+CREATE TABLE `user_roles` (
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`,`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- --------------------------------------------------------
 
 --
@@ -361,6 +450,10 @@ CREATE TABLE `encounters` (
   `hx` char(1) NOT NULL,
   `px` char(1) NOT NULL,
   `notes` text,
+  `created_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `clerkship_id` (`clerkship_id`),
   KEY `clinic_id` (`clinic_id`)
@@ -378,9 +471,14 @@ CREATE TABLE `encounters` (
 
 CREATE TABLE `encounter_dx` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `encounter_id` int(11) NOT NULL,
   `dx_type` char(1) NOT NULL COMMENT 'P = Primary Problem, S = Secondary Problem',
-  `dx_id` int(11) NOT NULL COMMENT '165 (Other) if dx not in db',
-  `other` text COMMENT 'populated only if dx_id = 165 (Other)',
+  `dx_id` int(11) NOT NULL COMMENT '166 (Other) if dx not in db',
+  `other` text COMMENT 'populated only if dx_id = 166 (Other)',
+  `created_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -390,10 +488,84 @@ CREATE TABLE `encounter_dx` (
 
 -- --------------------------------------------------------
 
+--
+-- Table structure for table `resources`
+--
+
+CREATE TABLE `resources` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tag` varchar(50) NOT NULL,
+  `tag_id` int(11) NOT NULL,
+  `title` varchar(512) NOT NULL,
+  `description` text NULL,
+  `filelocation` enum('remote','local') NOT NULL DEFAULT 'remote',
+  `url` varchar(500) DEFAULT NULL,
+  `filename` varchar(500) DEFAULT NULL,
+  `privacy` char(1) NOT NULL COMMENT 'P = Private, F = Faculty, A = All',
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `resources`
+--
+
+CREATE TABLE `resource_instances` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `resource_id` int(11) NOT NULL,
+  `title` varchar(512) NOT NULL,
+  `description` text NULL,
+  `privacy` char(1) NOT NULL COMMENT 'P = Private, F = Faculty, A = All',
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `resource_discussions`
+--
+
+CREATE TABLE `resource_discussions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `resource_id` int(11) NOT NULL,
+  `text` text,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `role_privileges`
+--
+ALTER TABLE `role_privileges`
+  ADD CONSTRAINT `rp_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`),
+  ADD CONSTRAINT `rp_ibfk_2` FOREIGN KEY (`privilege_id`) REFERENCES `privileges` (`id`);
+
+--
+-- Constraints for table `user_roles`
+--
+ALTER TABLE `user_roles`
+  ADD CONSTRAINT `ur_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `ur_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
 
 --
 -- Constraints for table `dx`
@@ -419,4 +591,11 @@ ALTER TABLE `encounters`
 -- Constraints for table `encounter_dx`
 --
 ALTER TABLE `encounter_dx`
-  ADD CONSTRAINT `encounter_dx_ibfk_1` FOREIGN KEY (`dx_id`) REFERENCES `dx` (`id`);
+  ADD CONSTRAINT `encounter_dx_ibfk_1` FOREIGN KEY (`encounter_id`) REFERENCES `encounters` (`id`),
+  ADD CONSTRAINT `encounter_dx_ibfk_2` FOREIGN KEY (`dx_id`) REFERENCES `dx` (`id`);
+
+--
+-- Constraints for table `resource_instances`
+--
+ALTER TABLE `resource_instances`
+  ADD CONSTRAINT `resource_instances_ibfk_1` FOREIGN KEY (`resource_id`) REFERENCES `resources` (`id`);
