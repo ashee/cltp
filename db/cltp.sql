@@ -494,19 +494,16 @@ CREATE TABLE `encounter_dx` (
 
 CREATE TABLE `resources` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tag` varchar(50) NOT NULL,
-  `tag_id` int(11) NOT NULL,
-  `title` varchar(512) NOT NULL,
-  `description` text NULL,
+  `sha1` char(40) NOT NULL,
   `filelocation` enum('remote','local') NOT NULL DEFAULT 'remote',
   `url` varchar(500) DEFAULT NULL,
-  `filename` varchar(500) DEFAULT NULL,
-  `privacy` char(1) NOT NULL COMMENT 'P = Private, F = Faculty, A = All',
+  `score` float NOT NULL DEFAULT(0) COMMENT 'Aggregated score - updated on potentially every vote',
   `created_by` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_by` int(11) DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX (`sha1`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
@@ -519,9 +516,30 @@ CREATE TABLE `resources` (
 CREATE TABLE `resource_instances` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `resource_id` int(11) NOT NULL,
+  `tag` varchar(50) NOT NULL,
+  `tag_id` int(11) NOT NULL,
   `title` varchar(512) NOT NULL,
   `description` text NULL,
+  `filename_orig` varchar(500) DEFAULT NULL,
   `privacy` char(1) NOT NULL COMMENT 'P = Private, F = Faculty, A = All',
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `resource_votes`
+--
+
+CREATE TABLE `resource_votes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `resource_id` int(11) NOT NULL,
+  `vote` tinyint default (0) COMMENT '-1 downvote, 0 neutral, +1 upvote',
   `created_by` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_by` int(11) DEFAULT NULL,
