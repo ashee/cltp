@@ -24,10 +24,6 @@
 
 <fieldset>
 	<p>
-	    <%= f.label :patientID %><br />
-    	<%= f.text_field :pid, :size=>10, :class=>'ui-widget ui-widget-content ui-corner-all', :tabindex=>30 %>
-	</p>
-	<p>
 	    <%= f.label :age %><br />
     	<%= f.text_field :age, :size=>5, :class=>'ui-widget ui-widget-content ui-corner-all', :tabindex=>40  %>
 	</p>
@@ -63,16 +59,7 @@
 	  	<textarea tabindex="100" rows="1" name="encounter[secondary_problems]" id="encounter_secondary_problems" cols="50" class="ui-widget ui-widget-content ui-corner-left"></textarea>
 	  	<button id="encounter_secondary_problems_drop" class="drop_button"></button>
 	</p>
-	<p>
-	   	<%= f.label :procedures_performed %><br />
-	  	<%= f.text_area :procedures_performed, :size=>"50x1", :class => "ui-widget ui-widget-content ui-corner-left", :tabindex=>110  %>
-	  	<button id="encounter_procedures_performed_drop" class="drop_button"></button>
-	</p>
-	<p>
-	   	<%= f.label :procedures_observed %><br />
-	  	<%= f.text_area :procedures_observed, :size=>"50x1", :class => "ui-widget ui-widget-content ui-corner-left", :tabindex=>120  %>
-	  	<button id="encounter_procedures_observed_drop" class="drop_button"></button>
-	</p>
+
 
 </fieldset>
 

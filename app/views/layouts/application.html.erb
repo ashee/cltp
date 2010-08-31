@@ -28,15 +28,25 @@
 		
 	</head>
 	<body>
-		<div id="doc3" class="yui-t2">
+		<div id="doc3">
 			<!-- start header -->
-			<div id="hd" class="ui-corner-bl ui-corner-br">
+			<div id="hd" class="bg1">
 				<ul id="userInfo">
-					<li>Mary Smith</li>
-					<li>Academic Year: 2010-2011</li>
-					<li>Period: 1 (May 1-Jun 30)</li>
-					<li>Current Clerkship: Internal Medicine</li>
-					<li><%= DateTime.now.strftime("%m/%d/%Y %I:%M%p") %></a></li>
+					<li class="b2">Mary Smith</li>
+					<li class="b2">Academic Year: 2010-2011</li>
+					<li class="b2">Period: 1 (May 1-Jun 30)</li>
+					<li class="b2">Current Clerkship: Pediatrics</li>
+					<li class="b2"><%= DateTime.now.strftime("%m/%d/%Y %I:%M%p") %></li>
+				</ul>
+			</div>
+			<div id="hd" class="ui-corner-bl ui-corner-br bg2">
+				<ul id="userInfo">
+					<li><a href="/dashboard" class="t1">Dashboard</a></li>
+					<li><a href="/encounter/new" class="t1">New Encounter</a></li>
+					<li><a href="/encounters" class="t1">List Encounters</a></li>
+					<li><a href="/resources" class="t1">All Resources</a></li>
+					<li><a href="/feedback" class="t1">Give us feedback</a></li>
+					<li style="float: right;" ><a href="#" class="t1">Logout</a></li>
 				</ul>
 			</div>
 			<!-- end header -->
@@ -48,29 +58,6 @@
 						<%= yield %>
 						<!-- end main content -->
 					</div>
-				</div>
-				<div class="yui-b">
-					<!-- start sidebar -->
-					<ul class="uiSideNav">
-						<li class="item"><a href="/dashboard">Dashboard</a>
-							<!-- <ul style="margin-left: 6px">
-								<li><a href="/dashboard/summary">Summary</a></li>
-							</ul> -->
-						</li>
-						<li class="item"><%= link_to "New Encounter", new_encounter_path %></li>
-						<li class="item"><%= link_to "List Encounters", encounters_path %>
-							<!-- <ul style="margin-left: 6px">
-								<li><a href="#">Preventive</a></li>
-								<li><a href="#">Acute</a></li>
-								<li><a href="#">Chronic</a></li>
-								<li><a href="#">Continuing</a></li>
-								<li><a href="#">Rehabilitative</a></li>
-								<li><a href="#">End-Of-Life Care</a></li>
-							</ul> -->
-						</li>
-						<li class="item"><a href="/resources">List Resources</a></li>
-					</ul>
-					<!-- end sidebar -->
 				</div>
 			</div>
 			<div id="ft">

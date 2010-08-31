@@ -1,6 +1,5 @@
 #hd {
 	min-height: 30px;
-	background: #CFCFCF;
 }
 
 h1 {
@@ -282,4 +281,109 @@ form.encounter fieldset ul.grid_item li{
 	line-height:30px;
 	margin:0.5em;
 	padding-left:20px;
+}
+
+/* Styled classes from Aki at LRC */
+.t1 {
+	font-family: arial;
+	color: #FFCC33;
+	font-size: 13px;
+	font-weight: bold;
+}
+a.t1:visited {
+	font-family: arial;
+	color: #FFCC33;
+	font-size: 13px;
+	font-weight: bold;
+}
+a.t1 {
+	text-decoration: none;
+}
+a.t1:hover {
+	font-family: arial;
+	color: #FFCC33;
+	font-size: 13px;
+	font-weight: bold;
+	background-color: #336699;
+}
+
+.t2 {
+	font-family: arial;
+	color: #2F4777;
+	font-size: 18px;
+	font-weight: normal;
+}
+
+.t3 {
+	font-family: arial;
+	color: #2F4777;
+	font-size: 14px;
+	font-weight: normal;
+}
+
+.t4 {
+	font-family: arial;
+	color: #000000;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.b1 {
+	font-family: Arial;
+	color: #000000;
+	font-size: 13px;
+	font-weight: normal;	
+}
+
+.b2 {
+	font-family: Arial;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: normal;	
+}
+
+.bt1 {
+	font-family: Arial;
+	color: #FFFFFF;
+	font-size: 13px;
+	font-weight: bold;	
+	text-decoration: none;
+}
+a.bt1:visited {
+	color: #FFF;
+}
+
+.bt2 {
+	font-family: Arial;
+	color: #000000;
+	font-size: 14px;
+	font-weight: normal;	
+}
+
+.bg1 {
+	background-color: #4263A5;
+}
+
+.bg2 {
+	background-color: #2F4777;
+}
+
+.bg3 {
+	background-color: #1A5FAE;
+}
+
+.bg4 {
+	background-color: #E3E3E3;
+}
+
+.bg5 {
+	background-color: #F0F2F6;
+}
+
+.box1 {
+	border: 1px solid #CCCCCC;
+}
+
+.triangle1 {
+	color: #000000;
 }
