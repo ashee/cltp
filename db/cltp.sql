@@ -497,7 +497,7 @@ CREATE TABLE `resources` (
   `sha1` char(40) NOT NULL,
   `filelocation` enum('remote','local') NOT NULL DEFAULT 'remote',
   `url` varchar(500) DEFAULT NULL,
-  `score` float NOT NULL DEFAULT(0) COMMENT 'Aggregated score - updated on potentially every vote',
+  `score` float NOT NULL DEFAULT 0 COMMENT 'Aggregated score - updated on potentially every vote',
   `created_by` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_by` int(11) DEFAULT NULL,
@@ -539,7 +539,7 @@ CREATE TABLE `resource_instances` (
 CREATE TABLE `resource_votes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `resource_id` int(11) NOT NULL,
-  `vote` tinyint default (0) COMMENT '-1 downvote, 0 neutral, +1 upvote',
+  `vote` tinyint COMMENT '-1 downvote, 0 neutral, +1 upvote' DEFAULT 0,
   `created_by` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_by` int(11) DEFAULT NULL,
