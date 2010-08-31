@@ -28,7 +28,7 @@ CREATE TABLE `users` (
   `username` varchar(80) NOT NULL,
   `firstname` varchar(200) DEFAULT NULL,
   `lastname` varchar(200) DEFAULT NULL,
-  `password` char(40) NOT NULL,
+  `password` char(40) NULL,
   `email` varchar(255) NOT NULL,
   `last_login` datetime NOT NULL,
   `created_by` int(11) NOT NULL,
@@ -108,6 +108,11 @@ CREATE TABLE `user_roles` (
   PRIMARY KEY (`user_id`,`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `user_roles`
+--
+INSERT INTO `user_roles` VALUES (1, 6, 1, now(), 1, now());
+
 -- --------------------------------------------------------
 
 --
@@ -169,6 +174,11 @@ CREATE TABLE `clinics` (
   KEY `care_setting` (`care_setting`),
   KEY `category` (`category`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `users`
+--
+INSERT INTO `users` VALUES(1, 'amitava', 'Amitava', 'Shee', null, 'amitava@umich.edu', now(), 1, now(), 1, now());
 
 --
 -- Dumping data for table `clinics`
