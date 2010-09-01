@@ -6,3 +6,5 @@ o-rdoc/**
 doc/app
 config/database.yml
 nbproject
+**/.DS_Store
+.DS_Store
