@@ -2,116 +2,79 @@
 
 <div class="yui-u first">
 
-<form class="encounter">
+<% form_for(@encounter, :html => { :class  => "encounter"} ) do |f| %>
+  <%= f.error_messages %>
+
 <fieldset>
-<p>
-  <label>Date:</label><br />
-  <span class="item">05/24/2010</span>
-</p>
-
-<p>
-  <label>Student:</label><br />
-  <span class="item"><%=h @encounter.student %> </span>
-</p>
-
-<p>
-  <label>Clerkship:</label><br />
-  <span class="item"><%=h @encounter.clerkship %> </span>
-</p>
-
-<p>
-  <label>Site:</label><br />
-  <span class="item">Taubman</span>
-</p>
+  	<p>
+    	<%= f.label :encounter_date %><br />
+    	<%=h @encounter.encounter_date.strftime("%B %d, %Y") %>
+  	</p>
+	<p>
+    	<%= f.label :clerkship %><br />
+    	<%=h @encounter.clerkship.name %>
+  	</p>
+  	<p>
+    	<%= f.label :Clinic %><br />
+   	 	<%=h @encounter.clinic.clinic_name %> - <%=h @encounter.clinic.location %>
+	</p>
 </fieldset>
 
 <fieldset>
-<p>
-  <label>Patient id:</label><br />
-  <span class="item"><%=h @encounter.pid %> </span>
-</p>
-
-<p>
-  <label>Age:</label><br />
-  <span class="item"><%=h @encounter.age %> </span>
-</p>
-
-<p>
-  <label>Gender:</label><br />
-  <span class="item"><%=h @encounter.gender %> </span>
-</p>
-
-<p>
-  <label>Patient type:</label><br />
-  <span class="item">Newborn </span>
-</p>
-</fieldset>
-
-<fieldset>
-
-<p>
-	<label>Patient History:</label><br />
-	<span class="item">Observed</span>
-</p>
-
-<p>
-	<label>Physical Exam:</label><br />
-	<span class="item">Performed</span>
-</p>
-
-<div style="clear:both;">&nbsp;</div>
-
-<p>
-  <label>Primary Problem:</label><br />
-  <span class="item"><%=h @encounter.chief_complaint %> </span>
-</p>
-
-<p>
-  <label>Secondary Problems:</label><br />
-  <span class="item">
-  	<ul class="grid_item">
-  	<% @sps = @encounter.co_mobidity.split(', '); %>
-  	<% @sps.each do |sp| %>
-  	<li><%= sp %></li>
-  	<% end %>
-  	</ul>
-  </span>
-</p>
-
-<p>
-  <label>Procedures Performed:</label><br />
-  <span class="item">
-  	<ul class="grid_item">
-  	<li>Suturing Wound/Closure</li>
-  	<li>Warts</li>
-  	</ul>
-  </span>
-</p>
-
-<p>
-  <label>Procedures Observed:</label><br />
-  <span class="item">
-  	<ul class="grid_item">
-  	<li>Lumbar Puncture</li>
-  	<li>I/V Placement</li>  	
-  	</ul>
-  </span>
-</p>
-
-</fieldset>
-
-<fieldset>
-
-<p>
-	<label>Notes</label><br />
-	<span class="item"></span>
-</p>
+	<p>
+	    <%= f.label :age %><br />
+    	<%=h @encounter.age %>
+	</p>
+	<p>
+    	<%= f.label :gender %><br />
+   	 	<%=h @encounter.gender %>
+	</p> 
 	
+	<div style="clear:both"></div>
+	
+	<p>
+		<%= f.label :patient_history %><br />
+	  	<%= check_box_tag 'hx', 'P', (@encounter.hx == 'P' || @encounter.hx == 'B'), :disabled => true %> Performed
+	  	<%= check_box_tag 'hx', 'O', (@encounter.hx == 'O' || @encounter.hx == 'B'), :disabled => true  %> Observed
+	</p>
+	<p>
+		<%= f.label :physical_exam %><br />
+	  	<%= check_box_tag 'px', 'P', (@encounter.px == 'P' || @encounter.px == 'B'), :disabled => true  %> Performed
+	  	<%= check_box_tag 'px', 'O', (@encounter.px == 'O' || @encounter.px == 'B'), :disabled => true %> Observed
+	</p>
+	
+	<div style="clear:both"></div>
+
+	<p>
+    	<%= f.label :primary_problem %><br />
+		<% @encounterDiagnoses.each do |edx| %> 
+			<% if (edx.dx_type == 'P') %> 
+				<%=h edx.diagnosis.name %><br />
+			<% end %>
+		<% end %>
+	</p>
+	<p>
+	   	<%= f.label :secondary_problems %><br />
+	  	<% @encounterDiagnoses.each do |edx| %>
+	  		<% if (edx.dx_type == 'S') %> 
+				<%=h edx.diagnosis.name %><br />
+			<% end %>
+		<% end %>
+	</p>
+
+
 </fieldset>
 
-</form>
+<fieldset>
+	<p>
+		<%= f.label :notes %><br />
+	  	<%= f.text_area :notes, :size=>"40x1", :class => "ui-widget ui-widget-content ui-corner-all", :tabindex=>130  %>
+	</p>
+</fieldset>
 
-<%= link_to 'Back', encounters_path %>
+<% end %>
+
+
 
 </div> <!-- end yui-u first -->
 
@@ -119,23 +82,24 @@
 
 	<div id="rightbar" class="ui-widget ">
 	
+	<!--
 		<div class="rightbar_header ui-widget-content ui-state-highlight ui-corner-all">
 			<span class="ui-icon ui-icon-note" style="float: left; margin-right: 0.3em;"></span>
 			<strong>Writeups</strong>
 		</div>
 		<div class="rightbar_section">
 			<ul id="rightbar_writeups" class="rightbar_list">
-				<li><a href="/encounters/writeup/<%=h @encounter.id %>">Writeup</a></li>
+				<li><a href="/encounters/writeup/1">Writeup</a></li>
 			</ul>
 			<div id="request_writeup_div">
-				<span style="margin-top: 20px;"><a id="request_feedback" href="#">Send Writeup</a></span>
+				<span id="request_feedback" class="button">Send Writeup</span>
 				<form id="request_feedback_form">
 					<input type="hidden" name="writeup_id" value="1" />
-					<label class="add_form_label">To:</label><br />
+					<label class="add_form_label">To:</label>
 					<br/> 
 					<input type="text" id="notify_input" />
 					<br />
-					<label class="add_form_label">Message (optional)</label><br />
+					<label class="add_form_label">Message (optional)</label>
 					<textarea rows="3" style="width: 95%;" id="notify_textarea" name="notify_textarea"></textarea>
 				</form>
 			</div>
@@ -174,7 +138,7 @@
 </script>
 
 		</div>
-		
+		-->
 		<div class="rightbar_header ui-widget-content ui-state-highlight ui-corner-all">
 			<span class="ui-icon ui-icon-folder-open" style="float: left; margin-right: 0.3em;"></span>
 			<strong>My Resources</strong>
@@ -193,13 +157,13 @@
 						<a href="#" class="iconlink">More</a>
 					</span>
 				</li>
-			</ul>		
-			<span style="margin-top: 20px;"><a href="#" id="add_artifact" class="add_resource" title="Add a Resource">Add Resource</a></span>
+			</ul>
+			<span id="add_artifact" class="button" title="Add a Resource">Add Resource</span>
 				
 	<form method="post" enctype="multipart/form-data" action="#" class="form" id="add_artifact_form">
 	<table>
 		<tr>
-			<th><label>From:</label><br /></th>
+			<th><label>From:</label></th>
 			<td>
 				<input type="radio" id="local" name="res_from" class="from" value="local" /> Your Computer 
 				<br> 
@@ -207,7 +171,7 @@
 			</td>
 		</tr>
 		<tr class="hide" id="from_local">
-			<th><label>Upload File:</label><br /></th>
+			<th><label>Upload File:</label></th>
 			<td><input type="file" name="filename" size="30" /></td>
 		</tr>
 		<tr class="hide" id="from_remote">
@@ -265,6 +229,7 @@
 	});
 </script>
 </form>
+
 		</div>
 		
 		<div class="rightbar_header ui-widget-content ui-state-highlight ui-corner-all">
@@ -272,8 +237,7 @@
 			<strong>Related Resources</strong>
 		</div>
 		<div class="rightbar_section">
-			<ul id="rightbar_resources" class="rightbar_list">
-			</ul>
+			<ul id="rightbar_resources" class="rightbar_list"></ul>
 		</div>
 		
 	</div>
@@ -281,42 +245,3 @@
 </div> <!-- end yui-u -->
 
 </div> <!-- end yui-ge -->
-
-<script>
-	$(function() {
-		$('.add_resource').button();
-		$('.show_resource_details').button()
-		.click(function(e) {
-			e.preventDefault();
-			var url = this.href;
-			var restitle = this.title;
-			var dialog = $('<div style="display:hidden"></div>').appendTo('body');
-			dialog.load(
-				url, 
-				{},
-				function (responseText, textStatus, XMLHttpRequest) {
-					dialog.dialog({
-					title: restitle,
-           			modal: true,
-           			height: 600,
-           			width: '50%'
-					});
-				}
-			);
-		})
-		.next()
-			.button( {
-				text: false,
-				icons: {
-					primary: "ui-icon-triangle-1-s"
-				}
-			})
-			.click( function() {
-				alert( "Could display a menu to select an action" );
-			})
-		.parent()
-			.buttonset();
-		$('.rightbar_list > li:nth-child(even)').addClass('even');
-
-	});
-</script>

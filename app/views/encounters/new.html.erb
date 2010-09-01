@@ -2,8 +2,6 @@
 
 <div class="yui-u first">
 
-<p><%= link_to "Home", root_path %> > New Encounter </p><br/>
-
 <% form_for(@encounter, :html => { :class  => "encounter"} ) do |f| %>
   <%= f.error_messages %>
 
@@ -14,11 +12,15 @@
   	</p>
 	<p>
     	<%= f.label :clerkship %><br />
-    	<%= select( "clerkship", "id", { "Pediatrics" => "Pediatrics" }) %>
+    	<%= select( "clerkship", "clerkship_id", { "Pediatrics" => "Pediatrics" }) %>
   	</p>
+	<p>
+		<%= f.label :patient_type %><br />
+		<%= collection_select(:care_setting, :id, @cs, :code, :name, options ={:prompt => "Select a care setting"}, :class =>"care_setting") %>
+	</p>
   	<p>
-    	<%= f.label :site %><br />
-   	 	<%= select( "site", "id", { "Emergency" => "E", "Briarwood" => "B", "Ann Arbor West" => "W" }) %>
+    	<%= f.label :Clinic %><br />
+   	 	<%= collection_select(:clinic, :id, @clinics, :id, :location, options ={:prompt => "Select a clinic"}, :class =>"clinic") %>
 	</p>
 </fieldset>
 
@@ -29,25 +31,20 @@
 	</p>
 	<p>
     	<%= f.label :gender %><br />
-   	 	<%= select( "gender", "id", { "Male" => "M", "Female" => "F", "Other" => "O" }) %>
+   	 	<%= select( "gender", "gender", { "Male" => "M", "Female" => "F", "Other" => "O" }) %>
 	</p> 
-	<p>
-    	<%= f.label :patient_type %><br />
-    	<%= select("patient_type", "id", { "Outpatient" => "O", "Inpatient" => "I", "Newborn" => "N" }) %>
-	</p>
-
-</fieldset>
-
-<fieldset>
+	
+	<div style="clear:both"></div>
+	
 	<p>
 		<%= f.label :patient_history %><br />
-	  	<%= check_box 'patient_history', 'P'  %> Performed
-	  	<%= check_box 'patient_history', 'O'  %> Observed
+	  	<%= check_box 'hx', 'P'  %> Performed
+	  	<%= check_box 'hx', 'O'  %> Observed
 	</p>
 	<p>
 		<%= f.label :physical_exam %><br />
-	  	<%= check_box 'physical_exam', 'P'  %> Performed
-	  	<%= check_box 'physical_exam', 'O'  %> Observed
+	  	<%= check_box 'px', 'P'  %> Performed
+	  	<%= check_box 'px', 'O'  %> Observed
 	</p>
 	<p>
     	<%= f.label :primary_problem %><br />
@@ -255,7 +252,174 @@
 
 <script type="text/javascript">
 $(function() {
-	var availableProblems = ["Behavior Problems","Central Nervous System","Chronic Medical Problem","Dermatologic Problem","Developmental Problem","Emergent Clinical Problem","Gastrointestinal Tract","Growth Problem","Health Maintenance / Well child - Newborn to 1 month","Health Maintenance / Well child - 1 Mo. to 1 Yr","Health Maintenance / Well child - 1 to 5 yrs","Health Maintenance / Well child - 6 to 12 yrs","Health Maintenance / Well child - 13 to 20 yrs","Musculoskeletal Complaint","Nutrition","Unique Condition","Upper Respiratory Tract"];
+		var availableProblems = 
+[
+"Behavior > Abdominal Pain",
+"Behavior > Abscess",
+"Behavior > Acne",
+"Behavior > Acute Leukemia",
+"Behavior > Allergic Rhinitis",
+"Behavior > Anorexia Nervosa",
+"Behavior > Anxiety",
+"Behavior > Aortic Coarctation",
+"Behavior > Apnea of Infancy",
+"Behavior > Apnea of Maturity",
+"Behavior > Apparent Life Threatening Event",
+"Behavior > Asthma",
+"Behavior > Atopic Dermititis",
+"Behavior > Atrial Septal Defect",
+"Behavior > Atrioventricular Septal Defect",
+"Cardiology > Autism",
+"Cardiology > Bicuspid Aortic Valve and Aortic Stenosis",
+"Cardiology > Bleeding Disorders like Hemophilia and Von Will brand Disease",
+"Cardiology > Bone Marrow Failure",
+"Cardiology > Bone Sarcoma",
+"Cardiology > Bronchial Asthma",
+"Cardiology > Bronchiolitis",
+"Cardiology > Broncho Pulmonary Dysplasia",
+"Cardiology > Bronchomalacia",
+"Cardiology > Bruxism",
+"Cardiology > Bulimia",
+"Cardiology > Cardiomyopathy",
+"Cardiology > Celiac Disease",
+"Chronic Medical Problem > Cellulitis",
+"Chronic Medical Problem > Cerebral Palsy",
+"Chronic Medical Problem > Chest Pain",
+"Chronic Medical Problem > Cholestasis",
+"Chronic Medical Problem > Chronic Daily Headache",
+"Chronic Medical Problem > Chronic Pain",
+"Chronic Medical Problem > Chronic Sinusitis",
+"Chronic Medical Problem > Congenital Central Hypoventilation Syndrome",
+"Chronic Medical Problem > Conjunctivitis",
+"Dermatology > Constipation",
+"Dermatology > Contact Dermatitis",
+"Dermatology > Conversion Disorder (including non-eplieptic seizures",
+"Dermatology > Croup",
+"Dermatology > Cystic Fibrosis",
+"Dermatology > Dehydration",
+"Dermatology > Delayed Sleep Phase Syndrome",
+"Emergent Clinical Problem > Depression",
+"Emergent Clinical Problem > Developmental Delays",
+"Emergent Clinical Problem > Diarrhea ",
+"Emergent Clinical Problem > D-Transposition of the Great Arteries",
+"Emergent Clinical Problem > Eating Disorders NOS",
+"Emergent Clinical Problem > Eczema",
+"Emergent Clinical Problem > Elevated Aminotransferases",
+"Emergent Clinical Problem > Emotional/Psychological Abuse",
+"Emergent Clinical Problem > Excessive Daytime Somnolence",
+"Emergent Clinical Problem > Failure to Thrive",
+"Emergent Clinical Problem > Fatigue",
+"Emergent Clinical Problem > Febrile Seizures",
+"Emergent Clinical Problem > Fractures",
+"Emergent Clinical Problem > Gastroenteritis",
+"Emergent Clinical Problem > Gastroesophageal Reflux",
+"Emergent Clinical Problem > Generalized Epilepsy",
+"Emergent Clinical Problem > GER",
+"Emergent Clinical Problem > GI Bleeding",
+"Gastroenterology > Head Trauma",
+"Gastroenterology > Headache",
+"Gastroenterology > Hemoptysis",
+"Gastroenterology > Hereditary Spherocytosis",
+"Gastroenterology > Hypercarbia",
+"Gastroenterology > Hypotonia",
+"Gastroenterology > Hypoxia",
+"Gastroenterology > Immunodeficiency",
+"Gastroenterology > Infantile Spasms",
+"Gastroenterology > Inflammatory Bowel Disease",
+"Gastroenterology > Influenza",
+"Gastroenterology > Injury",
+"Gastroenterology > Innocent Murmurs",
+"Gastroenterology > Insomnia/Night Walking",
+"Gastroenterology > Insufficient Sleep",
+"Gastroenterology > Iron Deficiency Anemia",
+"Growth > Jaundice  ",
+"Growth > Jaundice of Newborn",
+"Growth > Lacerations",
+"H/O > Laryngomalacia",
+"H/O > Leukocyte Dysfunction",
+"H/O > Limping",
+"H/O > Lymphadenopathy",
+"H/O > Macrocephaly",
+"H/O > Malabsorption",
+"H/O > Maladaptive Sleep Onset Associations",
+"H/O > Medical Child Abuse (Munchausen Syndrome By Proxy)",
+"H/O > Microcephaly",
+"H/O > Migraine",
+"Health Maintenance > Musculoskeletal Pain",
+"Health Maintenance > Narcolepsy",
+"Health Maintenance > Neglect: Drownings/Near-Drownings",
+"Health Maintenance > Neglect: Ingestions",
+"Health Maintenance > Neglect: Injuries",
+"Health Maintenance > Neuroblastoma",
+"Infectious Disease > Neutropenia",
+"Infectious Disease > Newborn Feeding Problem",
+"Infectious Disease > Non-REM Arousal Parasomnias",
+"Infectious Disease > Obesity",
+"Infectious Disease > Obsessive Compulsive Disorder",
+"Infectious Disease > Obstructive Sleep Apnea",
+"Infectious Disease > Obstructive Sleep Apnea/Central Apnea",
+"Infectious Disease > Otalgia",
+"Infectious Disease > Otitis Media",
+"Infectious Disease > Pancreatitis",
+"Infectious Disease > Partial Epilepsy",
+"Infectious Disease > Patent Ductus Arteriosus",
+"Infectious Disease > Pediatric Brain Tumors",
+"Infectious Disease > Pediatric Lymphoma",
+"Infectious Disease > Pharyngitis",
+"Infectious Disease > Physical Abuse: Bruises",
+"Infectious Disease > Physical Abuse: Burns",
+"Infectious Disease > Physical Abuse: Fractures",
+"Infectious Disease > PMDD",
+"Neurology > Pneumonia",
+"Neurology > Pneumothorax",
+"Neurology > Poor CPAP Tolerance",
+"Neurology > Poor Sleep Hygiene",
+"Neurology > Post Tracheostomy Follow Up",
+"Neurology > Prader-Willi Syndrome",
+"Neurology > Pulmonary Stenosis",
+"Neurology > Rash",
+"Neurology > Recurrent Pneumonia",
+"Neurology > Red Eye",
+"Neurology > Restless Leg Syndrome/Periodic Limb Movement Disorder",
+"Neurology > Rule Out Sepsis/Presumed Sepsis in Infant ",
+"Neurology > School Difficulties/LD/ADHD",
+"Neurology > Septic Joints",
+"Neurology > Sexual Abuse: By Adult Relative",
+"Neurology > Sexual Abuse: By Another Child",
+"Neurology > Sexually Transmitted Diseases",
+"Neurology > Sickle Cell Disease",
+"Neurology > Sinusitis",
+"Neurology > Sleep-Related Enuresis",
+"Neurology > Sleep-Related Epilepsy",
+"Nutrition > Stroke",
+"Nutrition > Substance Use",
+"Respiratory > Supraventricular Tachycardia",
+"Respiratory > Syncope",
+"Respiratory > Systemic Hypertension",
+"Respiratory > Tetralogy of Fallot",
+"Respiratory > Thombotic Disorders inlcuidng CVL Thrombosis",
+"Respiratory > Thrombocytophenia like ITP",
+"Respiratory > Tics/Tourette Syndrome",
+"Respiratory > Toxic Synovitis",
+"Respiratory > Tracheomalacia",
+"Respiratory > Trauma:  Acute",
+"Respiratory > URI",
+"Respiratory > Vaginitis",
+"Respiratory > Ventilator Dependent Patients",
+"Respiratory > Ventricular Septal Defect",
+"Respiratory > Viral Exanthem",
+"Respiratory > Viral Gastro",
+"Respiratory > Viral Illness",
+"Respiratory > Vocal Cord Dysfunction",
+"Respiratory > Vomiting",
+"Respiratory > Warts",
+"Respiratory > Well Care Newborn 0-1 month",
+"Respiratory > Well Care Infant 1-12 months",
+"Respiratory > Well Chld 1-5 Years",
+"Respiratory > Well Child 6-12 Years",
+"Unique Condition > Well Chld 13-18 Years",
+"Unique Condition > Well Young Adult 19-23 Years"
+	];
 	var availableProceduresPerformed = ["Lumbar Puncture","Other","Suturing/Wound Closure","Warts"];
 	var availableProceduresObserved = ["IV Placement","Lumbar Puncture","Venipuncture","Circumcision","Electroencephalogram","Other","Suturing/Wound Closure"];
 	$(".datepicker").datepicker();

@@ -14,6 +14,8 @@ class EncountersController < ApplicationController
   # GET /encounters/1.xml
   def show
     @encounter = Encounter.find(params[:id])
+	@encounterDiagnoses = @encounter.diagnoses
+	p @encounterDiagnoses
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,7 +26,11 @@ class EncountersController < ApplicationController
   # GET /encounters/new
   # GET /encounters/new.xml
   def new
+	clerkship = Clerkship.find_all_by_name('Pediatrics')
     @encounter = Encounter.new
+	@cs = CareSetting.all
+	@clinics = Clinic.all
+	dxc = DiagnosisCategory.find_all_by_clerkship_id(clerkship.id)
 
     respond_to do |format|
       format.html # new.html.erb
