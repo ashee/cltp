@@ -454,6 +454,7 @@ CREATE TABLE `encounters` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `clerkship_id` int(11) NOT NULL,
   `clinic_id` int(11) NOT NULL,
+  `encounter_date` datetime NOT NULL,
   `patient_id` varchar(25) NOT NULL COMMENT 'not a db foreign key - just bizname of a text field',
   `age` varchar(25) NOT NULL,
   `gender` char(1) NOT NULL,
