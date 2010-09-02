@@ -7,4 +7,28 @@ class ApplicationController < ActionController::Base
 
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
+  
+  before_filter :wire_user
+
+private
+  
+  def wire_user
+    username = request.env['REMOTE_USER']
+    
+    # hardcode username for local dev environment where cosign is unavailable
+    # comment out the line below in cosign environments and production
+    username = 'amitava'
+    
+    if username.nil? || username.empty?
+      render :file => "public/401.html", :status => :unauthorized
+      return
+    end
+    
+    @user = User.find_by_username username
+    if @user.nil?
+      render :file => "public/401.html", :status => :unauthorized 
+      return
+    end
+  end
+  
 end

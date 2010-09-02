@@ -32,10 +32,10 @@
 			<!-- start header -->
 			<div id="hd" class="bg1">
 				<ul id="userInfo">
-					<li class="b2">Mary Smith</li>
-					<li class="b2">Academic Year: 2010-2011</li>
-					<li class="b2">Period: 1 (May 1-Jun 30)</li>
-					<li class="b2">Current Clerkship: Pediatrics</li>
+					<li class="b2"><%= @user.fullname %></li>
+					<li class="b2"><%= @user.academic_year %></li>
+					<li class="b2"><%= @user.current_period %></li>
+					<li class="b2">Current Clerkship: <%= @user.current_clerkship %></li>
 					<li class="b2"><%= DateTime.now.strftime("%m/%d/%Y %I:%M%p") %></li>
 				</ul>
 			</div>
