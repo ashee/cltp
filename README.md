@@ -102,4 +102,6 @@ We plan to
 [Phusion Passenger](http://www.modrails.com/).
 2. Use [ruby enterprise edition (REE)](http://www.rubyenterpriseedition.com/)
 
-Documentation forthcoming
+See my [blog](http://amitava1.blogspot.com/2010/08/ruby-on-rails-on-centos-55-with.html)
+to setup the production rails stack.
+
