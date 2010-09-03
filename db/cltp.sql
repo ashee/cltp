@@ -614,7 +614,7 @@ ALTER TABLE `dx_categories`
 --
 ALTER TABLE `encounters`
   ADD CONSTRAINT `encounters_ibfk_1` FOREIGN KEY (`clerkship_id`) REFERENCES `clerkships` (`id`),
-  ADD CONSTRAINT `encounters_ibfk_2` FOREIGN KEY (`clinic_id`) REFERENCES `clerkships` (`id`);
+  ADD CONSTRAINT `encounters_ibfk_2` FOREIGN KEY (`clinic_id`) REFERENCES `clinics` (`id`);
 
 --
 -- Constraints for table `encounter_dx`

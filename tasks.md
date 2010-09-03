@@ -17,6 +17,10 @@ Tasks
 7. Add cosign module (ashee)
 8. Functional testing automation (lotia)
 
+Production/Rollout
+-------------------
+1. Request DNS entry cltp.umms.med.umich.edu (ticket # 38899)
+
 -----
 
 # Dev Tasks
