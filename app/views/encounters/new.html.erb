@@ -12,15 +12,17 @@
   	</p>
 	<p>
     	<%= f.label :clerkship %><br />
-    	<%= select( "clerkship", "clerkship_id", { "Pediatrics" => "Pediatrics" }) %>
+    	<%= select( "encounter", "clerkship_id", { "Pediatrics" => "1" }) %>
   	</p>
 	<p>
-		<%= f.label :patient_type %><br />
-		<%= collection_select(:care_setting, :id, @cs, :code, :name, options ={:prompt => "Select a care setting"}, :class =>"care_setting") %>
+		<%= f.label :care_setting %><br />
+		<%= collection_select(:encounter, :id, @cs, :code, :name, {:prompt => "Select a care setting"} ) %>
 	</p>
   	<p>
     	<%= f.label :Clinic %><br />
-   	 	<%= collection_select(:clinic, :id, @clinics, :id, :location, options ={:prompt => "Select a clinic"}, :class =>"clinic") %>
+		<span id="clinics">
+		<%= render :partial => 'clinics', :object => @clinics %>
+		</span>
 	</p>
 </fieldset>
 
@@ -31,7 +33,7 @@
 	</p>
 	<p>
     	<%= f.label :gender %><br />
-   	 	<%= select( "gender", "gender", { "Male" => "M", "Female" => "F", "Other" => "O" }) %>
+   	 	<%= select( "encounter", "gender", { "Male" => "M", "Female" => "F", "Other" => "O" }) %>
 	</p> 
 	
 	<div style="clear:both"></div>
@@ -249,6 +251,20 @@
 </div> <!-- end yui-u -->
 
 </div> <!-- end yui-ge -->
+
+<script type="text/javascript">
+$(function() {
+	$('#encounter_id').change(function() {
+		$.ajax({
+	  		url: '/encounters/get_clerkships_by_care_setting/'+$(this).val(),
+			dataType: 'script',
+			success: function(data) {
+				$('#clinics').html(data);
+			}	
+		});
+	});
+});
+</script>
 
 <script type="text/javascript">
 $(function() {
