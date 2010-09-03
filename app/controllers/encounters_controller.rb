@@ -25,12 +25,14 @@ class EncountersController < ApplicationController
   # GET /encounters/new
   # GET /encounters/new.xml
   def new
-	  clerkship = Clerkship.find_all_by_name('Pediatrics')
+	  @clerkship = Clerkship.find_by_name('Pediatrics')    
     @encounter = Encounter.new
 	  @cs = CareSetting.all
 	  @clinics = Clinic.all
-	  dxc = DiagnosisCategory.find_all_by_clerkship_id(clerkship.id)
-
+	  @dxcs = DiagnosisCategory.find_all_by_clerkship_id(@clerkship.id)
+	  #@dxs = DiagnosisCategory.Diagnosis.all
+    @dxs = Diagnosis.find_all_by_clerkship_id(@clerkship.id)
+    
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @encounter }
