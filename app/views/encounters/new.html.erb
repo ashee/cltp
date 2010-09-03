@@ -15,7 +15,7 @@
     	<%= select( "clerkship", "clerkship_id", { "Pediatrics" => "Pediatrics" }) %>
   	</p>
 	<p>
-		<%= f.label :patient_type %><br />
+		<%= f.label :care_setting %><br />
 		<%= collection_select(:care_setting, :id, @cs, :code, :name, options ={:prompt => "Select a care setting"}, :class =>"care_setting") %>
 	</p>
   	<p>
