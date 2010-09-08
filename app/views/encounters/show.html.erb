@@ -68,7 +68,7 @@
 <fieldset>
 	<p>
 		<%= f.label :notes %><br />
-	  	<%= f.text_area :notes, :size=>"40x1", :class => "ui-widget ui-widget-content ui-corner-all", :tabindex=>130  %>
+	  	<%=h @encounter.notes %>
 	</p>
 </fieldset>
 
