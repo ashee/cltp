@@ -5,6 +5,11 @@
 <% form_for(@encounter, :html => { :class  => "encounter"} ) do |f| %>
   <%= f.error_messages %>
 
+<div class="error" style="display:none;">
+ 	<%= image_tag("warning.gif") %>
+  	<span></span>.<br clear="all"/>
+</div>
+
 <fieldset>
   	<p>
     	<%= f.label :encounter_date %><br />
@@ -16,7 +21,7 @@
   	</p>
 	<p>
 		<%= f.label :care_setting %><br />
-		<%= collection_select(:encounter, :id, @cs, :code, :name, {:prompt => "Select a care setting"}, {"tabIndex" => "20"} ) %>
+		<%= collection_select(:encounter, :id, @cs, :code, :name, {:prompt => "Select a care setting"}, {"class" => "required"} ) %>
 	</p>
   	<p>
     	<%= f.label :Clinic %><br />
@@ -29,7 +34,7 @@
 <fieldset>
 	<p>
 	    <%= f.label :age %><br />
-    	<%= f.text_field :age, :size=>5, :class=>'ui-widget ui-widget-content ui-corner-all', :tabindex=>40  %>
+    	<%= f.text_field :age, :size=>5, :class=>'ui-widget ui-widget-content ui-corner-all required', :tabindex=>40  %>
 	</p>
 	<p>
     	<%= f.label :gender %><br />
@@ -53,7 +58,7 @@
 	
 	<p>
     	<%= f.label :primary_problem %><br />
-		<input type="text" tabindex="70" size="50" name="encounter[primary_problem]" id="encounter_primary_problem" class="ui-widget ui-widget-content ui-corner-left">
+		<input type="text" tabindex="70" size="50" name="encounter[primary_problem]" id="encounter_primary_problem" class="ui-widget ui-widget-content ui-corner-left required" >
 		<button id="encounter_primary_problem_drop" class="drop_button"></button>
 	</p>
 	
@@ -120,6 +125,26 @@
 
 <script type="text/javascript">
 $(function() {
+	jQuery.validator.messages.required = "";
+	$("#new_encounter").validate({
+		invalidHandler: function(e, validator) {
+					var errors = validator.numberOfInvalids();
+					if (errors) {
+						var message = errors == 1
+							? 'You missed 1 field. It has been highlighted below'
+							: 'You missed ' + errors + ' fields.  They have been highlighted below';
+						$("div.error span").html(message);
+						$("div.error").show();
+					} else {
+						$("div.error").hide();
+					}
+				},
+				onkeyup: false,
+				submitHandler: function() {
+					$("div.error").hide();
+				}
+	});
+	
 	$('#encounter_id').change(function() {
 		$.ajax({
 	  		url: '/encounters/get_clerkships_by_care_setting/'+$(this).val(),
@@ -129,12 +154,8 @@ $(function() {
 			}	
 		});
 	});
-});
-</script>
-
-<script type="text/javascript">
-$(function() {
-		var availableProblems = 
+		
+	var availableProblems = 
 [
 <% for dx in @dxs 
 	@dxcs.each do |dxc|

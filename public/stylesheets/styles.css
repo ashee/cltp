@@ -150,7 +150,8 @@ form.encounter fieldset {
   	margin-bottom: 10px;
   	background-color: #DCDEE3;
   	padding: 4px 12px;
-  	-moz-border-radius: 12px;	-webkit-border-radius: 12px;
+  	-moz-border-radius: 12px;
+	-webkit-border-radius: 12px;
 	border: 1px solid #AFBDD4;
 }
 form.encounter label {
@@ -281,6 +282,36 @@ form.encounter fieldset ul.grid_item li{
 	line-height:30px;
 	margin:0.5em;
 	padding-left:20px;
+}
+
+/* form validation */
+label.error {
+	display: block;
+	color: red;
+	font-style: italic;
+	font-weight: normal;
+}
+
+input.error {
+	border: 2px solid red;
+}
+
+div.error {
+	font-style: bolder;
+	font-size: 20px;
+	color: red;
+	margin: 12px;
+}
+
+div.error a {
+	color: #336699;
+	font-size: 12px;
+	text-decoration: underline
+}
+
+div.error img {
+	float:left; 
+	margin: -5px 10px 0px 0px;
 }
 
 /* Styled classes from Aki at LRC */
