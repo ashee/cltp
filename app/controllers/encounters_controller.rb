@@ -91,7 +91,7 @@ class EncountersController < ApplicationController
   # POST /encounters
   # POST /encounters.xml
   def create
-	#p params[:encounter]
+
 	case
 		when (params[:hx]['O'] == "1" && params[:hx]['P'] == "1")
 			hx = 'B'
@@ -104,7 +104,6 @@ class EncountersController < ApplicationController
 		else
 			hx = 'N'
 	end
-	p params[:hx]
 	case
 		when (params[:px]['O'] == "1" && params[:px]['P'] == "1")
 			px = 'B'
@@ -118,9 +117,18 @@ class EncountersController < ApplicationController
 			px = 'N'
 	end
     @encounter = Encounter.new("clerkship_id" => params[:encounter]['clerkship_id'], "clinic_id" => params[:encounter]['clinic_id'], "encounter_date" => params[:encounter]['encounter_date'], "patient_id" => 1, "age" => params[:encounter]['age'], "gender" => params[:encounter]['gender'], "hx" => hx, "px" => px, "notes" => params[:encounter]['notes'], "created_by" => 1, "updated_by" => 1)
-
+    
     respond_to do |format|
       if @encounter.save
+        #save single primary problem
+        dx_full = params[:encounter]['primary_problem']
+        @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'P', "dx_id" => 23, "created_by" => 1, "updated_by" => 1)
+        @edx.save
+        for dx in params[:encounter]['secondary_problems'].split(', ')
+          @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'S', "dx_id" => 77, "created_by" => 1, "updated_by" => 1)
+          @edx.save
+        end #for dx loop
+        
         flash[:notice] = 'Encounter was successfully created.'
         format.html { redirect_to(@encounter) }
         format.xml  { render :xml => @encounter, :status => :created, :location => @encounter }

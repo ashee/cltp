@@ -48,11 +48,17 @@
 	  	<%= check_box 'px', 'P'  %> Performed
 	  	<%= check_box 'px', 'O'  %> Observed
 	</p>
+	
+	<div style="clear:both"></div>
+	
 	<p>
     	<%= f.label :primary_problem %><br />
 		<input type="text" tabindex="70" size="50" name="encounter[primary_problem]" id="encounter_primary_problem" class="ui-widget ui-widget-content ui-corner-left">
 		<button id="encounter_primary_problem_drop" class="drop_button"></button>
 	</p>
+	
+	<div style="clear:both"></div>
+	
 	<p>
 	   	<%= f.label :secondary_problems %><br />
 	  	<textarea tabindex="100" rows="1" name="encounter[secondary_problems]" id="encounter_secondary_problems" cols="50" class="ui-widget ui-widget-content ui-corner-left"></textarea>
