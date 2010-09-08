@@ -292,7 +292,7 @@ label.error {
 	font-weight: normal;
 }
 
-input.error {
+input.error, select.error, textarea.error {
 	border: 2px solid red;
 }
 
