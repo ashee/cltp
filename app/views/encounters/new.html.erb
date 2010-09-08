@@ -12,11 +12,11 @@
   	</p>
 	<p>
     	<%= f.label :clerkship %><br />
-    	<%= select( "encounter", "clerkship_id", { "Pediatrics" => "1" }) %>
+    	<%= select( "encounter", "clerkship_id", { "Pediatrics" => "1" }, {"tabIndex" => "10"} ) %>
   	</p>
 	<p>
 		<%= f.label :care_setting %><br />
-		<%= collection_select(:encounter, :id, @cs, :code, :name, {:prompt => "Select a care setting"} ) %>
+		<%= collection_select(:encounter, :id, @cs, :code, :name, {:prompt => "Select a care setting"}, {"tabIndex" => "20"} ) %>
 	</p>
   	<p>
     	<%= f.label :Clinic %><br />
@@ -63,6 +63,22 @@
 	   	<%= f.label :secondary_problems %><br />
 	  	<textarea tabindex="100" rows="1" name="encounter[secondary_problems]" id="encounter_secondary_problems" cols="50" class="ui-widget ui-widget-content ui-corner-left"></textarea>
 	  	<button id="encounter_secondary_problems_drop" class="drop_button"></button>
+	</p>
+	
+	<div style="clear:both"></div>
+	
+	<p>
+		<%= f.label :procedures_performed %><br />
+		<textarea tabindex="110" rows="1" name="encounter[procedures_performed]" id="encounter_procedures_performed" cols="50" class="ui-widget ui-widget-content ui-corner-left"></textarea>
+		<button id="encounter_procedures_performed_drop" class="drop_button"></button>
+	</p>
+	
+	<div style="clear:both"></div>
+	
+	<p>
+		<%= f.label :procedures_observed %><br />
+		<textarea tabindex="120" rows="1" name="encounter[procedures_observed]" id="encounter_procedures_observed" cols="50" class="ui-widget ui-widget-content ui-corner-left"></textarea>
+		<button id="encounter_procedures_observed_drop" class="drop_button"></button>
 	</p>
 
 
@@ -122,12 +138,11 @@ $(function() {
 [
 <% for dx in @dxs 
 	@dxcs.each do |dxc|
-		if (dxc.id == dx.category_id) then
-%>
-"<%= dxc.name %> > <%= dx.name %>",
-		<% end %>
-	<% end %>
-<% end %>
+		if (dxc.id == dx.category_id) then %>
+"<%= dxc.name %> > <%= dx.name %>", <% 		
+		end  
+	end  
+end %>
 ""
 ];
 	var availableProceduresPerformed = ["Lumbar Puncture","Other","Suturing/Wound Closure","Warts"];
