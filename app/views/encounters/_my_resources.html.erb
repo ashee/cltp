@@ -1,0 +1,124 @@
+<div class="rightbar_header ui-widget-content ui-state-highlight ui-corner-all">
+	<span class="ui-icon ui-icon-folder-open" style="float: left; margin-right: 0.3em;"></span>
+	<strong>My Resources</strong>
+</div>
+<div class="rightbar_section">
+	<ul id="rightbar_artifacts" class="rightbar_list">
+		<li><a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2871548/pdf/GRP2010-526486.pdf">Resource 1</a> 
+			<span class="action_menu">
+				<a href="/resources/show/1" class="iconlink show_resource_details" title="Resource Title">View Details</a>
+				<a href="#" class="iconlink">More</a>
+			</span>
+		</li>
+		<li><a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2871548/pdf/GRP2010-526486.pdf">Resource 2</a> 
+			<span class="action_menu">
+				<a href="/resources/show/1" class="iconlink show_resource_details" title="Resource Title">View Details</a>
+				<a href="#" class="iconlink">More</a>
+			</span>
+		</li>
+	</ul>
+	<span id="add_artifact" class="button" title="Add a Resource">Add Resource</span>
+		
+<form method="post" enctype="multipart/form-data" action="#" class="form" id="add_artifact_form">
+<table>
+<tr>
+	<th><label>From:</label></th>
+	<td>
+		<input type="radio" id="local" name="res_from" class="from" value="local" /> Your Computer 
+		<br> 
+		<input type="radio" id="remote" name="res_from" class="from" value="remote" /> Internet link
+	</td>
+</tr>
+<tr class="hide" id="from_local">
+	<th><label>Upload File:</label></th>
+	<td><input type="file" name="filename" size="30" /></td>
+</tr>
+<tr class="hide" id="from_remote">
+	<th>Enter a link:</th>
+	<td><input type="text" name="url" size="25" /></td>
+</tr>
+<tr>
+	<th>Title</th>
+	<td><input type="text" name="title" id="title" validation="required" size="31" /></td>
+</tr>
+<tr>
+	<th>Description</th>
+	<td><textarea name="description" id="artifact_description" style="width:100%"></textarea></td>
+</tr>
+<tr>
+	<th>Privacy Settings</th>
+	<td><select><option>Only I can view</option><option>Everybody can view</option></select></td>
+</tr>
+<tr>
+	<th>Tagged With</th>
+	<td>Cardiovascular Problem</td>
+</tr>
+</table>
+
+<div class="error"></div>
+
+<script>
+$(function() {
+$("#add_artifact_form").dialog({
+	title: 'Add a Resource',
+	autoOpen: false,
+	height: 400,
+	width: 550,
+	modal: true,
+	buttons: {
+		'Save Resource': function() {
+			$(this).dialog('close');
+		},
+		'Cancel': function() {
+			$(this).dialog('close');
+		}
+	}
+});
+$('#add_artifact')
+	.button()
+	.click(function() {
+		$('#add_artifact_form').dialog('open');
+});
+$('#artifact_description').autoResize();
+$('.hide').hide();
+$('.from').change(function(e) {
+	$('.hide').hide();
+	$('#from_'+$(this).val()).toggle();
+});
+$('.add_resource').button();
+$('.show_resource_details').button()
+.click(function(e) {
+	e.preventDefault();
+	var url = this.href;
+	var restitle = this.title;
+	var dialog = $('<div style="display:hidden"></div>').appendTo('body');
+	dialog.load(
+		url, 
+		{},
+		function (responseText, textStatus, XMLHttpRequest) {
+			dialog.dialog({
+			title: restitle,
+   			modal: true,
+   			height: 600,
+   			width: '50%'
+			});
+		}
+	);
+})
+.next()
+	.button( {
+		text: false,
+		icons: {
+			primary: "ui-icon-triangle-1-s"
+		}
+	})
+	.click( function() {
+		alert( "Could display a menu to select an action" );
+	})
+.parent()
+	.buttonset();
+});
+</script>
+</form>
+
+</div>
