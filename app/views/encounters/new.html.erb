@@ -319,38 +319,6 @@ $(function() {
 		$('textarea#notes').autoResize();
 		$('.submit_encounter').button();
 		$('.cancel_encounter').button();
-		$('.add_resource').button();
-		$('.show_resource_details').button()
-		.click(function(e) {
-			e.preventDefault();
-			var url = this.href;
-			var restitle = this.title;
-			var dialog = $('<div style="display:hidden"></div>').appendTo('body');
-			dialog.load(
-				url, 
-				{},
-				function (responseText, textStatus, XMLHttpRequest) {
-					dialog.dialog({
-					title: restitle,
-           			modal: true,
-           			height: 600,
-           			width: '50%'
-					});
-				}
-			);
-		})
-		.next()
-			.button( {
-				text: false,
-				icons: {
-					primary: "ui-icon-triangle-1-s"
-				}
-			})
-			.click( function() {
-				alert( "Could display a menu to select an action" );
-			})
-		.parent()
-			.buttonset();
 		$('.rightbar_list > li:nth-child(even)').addClass('even');
 		$('.submit_encounter').click(function() {
 			$('#new_encounter').submit();

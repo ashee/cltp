@@ -31,7 +31,17 @@
     <td>Pediatrics</td>
     <td><%=h encounter.created_at.strftime '%m/%d/%Y' %></td>
     <td><%=h encounter.age %> year old <%=h encounter.gender %></td>
-    <td><b><%=h 'Primary Problem' %></b>, encounter.co_mobidity</td>
+    <td>
+		<b><%=h encounter.diagnoses.find_by_dx_type('P').diagnosis.name %></b>
+		<% @sdxs = encounter.diagnoses.find_all_by_dx_type('S') %>
+		<% if (@sdxs.nil?) then %>
+			&nbsp;
+		<% else %>
+			<% @sdxs.each do |sdx| %>
+				, <%= sdx.diagnosis.name %>
+			<% end %>
+		<% end %>
+	</td>
     <td>Lumbar Puncture, IV Placement</td>
 	<td valign="middle" align="middle" style="position:relative" nowrap>
 		<span id="popup_link_<%=h encounter.id %>"  ><img alt="" src="images/cleardot.gif" class="bluedownarrow"></span>
