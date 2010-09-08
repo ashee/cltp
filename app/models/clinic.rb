@@ -6,6 +6,7 @@ class Clinic < ActiveRecord::Base
 	  if (category == 'Inpatient') then return "#{code}" end
 	  if (category == 'Emergency') then return "#{clinic_name}" end
 	  if (category == 'Newborn') then return "#{clinic_name}" end
+	  return #{clinic_name}
 	end
   
 end

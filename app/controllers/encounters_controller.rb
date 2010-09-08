@@ -121,11 +121,13 @@ class EncountersController < ApplicationController
     respond_to do |format|
       if @encounter.save
         #save single primary problem
-        dx_full = params[:encounter]['primary_problem']
-        @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'P', "dx_id" => 23, "created_by" => 1, "updated_by" => 1)
+        dx_xref = Diagnosis.find_by_name params[:encounter]['primary_problem'].split(' > ').last
+        @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'P', "dx_id" => dx_xref.id, "created_by" => 1, "updated_by" => 1)
         @edx.save
-        for dx in params[:encounter]['secondary_problems'].split(', ')
-          @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'S', "dx_id" => 77, "created_by" => 1, "updated_by" => 1)
+        #loop and save secondary problems
+        for sdx in params[:encounter]['secondary_problems'].split(', ')
+          dx_xref = Diagnosis.find_by_name sdx.split(' > ').last
+          @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'S', "dx_id" => dx_xref.id, "created_by" => 1, "updated_by" => 1)
           @edx.save
         end #for dx loop
         
