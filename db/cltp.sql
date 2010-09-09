@@ -153,6 +153,7 @@ CREATE TABLE `clerkships` (
 -- Dumping data for table `clerkships`
 --
 
+INSERT INTO `clerkships` VALUES(-1, 'All');
 INSERT INTO `clerkships` VALUES(1, 'Pediatrics');
 
 -- --------------------------------------------------------
@@ -447,6 +448,39 @@ INSERT INTO `dx_categories` VALUES(15, 1, 'Other');
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `procedures`
+--
+
+CREATE TABLE `procedures` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `clerkship_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `clerkship_id` (`clerkship_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `procedures`
+--
+
+-- IV Placement, Arterial Blood Gas, Foley, NG Tube,  Phlebotomy (All clerkships)
+-- Circumcision, Giving an Immunization, Lumbar Puncture (peds)
+
+INSERT INTO `procedures` VALUES(NULL, -1, 'Arterial Blood Gas');
+INSERT INTO `procedures` VALUES(NULL, -1, 'Foley');
+INSERT INTO `procedures` VALUES(NULL, -1, 'IV Placement');
+INSERT INTO `procedures` VALUES(NULL, -1, 'NG Tube');
+INSERT INTO `procedures` VALUES(NULL, -1, 'Phlebotomy');
+
+INSERT INTO `procedures` VALUES(NULL, 1, 'Circumcision');
+INSERT INTO `procedures` VALUES(NULL, 1, 'Giving an Immunization');
+INSERT INTO `procedures` VALUES(NULL, 1, 'Lumbar Puncture');
+INSERT INTO `procedures` VALUES(5000, -1, 'Other');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `encounters`
 --
 
@@ -486,6 +520,27 @@ CREATE TABLE `encounter_dx` (
   `dx_type` char(1) NOT NULL COMMENT 'P = Primary Problem, S = Secondary Problem',
   `dx_id` int(11) NOT NULL COMMENT '166 (Other) if dx not in db',
   `other` text COMMENT 'populated only if dx_id = 166 (Other)',
+  `created_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `encounter_dx`
+--
+
+-- --------------------------------------------------------
+--
+-- Table structure for table `encounter_procedures`
+--
+
+CREATE TABLE `encounter_procedures` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `encounter_id` int(11) NOT NULL,
+  `procedure_id` int(11) NOT NULL COMMENT '-1 (Other) if procedure not in db',
+  `other` text COMMENT 'populated only if procedure_id = -1 (Other)',
   `created_by` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_by` int(11) DEFAULT NULL,
@@ -628,3 +683,16 @@ ALTER TABLE `encounter_dx`
 --
 ALTER TABLE `resource_instances`
   ADD CONSTRAINT `resource_instances_ibfk_1` FOREIGN KEY (`resource_id`) REFERENCES `resources` (`id`);
+
+--
+-- Constraints for table `procedures`
+--
+ALTER TABLE `procedures`
+  ADD CONSTRAINT `procedures_fk_1` FOREIGN KEY (`clerkship_id`) REFERENCES `clerkships` (`id`);
+
+--
+-- Constraints for table `procedures`
+--
+ALTER TABLE `encounter_procedures`
+	ADD CONSTRAINT ` encounter_procedures_fk_1` FOREIGN KEY (`encounter_id`) REFERENCES `encounters` (`id`),
+	ADD CONSTRAINT ` encounter_procedures_fk_2` FOREIGN KEY (`procedure_id`) REFERENCES `procedures` (`id`);
