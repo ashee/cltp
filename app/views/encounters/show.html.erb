@@ -61,6 +61,25 @@
 			<% end %>
 		<% end %>
 	</p>
+	
+	<div style="clear:both"></div>
+
+	<p>
+    	<%= f.label :procedures_performed %><br />
+		<% @encounterProcedures.each do |ep| %> 
+			<% if (ep.action == 'P') %> 
+				<%=h ep.procedure.name %><br />
+			<% end %>
+		<% end %>
+	</p>
+	<p>
+	   	<%= f.label :procedures_observed %><br />
+	  	<% @encounterProcedures.each do |ep| %>
+	  		<% if (ep.action == 'O') %> 
+				<%=h ep.procedure.name %><br />
+			<% end %>
+		<% end %>
+	</p>
 
 
 </fieldset>

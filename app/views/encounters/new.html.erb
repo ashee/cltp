@@ -163,8 +163,14 @@ $(function() {
 end %>
 ""
 ];
-	var availableProceduresPerformed = ["Lumbar Puncture","Other","Suturing/Wound Closure","Warts"];
-	var availableProceduresObserved = ["IV Placement","Lumbar Puncture","Venipuncture","Circumcision","Electroencephalogram","Other","Suturing/Wound Closure"];
+	var availableProcedures = 
+[
+<% for procedure in @procedures %>
+"<%= procedure.name %>", <% 		 	
+end %>
+""
+];
+
 	$(".datepicker").datepicker();
 	$("#encounter_secondary_problems").autocomplete({
 			minLength: 0,
@@ -254,7 +260,7 @@ end %>
 		$("#encounter_procedures_performed").autocomplete({
 			minLength: 0,
 			source: function(request, response) {
-				response($.ui.autocomplete.filter(availableProceduresPerformed, extractLast(request.term)));
+				response($.ui.autocomplete.filter(availableProcedures, extractLast(request.term)));
 			},
 			focus: function() {
 				return false;
@@ -302,7 +308,7 @@ end %>
 			minLength: 0,
 			source: function(request, response) {
 				// delegate back to autocomplete, but extract the last term
-				response($.ui.autocomplete.filter(availableProceduresObserved, extractLast(request.term)));
+				response($.ui.autocomplete.filter(availableProcedures, extractLast(request.term)));
 			},
 			focus: function() {
 				// prevent value inserted on focus
