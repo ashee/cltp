@@ -18,6 +18,7 @@
     <th></th>
     <th>Clerkship</th>
     <th>Date</th>
+    <th>Clinic</th>
     <th>Patient Info</th>
     <th>Problems (Primary in bold)</th>
     <th>Procedures</th>
@@ -30,7 +31,8 @@
     <td><a href="encounters/show/<%=h encounter.id %>">View</a></td>
     <td><%=h encounter.clerkship.name %></td>
     <td><%=h encounter.created_at.strftime '%m/%d/%Y' %></td>
-    <td><%=h encounter.age %> year old <%=h encounter.gender %></td>
+    <td><%=h encounter.clinic.clinic_name %> - <%=h encounter.clinic.location %></td>
+	<td><%=h encounter.age %> year old <%=h encounter.gender %></td>
     <td>
 		<b><%=h encounter.diagnoses.find_by_dx_type('P').diagnosis.name %></b>
 		<% @sdxs = encounter.diagnoses.find_all_by_dx_type('S') %>
@@ -82,6 +84,7 @@ $(function() {
 		<th><input type="text" name="search_1" value="Search this" class="search_init" style="display:none;" /></th>
 		<th><input type="text" name="search_clerkship" value="Search this" class="search_init" /></th>
 		<th><input type="text" name="search_date" value="Search this" class="search_init" /></th>
+		<th><input type="text" name="search_clinic" value="Search this" class="search_init" /></th>
 		<th><input type="text" name="search_patient" value="Search this" class="search_init" /></th>
 		<th><input type="text" name="search_problems" value="Search this" class="search_init" /></th>
 		<th><input type="text" name="search_procedures" value="Search this" class="search_init" /></th>
@@ -104,7 +107,7 @@ $(function() {
 		"sDom": 'T<"clear"><"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"if>rt<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"lp>',
 		"bJQueryUI": true,
 		"aaSorting": [[3,'desc']],
-		"aoColumns": [{ "bSortable": false },null,null,null,null,null,{ "bSortable": false }],
+		"aoColumns": [{ "bSortable": false },null,null,null,null,null,null,{ "bSortable": false }],
 		"iDisplayLength": 10,
 		"sPaginationType" : "full_numbers"
 	} );
