@@ -1,4 +1,7 @@
 require 'pp'
+require "digest/sha1"
+require "stringio"
+require 'FileUtils'
 
 class ResourcesController < ApplicationController
   # GET /resources
@@ -41,7 +44,48 @@ class ResourcesController < ApplicationController
 
   # POST /resources
   # POST /resources.xml
-  def create  
+  def create
+    # Resource: sha1, filelocation, url, score
+    # ResourceInstance: resource_id, tag, tag_id, title, description, filename_orig, privacy (P|F|A)
+=begin
+    truncate table resource_instances;
+    truncate table resources;
+=end
+    
+    r = Resource.new(params[:resource])
+    ri = ResourceInstance.new(params[:resource_instance])
+    tempfile = ri.filename_orig
+    ri.filename_orig = tempfile.original_path
+    ri.tag = "tbd"
+    ri.tag_id = 10
+    ri.creator = @user
+    ri.updater = @user
+    
+    # compute requested resource sha1 (to see if it exists in the database already)
+    rsha1 = r.filelocation == 'local' ? sha1(tempfile) : sha1(StringIO.new(r.url))
+        
+    # lookup resource by sha1
+    r2 = Resource.find_by_sha1 rsha1
+    if r2.nil? 
+      # Resource not in database
+      
+      # move uploaded file to 'uploads' folder
+      FileUtils.mv tempfile.path, File.join(UPLOAD_DIR, rsha1) if r.filelocation == 'local'
+      
+      # save resource_instance and its parent resource in database
+      ri.resource = r
+      r.sha1 = rsha1
+      r.creator = @user
+      r.updater = @user
+      ri.save!
+    else
+      # resource already in db, just create resource_instance 
+      ri.resource = r2
+      ri.save!
+    end
+    
+    render :text => "ok"
+
     # @resource = Resource.new(params[:resource])
     # @ri = ResourceInstance.new
     
@@ -86,5 +130,12 @@ class ResourcesController < ApplicationController
       format.html { redirect_to(resources_url) }
       format.xml  { head :ok }
     end
+  end
+
+private
+  def sha1 (io)
+    digest = Digest::SHA1.new
+    digest.update io.read(8192) until io.eof
+    digest.hexdigest
   end
 end

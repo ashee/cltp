@@ -19,35 +19,36 @@
 	</ul>
 	<span id="add_artifact" class="button" title="Add a Resource">Add Resource</span>
 		
-<form method="post" enctype="multipart/form-data" action="/resources/create" class="form" id="add_artifact_form">
+	<% form_tag('/resources/create', :multipart => true, :id => 'add_resource_form', :class => 'form') do %>
 <table>
 <tr>
 	<th><label>From:</label></th>
 	<td>
-		<input type="radio" id="filelocation" name="res_from" class="from" value="local" /> Your Computer 
+		<input type="radio" id="resource[filelocation]" name="resource[filelocation]" class="from" value="local" /> Your Computer 
 		<br> 
-		<input type="radio" id="filelocation" name="res_from" class="from" value="remote" /> Internet link
+		<input type="radio" id="resource[filelocation]" name="resource[filelocation]" class="from" value="remote" /> Internet link
 	</td>
 </tr>
-<tr class="hide" id="from_local">
+<tr class="show" id="from_local">
 	<th><label>Upload File:</label></th>
-	<td><input type="file" name="filename" size="30" /></td>
+	<td><div id="upldDiv"><input type="file" id="filename_orig" name="resource_instance[filename_orig]" value=""></div></td>
 </tr>
-<tr class="hide" id="from_remote">
+<tr class="show" id="from_remote">
 	<th>Enter a link:</th>
-	<td><input type="text" name="url" size="25" /></td>
+	<td><input type="text" name="resource[url]" size="25" value="http://www.foo.com"/></td>
 </tr>
 <tr>
 	<th>Title</th>
-	<td><input type="text" name="title" id="title" validation="required" size="31" /></td>
+	<td><input type="text" name="resource_instance[title]" id="resource_instance[title]" validation="required" size="31" /></td>
 </tr>
 <tr>
 	<th>Description</th>
-	<td><textarea name="description" id="artifact_description" style="width:100%"></textarea></td>
+	<td><textarea name="resource_instance[description]" id="artifact_description" style="width:100%"></textarea></td>
 </tr>
 <tr>
 	<th>Privacy Settings</th>
-	<td><select><option>Only I can view</option><option>Everybody can view</option></select></td>
+	<td><select name="resource_instance[privacy]"><option value="P">Only I can view</option>
+		<option value="A">Everybody can view</option></select></td>
 </tr>
 <tr>
 	<th>Tagged With</th>
@@ -56,10 +57,20 @@
 </table>
 
 <div class="error"></div>
+<%end%>
+</div>
 
 <script>
 $(function() {
-$("#add_artifact_form").dialog({
+
+$("#add_resource_form").bind('submit', function() {
+	$(this).ajaxSubmit({
+		target: '#error'
+	});
+	return false; 
+});
+
+$("#add_resource_form").dialog({
 	title: 'Add a Resource',
 	autoOpen: false,
 	height: 400,
@@ -68,9 +79,10 @@ $("#add_artifact_form").dialog({
 	buttons: {
 		'Save Resource': function() {
 			// send ajax request to save
-			$.post("/resources/create", $("#add_artifact_form").serialize(), function(data,status) {
-				alert(data);
-			});
+			// $.post("/resources/create", $("#add_resource_form").serialize(), function(data,status) {
+			// 	alert(data);
+			// });
+			$(this).submit();
 			$(this).dialog('close');
 		},
 		'Cancel': function() {
@@ -81,7 +93,7 @@ $("#add_artifact_form").dialog({
 $('#add_artifact')
 	.button()
 	.click(function() {
-		$('#add_artifact_form').dialog('open');
+		$('#add_resource_form').dialog('open');
 });
 $('#artifact_description').autoResize();
 $('.hide').hide();
@@ -123,6 +135,3 @@ $('.show_resource_details').button()
 	.buttonset();
 });
 </script>
-</form>
-
-</div>
