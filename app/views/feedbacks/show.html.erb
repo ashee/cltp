@@ -1,0 +1,12 @@
+<p>
+  <p><b>Subject:</b>&nbsp;<%=h @feedback.subject %></p>
+</p>
+<p></p>
+<p style="padding-top:10px">
+  <p><b>Body</b></p>
+  <%=h @feedback.body %>
+</p>
+
+
+<%= link_to 'Edit', edit_feedback_path(@feedback) %> |
+<%= link_to 'Back', feedbacks_path %>

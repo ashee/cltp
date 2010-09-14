@@ -43,12 +43,12 @@
 			</div>
 			<div id="hd" class="ui-corner-bl ui-corner-br bg2">
 				<ul id="userInfo">
-					<li><a href="/dashboard" class="t1">Dashboard</a></li>
-					<li><a href="/encounters/new" class="t1">New Encounter</a></li>
-					<li><a href="/encounters" class="t1">List Encounters</a></li>
-					<li><a href="/resources" class="t1">All Resources</a></li>
-					<li><a href="/feedback" class="t1">Give us feedback</a></li>
-					<li style="float: right;" ><a href="#" class="t1">Logout</a></li>
+					<li><%= link_to "Dashboard", {:controller => "dashboard", :action => "index"}, :class => "t1" %></li>
+					<li><%= link_to "New Encounter", new_encounter_path, :class => "t1" %></li>
+					<li><%= link_to "List Encounters", encounters_path, :class => "t1" %></li>
+					<li><%= link_to "All Resources", resources_path, :class => "t1" %></li>
+					<li><%= link_to "Give us feedback", feedbacks_path, :class => "t1" %></li>
+					<li style="float: right;" ><a href="https://weblogin.umich.edu/cgi-bin/logout" class="t1">Logout</a></li>
 				</ul>
 			</div>
 			<!-- end header -->

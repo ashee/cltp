@@ -4,22 +4,13 @@
 </div>
 <div class="rightbar_section">
 	<ul id="rightbar_artifacts" class="rightbar_list">
-		<li><a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2871548/pdf/GRP2010-526486.pdf">Resource 1</a> 
-			<span class="action_menu">
-				<a href="/resources/show/1" class="iconlink show_resource_details" title="Resource Title">View Details</a>
-				<a href="#" class="iconlink">More</a>
-			</span>
-		</li>
-		<li><a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2871548/pdf/GRP2010-526486.pdf">Resource 2</a> 
-			<span class="action_menu">
-				<a href="/resources/show/1" class="iconlink show_resource_details" title="Resource Title">View Details</a>
-				<a href="#" class="iconlink">More</a>
-			</span>
-		</li>
+		<% for resource in @resources %>
+			<%= render "resource" %>
+		<% end %>
 	</ul>
 	<span id="add_artifact" class="button" title="Add a Resource">Add Resource</span>
 		
-	<% form_tag('/resources/create', :multipart => true, :id => 'add_resource_form', :class => 'form') do %>
+<% form_tag('/resources/create', :multipart => true, :id => 'add_resource_form', :class => 'form') do %>
 <table>
 <tr>
 	<th><label>From:</label></th>
