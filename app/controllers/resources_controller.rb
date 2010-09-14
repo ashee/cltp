@@ -1,3 +1,5 @@
+require 'pp'
+
 class ResourcesController < ApplicationController
   # GET /resources
   # GET /resources.xml
@@ -39,19 +41,22 @@ class ResourcesController < ApplicationController
 
   # POST /resources
   # POST /resources.xml
-  def create
-    @resource = Resource.new(params[:resource])
-
-    respond_to do |format|
-      if @resource.save
-        flash[:notice] = 'Resource was successfully created.'
-        format.html { redirect_to(@resource) }
-        format.xml  { render :xml => @resource, :status => :created, :location => @resource }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @resource.errors, :status => :unprocessable_entity }
-      end
-    end
+  def create  
+    # @resource = Resource.new(params[:resource])
+    # @ri = ResourceInstance.new
+    
+    # @resource = Resource.new(params[:resource])
+    # 
+    # respond_to do |format|
+    #   if @resource.save
+    #     flash[:notice] = 'Resource was successfully created.'
+    #     format.html { redirect_to(@resource) }
+    #     format.xml  { render :xml => @resource, :status => :created, :location => @resource }
+    #   else
+    #     format.html { render :action => "new" }
+    #     format.xml  { render :xml => @resource.errors, :status => :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PUT /resources/1

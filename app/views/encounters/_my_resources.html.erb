@@ -19,14 +19,14 @@
 	</ul>
 	<span id="add_artifact" class="button" title="Add a Resource">Add Resource</span>
 		
-<form method="post" enctype="multipart/form-data" action="#" class="form" id="add_artifact_form">
+<form method="post" enctype="multipart/form-data" action="/resources/create" class="form" id="add_artifact_form">
 <table>
 <tr>
 	<th><label>From:</label></th>
 	<td>
-		<input type="radio" id="local" name="res_from" class="from" value="local" /> Your Computer 
+		<input type="radio" id="filelocation" name="res_from" class="from" value="local" /> Your Computer 
 		<br> 
-		<input type="radio" id="remote" name="res_from" class="from" value="remote" /> Internet link
+		<input type="radio" id="filelocation" name="res_from" class="from" value="remote" /> Internet link
 	</td>
 </tr>
 <tr class="hide" id="from_local">
@@ -67,6 +67,10 @@ $("#add_artifact_form").dialog({
 	modal: true,
 	buttons: {
 		'Save Resource': function() {
+			// send ajax request to save
+			$.post("/resources/create", $("#add_artifact_form").serialize(), function(data,status) {
+				alert(data);
+			});
 			$(this).dialog('close');
 		},
 		'Cancel': function() {
