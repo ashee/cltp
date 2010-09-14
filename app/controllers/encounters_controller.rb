@@ -131,16 +131,10 @@ class EncountersController < ApplicationController
           @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'S', "dx_id" => dx_xref.id, "created_by" => 1, "updated_by" => 1)
           @edx.save
         end #for dx loop
-        #loop and save procedures performed
-        for pp in params[:encounter]['procedures_performed'].split(', ')
-          proc_xref = Procedure.find_by_name(pp)
-          @pp_new = @encounter.procedures.new("encounter_id" => @encounter.id, "action" => 'P', "procedure_id" => proc_xref.id, "created_by" => 1, "updated_by" => 1)
-          @pp_new.save
-        end #for procedures observed loop
         #loop and save procedures observed
         for po in params[:encounter]['procedures_observed'].split(', ')
           proc_xref = Procedure.find_by_name(po)
-          @po_new = @encounter.procedures.new("encounter_id" => @encounter.id, "action" => 'O', "procedure_id" => proc_xref.id, "created_by" => 1, "updated_by" => 1)
+          @po_new = @encounter.procedures.new("encounter_id" => @encounter.id, "participation_type" => 'O', "procedure_id" => proc_xref.id, "created_by" => 1, "updated_by" => 1)
           @po_new.save
         end #for procedures observed loop
         

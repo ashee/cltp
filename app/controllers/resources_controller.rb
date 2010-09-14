@@ -5,6 +5,9 @@ class ResourcesController < ApplicationController
   # GET /resources.xml
   def index
     @resources = Resource.all
+    @clerkship = Clerkship.find_by_name('Pediatrics')    
+	  @dxcs = DiagnosisCategory.find_all_by_clerkship_id(@clerkship.id)
+    @dxs = Diagnosis.find_all_by_clerkship_id(@clerkship.id)
 
     respond_to do |format|
       format.html # index.html.erb
