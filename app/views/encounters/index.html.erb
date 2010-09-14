@@ -28,7 +28,7 @@
 <% @encounters.each do |encounter| cls = cycle("bg4", "bg5") %>
   <tr class='<%= cls %>' valign="top" align="left">
     <td><a href="encounters/show/<%=h encounter.id %>">View</a></td>
-    <td>Pediatrics</td>
+    <td><%=h encounter.clerkship.name %></td>
     <td><%=h encounter.created_at.strftime '%m/%d/%Y' %></td>
     <td><%=h encounter.age %> year old <%=h encounter.gender %></td>
     <td>
@@ -42,7 +42,16 @@
 			<% end %>
 		<% end %>
 	</td>
-    <td>Lumbar Puncture, IV Placement</td>
+    <td>
+		<% @procs = encounter.procedures %>
+		<% if (@procs.nil?) then %>
+			&nbsp;
+		<% else %>
+			<% @procs.each do |proc| %>
+				<%= proc.procedure.name %>,
+			<% end %>
+		<% end %>
+	</td>
 	<td valign="middle" align="middle" style="position:relative" nowrap>
 		<span id="popup_link_<%=h encounter.id %>"  ><img alt="" src="images/cleardot.gif" class="bluedownarrow"></span>
 		<span id="popup_<%=h encounter.id %>" class="ui-widget popupMenu" >

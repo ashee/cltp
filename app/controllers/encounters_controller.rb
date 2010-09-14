@@ -15,6 +15,7 @@ class EncountersController < ApplicationController
   def show
     @encounter = Encounter.find(params[:id])
 	  @encounterDiagnoses = @encounter.diagnoses
+	  @encounterProcedures = @encounter.procedures
 
     respond_to do |format|
       format.html # show.html.erb
@@ -30,8 +31,8 @@ class EncountersController < ApplicationController
 	  @cs = CareSetting.all
 	  @clinics = Clinic.all
 	  @dxcs = DiagnosisCategory.find_all_by_clerkship_id(@clerkship.id)
-	  #@dxs = DiagnosisCategory.Diagnosis.all
     @dxs = Diagnosis.find_all_by_clerkship_id(@clerkship.id)
+    @procedures = Procedure.find_all_by_clerkship_id([@clerkship.id, -1]) 
     
     respond_to do |format|
       format.html # new.html.erb
@@ -130,6 +131,12 @@ class EncountersController < ApplicationController
           @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'S', "dx_id" => dx_xref.id, "created_by" => 1, "updated_by" => 1)
           @edx.save
         end #for dx loop
+        #loop and save procedures observed
+        for po in params[:encounter]['procedures_observed'].split(', ')
+          proc_xref = Procedure.find_by_name(po)
+          @po_new = @encounter.procedures.new("encounter_id" => @encounter.id, "participation_type" => 'O', "procedure_id" => proc_xref.id, "created_by" => 1, "updated_by" => 1)
+          @po_new.save
+        end #for procedures observed loop
         
         flash[:notice] = 'Encounter was successfully created.'
         format.html { redirect_to(@encounter) }

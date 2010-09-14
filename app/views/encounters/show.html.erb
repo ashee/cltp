@@ -61,6 +61,17 @@
 			<% end %>
 		<% end %>
 	</p>
+	
+	<div style="clear:both"></div>
+
+	<p>
+	   	<%= f.label :procedures_observed %><br />
+	  	<% @encounterProcedures.each do |ep| %>
+	  		<% if (ep.participation_type == 'O') %> 
+				<%=h ep.procedure.name %><br />
+			<% end %>
+		<% end %>
+	</p>
 
 
 </fieldset>
