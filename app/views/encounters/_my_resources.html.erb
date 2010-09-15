@@ -20,13 +20,13 @@
 		<input type="radio" id="resource[filelocation]" name="resource[filelocation]" class="from" value="remote" /> Internet link
 	</td>
 </tr>
-<tr class="show" id="from_local">
+<tr class="hide" id="from_local">
 	<th><label>Upload File:</label></th>
 	<td><div id="upldDiv"><input type="file" id="filename_orig" name="resource_instance[filename_orig]" value=""></div></td>
 </tr>
-<tr class="show" id="from_remote">
+<tr class="hide" id="from_remote">
 	<th>Enter a link:</th>
-	<td><input type="text" name="resource[url]" size="25" value="http://www.foo.com"/></td>
+	<td><input type="text" name="resource[url]" size="25" value=""/></td>
 </tr>
 <tr>
 	<th>Title</th>
@@ -38,12 +38,28 @@
 </tr>
 <tr>
 	<th>Privacy Settings</th>
-	<td><select name="resource_instance[privacy]"><option value="P">Only I can view</option>
-		<option value="A">Everybody can view</option></select></td>
+	<td><select name="resource_instance[privacy]"><option value="A">Everybody can view</option>
+		<option value="P">Only I can view</option></select></td>
 </tr>
 <tr>
 	<th>Tagged With</th>
-	<td>Cardiovascular Problem</td>
+	<td><!-- drop down here -->
+		<select name="resource_instance[tag]" id="resource_instance[tag]">
+			<optgroup label="Encounter">
+				<option value="encounters_<%= @encounter.id %>">This Encounter</option>
+			</optgroup>
+			<optgroup label="Diagnosis">
+				<% for dx in @encounter.diagnoses do %>
+				<option value="dx_<%= dx.dx_id %>"><%= h dx.diagnosis.name %></option>
+				<%end%>
+			</optgroup>
+			<optgroup label="Procedure">
+				<% for p in @encounter.procedures do %>
+				<option value="procedures_<%= p.procedure_id %>"><%= h p.procedure.name %></option>
+				<%end%>
+			</optgroup>
+		</select>
+	</td>
 </tr>
 </table>
 
