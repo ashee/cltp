@@ -2,12 +2,21 @@
 
 <div class="yui-u first">
 
+	<h3 class="b2 bg2 filter_header">Filter Resources By User:</h3>
 	<ul id="resources" class="filter_list">
-		<% @dxcs.each do |dxc| cls = cycle("bg4", "bg5") %>
+		<li class="bg4"><a class="user_filter" href="#" title="">All Resources <span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
+		<li class="bg5"><a class="user_filter" href="#" title="Faculty"> Faculty Resources <span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
+		<li class="bg4"><a class="user_filter" href="#" title="Michael Bleed"> My Resources <span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
+	</ul>
+	
+	<h3 class="b2 bg2 filter_header">Filter Resources By Problem:</h3>
+	<ul id="resources" class="filter_list">
+		<li class="bg4"><a class="category_filter" href="#" id="" title=""></span> All Problems </a><span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></li>
+		<% @dxcs.each do |dxc| cls = cycle("bg5", "bg4") %>
 		<li class="<%= cls %>"><a class="category_filter" href="#" id="<%=h dxc.id %>" title="<%=h dxc.name %>"><span id="category_filter_img_<%=h dxc.id %>" class="ui-icon ui-icon-triangle-1-e" style="float:left;"></span> <%=h dxc.name %></a>
 			<ul class="diagnoses_list filter_list" id="diagnoses_list_<%=h dxc.id %>">
 				<% dxc.diagnoses.each do |dx| %>
-				<li><a class="diagnosis_filter" href="#" title="<%=h dx.name %>"><span class="ui-icon ui-icon-triangle-1-e" style="float:left;"></span><%=h dx.name %></a></li>
+				<li><a class="diagnosis_filter" href="#" title="<%=h dx.name %>"><%=h dx.name %><span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
 				<% end %>
 			</ul>
 		</li>
@@ -22,74 +31,101 @@
 	<table id="resourceList" class="display">
 	<thead>
 	  <tr>
-	    <th></th>
 		<th>Category</th>
 		<th>Problem</th>
 	    <th>Title</th>
-	    <th>Rating</th>
+	   	<th>Rating</th>
+	    <th>From</th>
+	    <th>Date</th>
+	    <th>Who Can View?</th>
+	  	<th></th>
 	  </tr>
 	</thead>
 	<tbody>
 		<!--
 	<% @resources.each do |resource| cls = cycle("bg4", "bg5") %>
 	  <tr class='<%= cls %>' valign="top" align="left">
-	    <td><a href="resource/show/<%=h resource.id %>">View</a></td>
 		<td>Category</td>
 		<td>Problem</td>
 	    <td>Title</td>
 	    <td><%=h resource.score %></td>
+	    <td><%=h resource.created_by %></td>
+	    <td><%=h resource.created_at %></td>
+	    <td><%=h resource.privacy %></td>
+	    <td><a href="resource/show/">View</a></td>
 	  </tr>
 
 	<% end %>
 -->
 	<tr>
-		<td>View</td>
 		<td>Behavior Problems</td>
 		<td>Anxiety</td>
 		<td>Title of Resource 1</td>
 		<td>8</td>
+		<td>Faculty</td>
+	    <td>Date</td>
+	    <td>Who</td>
+		<td><a href="resource/show/">Details</a></td>
 	</tr>
 	<tr>
-		<td>View</td>
 		<td>Behavior Problems</td>
 		<td>Anxiety</td>
 		<td>Title of Resource 2</td>
 		<td>4</td>
+		<td>Michael Bleed</td>
+	    <td>Date</td>
+	    <td>Who</td>
+		<td><a href="resource/show/">Details</a></td>
 	</tr>
 	<tr>
-		<td>View</td>
 		<td>Behavior Problems</td>
 		<td>Depression</td>
 		<td>Title of Resource 3</td>
 		<td>9</td>
+		<td>Amitava Shee</td>
+	    <td>Date</td>
+	    <td>Who</td>
+		<td><a href="resource/show/">Details</a></td>
 	</tr>
 	<tr>
-		<td>View</td>
 		<td>Behavior Problems</td>
 		<td>Bulimia</td>
 		<td>Title of Resource 4</td>
 		<td>8</td>
+		<td>Michael Bleed</td>
+	    <td>Date</td>
+	    <td>Who</td>
+		<td><a href="resource/show/">Details</a></td>
 	</tr>
 	<tr>
-		<td>View</td>
 		<td>Dermatology</td>
 		<td>Acne</td>
 		<td>Title of Resource 5</td>
 		<td>2</td>
+		<td>Faculty</td>
+	    <td>Date</td>
+	    <td>Who</td>
+		<td><a href="resource/show/">Details</a></td>
 	</tr>
 	<tr>
-		<td>View</td>
 		<td>Dermatology</td>
 		<td>Warts</td>
 		<td>Title of Resource 6</td>
 		<td>5</td>
+		<td>Faculty</td>
+	    <td>Date</td>
+	    <td>Who</td>
+		<td><a href="resource/show/">Details</a></td>
 	</tr>
 	<tr>
-		<td>View</td>
 		<td>Chronic Medical Problem</td>
 		<td>Bruxism</td>
 		<td>Title of Resource 7</td>
 		<td>18</td>
+		<td>Other</td>
+	    <td>Date</td>
+	    <td>Who</td>
+		<td><a href="resource/show/">Details</a></td>
 	</tr>
 	
 	
@@ -103,15 +139,14 @@
 	var asInitVals = new Array();
 			//"sDom": 'T<"clear">lfrtip',
 	$(function() {
-		TableToolsInit.sSwfPath = "<%= javascript_path 'dataTables/media/swf/ZeroClipboard.swf' %>";
 		oTable = $('#resourceList').dataTable( {
 			"oLanguage": {
 				"sSearch": "Search all columns:"
 			},
-			"sDom": 'T<"clear"><"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"if>rt<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"lp>',
+			"sDom": '<"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"if>rt<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"lp>',
 			"bJQueryUI": true,
-			"aaSorting": [[1,'desc']],
-			"aoColumns": [{ "bSortable": false },{ "bVisible": false },{ "bVisible": false },null,null],
+			"aaSorting": [[3,'desc']],
+			"aoColumns": [{ "bVisible": false },{ "bVisible": false },null,null,null,null,null,{ "bSortable": false }],
 			"iDisplayLength": 10,
 			"sPaginationType" : "full_numbers"
 		} );
@@ -120,7 +155,8 @@
 			e.preventDefault();
 			var val = this.title;
 			var dxcid = this.id;
-			oTable.fnFilter( val, 1 );
+			oTable.fnFilter("",1,false);
+			oTable.fnFilter( val, 0 );
 			
 			if ($('#category_filter_img_'+dxcid).hasClass('ui-icon-triangle-1-e') ) {
 				$('#category_filter_img_'+dxcid).removeClass("ui-icon-triangle-1-e");
@@ -135,10 +171,17 @@
 		$(".diagnosis_filter").click( function (e) {
 			e.preventDefault();
 			var val = this.title;
-			oTable.fnFilter( val, 2 );
+			oTable.fnFilter("",0,false);
+			oTable.fnFilter( val, 1 );
 		} );
 
 		$(".diagnoses_list").hide();
+		
+		$(".user_filter").click( function (e) {
+			e.preventDefault();
+			var val = this.title;
+			oTable.fnFilter( val, 4 );
+		} );
 	} );
 	</script>
 	
@@ -148,6 +191,11 @@
 	}
 	.filter_list li {
 		padding: 6px 12px;
+	}
+	.filter_header {
+		margin-left: 25px;
+		padding: 4px;
+		font-size: 122%;		
 	}
 	</style>	
 	
