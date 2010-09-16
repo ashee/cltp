@@ -59,8 +59,7 @@ class ResourcesController < ApplicationController
     ri = ResourceInstance.new(params[:resource_instance])
     tempfile = ri.filename_orig
     ri.filename_orig = tempfile.original_path
-    ri.tag = "tbd"
-    ri.tag_id = 10
+    ri.tag,ri.tag_id = ri.tag.split('_')
     ri.creator = @user
     ri.updater = @user
     

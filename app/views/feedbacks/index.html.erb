@@ -1,0 +1,83 @@
+<h1 class="t2" style="margin: 15px;">My Feedbacks</h1>
+
+<div>
+<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
+	<a class="bt1" href="<%= new_feedback_path %>" style="vertical-align:middle;"><%= image_tag("add.png") %> New Feedback</a>
+</span>
+</div>
+<table id="fblist" class="display">
+<thead>
+  <tr>
+    <th>Subject</th>
+    <th>Body</th>
+	<th>Created At</th>
+	<th></th>
+	<th></th>
+  </tr>
+</thead>
+<tbody>
+<% @feedbacks.each do |feedback| %>
+  <tr>
+    <td><%= link_to h(feedback.subject), feedback %></td>
+    <td><%=h feedback.body %></td>
+    <td><%=h feedback.created_at.strftime '%m/%d/%Y'  %></td>
+    <td><%= link_to 'Edit', edit_feedback_path(feedback) %></td>
+    <td><%= link_to 'Destroy', feedback, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</tbody>
+<tfoot>
+	<tr>
+		<th><input type="text" name="search_subject" value="Search this" class="search_init" /></th>
+		<th><input type="text" name="search_body" value="Search this" class="search_init" /></th>
+	</tr>
+</tfoot>
+</table>
+
+<script>
+var oTable;
+var asInitVals = new Array();
+		//"sDom": 'T<"clear">lfrtip',
+$(function() {
+	TableToolsInit.sSwfPath = "<%= javascript_path 'dataTables/media/swf/ZeroClipboard.swf' %>";
+	oTable = $('#fblist').dataTable( {
+		"oLanguage": {
+			"sSearch": "Search all columns:"
+		},
+		"sDom": 'T<"clear"><"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"if>rt<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"lp>',
+		"bJQueryUI": true,
+		"aaSorting": [[3,'desc']],
+		// "aoColumns": [{ "bSortable": false },null,null,null,null,null,null,{ "bSortable": false }],
+		"iDisplayLength": 10,
+		"sPaginationType" : "full_numbers"
+	} );
+	
+	$("tfoot input").keyup( function () {
+		/* Filter on the column (the index) of this element */
+		oTable.fnFilter( this.value, $("tfoot input").index(this) );
+	} );
+
+	$("tfoot input").each( function (i) {
+		asInitVals[i] = this.value;
+	} );
+	
+	$("tfoot input").focus( function () {
+		if ( this.className == "search_init" )
+		{
+			this.className = "";
+			this.value = "";
+		}
+	} );
+	
+	$("tfoot input").blur( function (i) {
+		if ( this.value == "" )
+		{
+			this.className = "search_init";
+			this.value = asInitVals[$("tfoot input").index(this)];
+		}
+	} );
+	
+	$('.popupMenu').hide();
+
+} );
+</script>
