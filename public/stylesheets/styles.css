@@ -437,4 +437,49 @@ a.bt1:visited {
 .neg {
 	color: #FF0000;
 }
-	
+
+/***********************      Voting       *******************************/
+.vote-up-off, .vote-up-on, .vote-down-off, .vote-down-on, .star-on, .star-off, .comment-up-off, .comment-up-on, .comment-flag, .flag-off, .vote-accepted-off, .vote-accepted-on, .vote-accepted-off, .vote-accepted-on {
+	font-size:1px;
+	text-indent:-9999em;
+}
+
+.vote-up-off, .vote-down-off, .vote-accepted-off, .star-off, .comment-up-off, .flag-off {
+	cursor:pointer;
+}
+
+.vote-up-off, .vote-up-on, .vote-down-off, .vote-down-on, .star-on, .star-off {
+	background-position:0 -265px;
+	display:block;
+	height:25px;
+	margin:0 auto;
+	width:41px;
+}
+
+.vote-up-off, .vote-up-on, .vote-down-off, .vote-down-on, .star-on, .star-off, .vote-accepted-off, .vote-accepted-on {
+	background-image:url("../images/sprites.png");
+	background-repeat:no-repeat;
+	overflow:hidden;
+}
+
+.vote span {
+	color:#808185;
+	display: block;
+	font-weight:bold;
+	float: left;
+}
+
+.star-off, .star-on {
+	background-position:0 -150px;
+	height:31px;
+	width:33px;
+}
+
+.vote-down-off {
+background-position:0 -300px;
+}
+
+.vote-count-post {
+	display:block;
+	font-size:150%;
+}
