@@ -57,15 +57,20 @@ class ResourcesController < ApplicationController
     
     r = Resource.new(params[:resource])
     ri = ResourceInstance.new(params[:resource_instance])
-    tempfile = ri.filename_orig
-    ri.filename_orig = tempfile.original_path
     ri.tag,ri.tag_id = ri.tag.split('_')
     ri.creator = @user
     ri.updater = @user
     
-    # compute requested resource sha1 (to see if it exists in the database already)
-    rsha1 = r.filelocation == 'local' ? sha1(tempfile) : sha1(StringIO.new(r.url))
-        
+	if (r.filelocation == 'local')
+		tempfile = ri.filename_orig
+		ri.filename_orig = tempfile.original_path
+		# compute requested resource sha1 (to see if it exists in the database already)
+		rsha1 = sha1(tempfile) 
+		r.url = '/uploads/'+rsha1+'.'+ri.filename_orig.split('.').last
+	else 
+		rsha1 = sha1(StringIO.new(r.url))
+	end
+	
     # lookup resource by sha1
     r2 = Resource.find_by_sha1 rsha1
     if r2.nil? 
@@ -73,7 +78,6 @@ class ResourcesController < ApplicationController
       
       # move uploaded file to 'uploads' folder
       FileUtils.mv tempfile.path, File.join(UPLOAD_DIR, rsha1+'.'+ri.filename_orig.split('.').last) if r.filelocation == 'local'
-	  if r.filelocation == 'local' then r.url = '/uploads/'+rsha1+'.'+ri.filename_orig.split('.').last end
       
       # save resource_instance and its parent resource in database
       ri.resource = r

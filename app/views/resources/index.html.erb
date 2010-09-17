@@ -57,7 +57,7 @@
 	  <tr class='<%= cls %>' valign="top" align="left">
 		<td><%= category_text %></td>
 		<td><%= tag_text %></td>
-	    <td><a href="<%= resource.url %>"><%=h ri.title %></a></td>
+	    <td><a href="<%= (resource.filelocation == 'remote' && resource.url[0,4] != 'http') ? 'http://'+resource.url : resource.url %>"><%=h ri.title %></a></td>
 	    <td nowrap="nowrap">
 	    <div class="entry">
 			<span id="votes_count_<%=h resource.id %>" class="votes_count"><%=h resource.score.to_i %></span>
@@ -73,7 +73,7 @@
 	     </td>
 	    <td><%=h ri.created_at.strftime '%m/%d/%Y' %></td>
 	    <td>Privacy</td>
-	    <td><a href="resources/show/<%=h resource.id %>">View</a></td>
+	    <td></td>
 	  </tr>
 
 	<% end %>	
