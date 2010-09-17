@@ -6,7 +6,7 @@
 	<ul id="resources" class="filter_list">
 		<li class="bg4"><a class="user_filter" href="#" title="">All Resources <span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
 		<li class="bg5"><a class="user_filter" href="#" title="Faculty"> Faculty Resources <span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
-		<li class="bg4"><a class="user_filter" href="#" title="Michael Bleed"> My Resources <span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
+		<li class="bg4"><a class="user_filter" href="#" title="<%= @user.firstname+' '+@user.lastname %>"> My Resources <span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
 	</ul>
 	
 	<h3 class="b2 bg2 filter_header">Filter Resources By Problem:</h3>
@@ -31,9 +31,9 @@
 	<table id="resourceList" class="display">
 	<thead>
 	  <tr>
+	  	<th>Title</th>
 		<th>Category</th>
 		<th>Problem</th>
-	    <th>Title</th>
 	   	<th>Rating</th>
 	    <th>From</th>
 	    <th>Date</th>
@@ -55,15 +55,15 @@
 			ri = resource.resource_instances.last;
 	%>
 	  <tr class='<%= cls %>' valign="top" align="left">
+	  	<td><a href="<%= (resource.filelocation == 'remote' && resource.url[0,4] != 'http') ? 'http://'+resource.url : resource.url %>"><%=h ri.title %></a></td>
 		<td><%= category_text %></td>
 		<td><%= tag_text %></td>
-	    <td><a href="<%= (resource.filelocation == 'remote' && resource.url[0,4] != 'http') ? 'http://'+resource.url : resource.url %>"><%=h ri.title %></a></td>
 	    <td nowrap="nowrap">
 	    <div class="entry">
 			<span id="votes_count_<%=h resource.id %>" class="votes_count"><%=h resource.score.to_i %></span>
 			<span id="vote_buttons" class="vote_buttons">
-				<a id="vote_up_<%=h resource.id %>" class="vote_up" href="#" title="This resource is useful and clear (click again to undo)">Vote Up!</a>
-				<a id="vote_down_<%=h resource.id %>" class="vote_down" href="#" title="This resource is unclear or not useful (click again to undo)">Vote Down!</a>
+				<a id="vote_up_<%=h resource.id %>" class="vote_up" href="#" title="This resource is useful and clear (click again to undo)" alt="Vote Up!"></a>
+				<a id="vote_down_<%=h resource.id %>" class="vote_down" href="#" title="This resource is unclear or not useful (click again to undo)" alt="Vote Down!"></a>
 			</span>
 		</div>
 	    </td>
@@ -95,7 +95,9 @@
 			"sDom": '<"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"if>rt<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"lp>',
 			"bJQueryUI": true,
 			"aaSorting": [[3,'desc']],
-			"aoColumns": [{ "bVisible": false },{ "bVisible": false },null,null,null,null,null,{ "bSortable": false }],
+			//"aoColumns": [null,{ "bVisible": false },{ "bVisible": false },null,null,null,null,{ "bSortable": false }],
+			"aoColumns": [null,null,null,null,null,null,null,{ "bSortable": false }],
+
 			"iDisplayLength": 10,
 			"sPaginationType" : "full_numbers"
 		} );
@@ -105,7 +107,7 @@
 			var val = this.title;
 			var dxcid = this.id;
 			oTable.fnFilter("",1,false);
-			oTable.fnFilter( val, 0 );
+			oTable.fnFilter( val, 1 );
 			
 			if ($('#category_filter_img_'+dxcid).hasClass('ui-icon-triangle-1-e') ) {
 				$('#category_filter_img_'+dxcid).removeClass("ui-icon-triangle-1-e");
@@ -121,7 +123,7 @@
 			e.preventDefault();
 			var val = this.title;
 			oTable.fnFilter("",0,false);
-			oTable.fnFilter( val, 1 );
+			oTable.fnFilter( val, 2 );
 		} );
 
 		$(".diagnoses_list").hide();
