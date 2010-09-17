@@ -51,7 +51,7 @@
 	    <td><%=h resource.score %></td>
 	    <td><%=h resource.created_by %></td>
 	    <td><%=h resource.created_at %></td>
-	    <td><%=h resource.privacy %></td>
+	    <td>Privacy</td>
 	    <td><a href="resource/show/">View</a></td>
 	  </tr>
 
@@ -61,7 +61,14 @@
 		<td>Behavior Problems</td>
 		<td>Anxiety</td>
 		<td>Title of Resource 1</td>
-		<td>8</td>
+		<td nowrap="nowrap">
+			<div class="vote">
+    			<span title="This resource is useful and clear (click again to undo)" class="vote-up-off">up vote</span>
+    			<span class="vote-count-post">0</span>
+    			<span title="This resource is unclear or not useful (click again to undo)" class="vote-down-off">down vote</span>
+    			<span title="This is a favorite resource (click again to undo)" class="star-off">favorite</span>
+			</div>
+		</td>
 		<td>Faculty</td>
 	    <td>Date</td>
 	    <td>Who</td>
