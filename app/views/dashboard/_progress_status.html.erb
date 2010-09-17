@@ -17,32 +17,43 @@
 <div class="box1" style="margin: 15px;">
 	<div class="box1" style="margin: 15px;">
 	<table style="margin: 0px 30px 30px 30px;">
-	<h1 class="t3" style="margin-left: 30px;">Pediatrics</h1>
+	<h1 class="t3" style="margin-left: 30px;">Pediatrics Encounters: History Taken 27, Physical Exam: 28</h1>
 	<thead>
 		<tr>
-			<th class="t4 bg4">Encounters</th>
-			<th class="t4 bg4">Total</th>
+			<th class="t4 bg4"></th>
+			<th class="t4 bg4">Done</th>
 			<th class="t4 bg4">Required</th>
-			<th class="t4 bg4">Progress</th>
+			<th class="t4 bg4">Diff</th>
+			<th class="t4 bg4"></th>
+			<th class="t4 bg4">Done</th>
+			<th class="t4 bg4">Required</th>
+			<th class="t4 bg4">Diff</th>
+			<th class="t4 bg4"></th>
 		</tr>
 	</thead>
 	<tbody>
+		<% for c in @compliances %>
 		<tr>
-			<td class="b1 bg5">Inpatient</td>
+			<td class="b1 bg5"><%= c.care_setting.name %></td>
+			<td class="b1 bg5"><%= c.hx_done %></td>
+			<td class="b1 bg5"><%= c.hx_required %></td>
+			<td class="b1 bg5">(+1)</td>
+			<td class="b1 bg5"></td>
 			<td class="b1 bg5">6</td>
 			<td class="b1 bg5">6</td>
-			<td><span class="completed_bullet">6,6</span></td>
+			<td class="b1 bg5">(0)</td>
+			<td class="b1 bg5"></td>
 		</tr>
-		<tr>
-			<td class="b1 bg5">Outpatient</td>
-			<td class="b1 bg5">20</td>
-			<td class="b1 bg5">30</td>
-			<td><span class="bullet">20,30</span></td>
-		</tr>
+		<%end%>
 		<tr>
 			<td class="t4 bg4">Total</td>
 			<td class="t4 bg4">28</td>
 			<td class="t4 bg4">40</td>
+			<td class="t4 bg4"></td>
+			<td class="t4 bg4"></td>
+			<td class="t4 bg4">28</td>
+			<td class="t4 bg4">40</td>
+			<td class="t4 bg4"></td>
 			<td><span class="bullet">28,40</span></td>
 		</tr>
 		</tbody>
@@ -51,7 +62,7 @@
 	
 	<div class="box1" style="margin: 15px;">
 	<table style="margin: 0px 30px 30px 30px;">
-	<h1 class="t3" style="margin-left: 30px;">Pediatrics: Chief Complaints: 12</h1>
+	<h1 class="t3" style="margin-left: 30px;">Pediatrics:Diagnoses: 12</h1>
 	<thead>
 		<tr>
 			<th class="t4 bg4">Encounters</th>
