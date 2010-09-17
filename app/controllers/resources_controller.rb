@@ -11,6 +11,7 @@ class ResourcesController < ApplicationController
     @clerkship = Clerkship.find_by_name('Pediatrics')    
 	@dxcs = DiagnosisCategory.find_all_by_clerkship_id(@clerkship.id)
     @dxs = Diagnosis.find_all_by_clerkship_id(@clerkship.id)
+	@procedures = Procedure.find_all_by_clerkship_id([@clerkship.id, -1])
 
     respond_to do |format|
       format.html # index.html.erb

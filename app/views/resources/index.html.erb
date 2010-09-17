@@ -22,6 +22,14 @@
 		</li>
 		<% end %>
 	</ul>
+	
+	<h3 class="b2 bg2 filter_header">Filter Resources By Procedure:</h3>
+	<ul id="resources" class="filter_list">
+		<li class="bg4"><a class="category_filter" href="#" id="" title=""></span> All Procedures </a><span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></li>
+		<% @procedures.each do |procedure| cls = cycle("bg5", "bg4") %>
+		<li class="<%= cls %>"><a class="procedure_filter" href="#" id="<%=h procedure.id %>" title="<%=h procedure.name %>"><span id="procedure_filter_img_<%=h procedure.id %>" class="ui-icon ui-icon-triangle-1-e" style="float:left;"></span> <%=h procedure.name %></a></li>
+		<% end %>
+	</ul>
 
 </div> <!-- end yui-u first -->
 
@@ -50,7 +58,7 @@
 				tag_text = Diagnosis.find(tag_id).name 
 				category_text = DiagnosisCategory.find(Diagnosis.find(tag_id).category_id).name
 			end
-			if (tag == 'encounters') then tag_text = 'Encounter' end
+			if (tag == 'encounters') then tag_text = '<a href="/encounters/show/'+tag_id.to_s()+'">Encounter</a>' end
 			if (tag == 'procedures') then tag_text = Procedure.find(tag_id).name end
 			ri = resource.resource_instances.last;
 	%>
@@ -106,7 +114,7 @@
 			e.preventDefault();
 			var val = this.title;
 			var dxcid = this.id;
-			oTable.fnFilter("",1,false);
+			oTable.fnFilter("",2,false);
 			oTable.fnFilter( val, 1 );
 			
 			if ($('#category_filter_img_'+dxcid).hasClass('ui-icon-triangle-1-e') ) {
@@ -116,14 +124,19 @@
 				$('#category_filter_img_'+dxcid).removeClass("ui-icon-triangle-1-s");
 	    		$('#category_filter_img_'+dxcid).addClass("ui-icon-triangle-1-e");
 			}
+			$(this).parent().siblings().removeClass("outline");
+			$(this).parent().addClass("outline");
 			$("#diagnoses_list_"+dxcid).toggle();
 		} );
 		
 		$(".diagnosis_filter").click( function (e) {
 			e.preventDefault();
 			var val = this.title;
-			oTable.fnFilter("",0,false);
+			oTable.fnFilter("",1,false);
 			oTable.fnFilter( val, 2 );
+			
+			$(this).parent().siblings().removeClass("outline");
+			$(this).parent().addClass("outline");
 		} );
 
 		$(".diagnoses_list").hide();
@@ -132,6 +145,18 @@
 			e.preventDefault();
 			var val = this.title;
 			oTable.fnFilter( val, 4 );
+			
+			$(this).parent().siblings().removeClass("outline");
+			$(this).parent().addClass("outline");
+		} );
+		
+		$(".procedure_filter").click( function (e) {
+			e.preventDefault();
+			var val = this.title;
+			oTable.fnFilter( val, 2 );
+			
+			$(this).parent().siblings().removeClass("outline");
+			$(this).parent().addClass("outline");
 		} );
 		
 		$('.vote_up').click(function(e) {

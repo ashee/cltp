@@ -314,6 +314,10 @@ div.error img {
 	margin: -5px 10px 0px 0px;
 }
 
+.outline {
+	border: 2px solid #FFCC33;	
+}
+
 /* Styled classes from Aki at LRC */
 .t1 {
 	font-family: arial;
