@@ -658,6 +658,29 @@ INSERT INTO `compliance_requirements` VALUES (NULL, 1, 4, 4, 4);
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `compliance_requirements`
+--
+
+CREATE TABLE `compliance_requirements` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `clerkship_id` int(11) NOT NULL,
+  `care_setting_id` int(11) NOT NULL,
+  `hx_required` int(11) NOT NULL,
+  `px_required` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `clerkship_id` (`clerkship_id`),
+  KEY `care_setting_id` (`care_setting_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+INSERT INTO `compliance_requirements` VALUES (NULL, 1, 1, 10, 10);
+INSERT INTO `compliance_requirements` VALUES (NULL, 1, 2, 5, 5);
+INSERT INTO `compliance_requirements` VALUES (NULL, 1, 3, 3, 3);
+INSERT INTO `compliance_requirements` VALUES (NULL, 1, 4, 4, 4);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `feedbacks`
 --
 
