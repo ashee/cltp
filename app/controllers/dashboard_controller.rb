@@ -2,7 +2,8 @@ class DashboardController < ApplicationController
   
   def index
     clerkship_id = Clerkship.find_by_name 'Pediatrics'
-    @compliance_line = Compliance.status_by_user(@user.id, clerkship_id)
+    @compliance_line1 = Compliance.status_by_user(@user.id, clerkship_id, 'O')
+    @compliance_line2 = Compliance.status_by_user(@user.id, clerkship_id, 'P')
 
     
  
