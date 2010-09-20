@@ -6,7 +6,7 @@
 	<ul id="resources" class="filter_list">
 		<li class="bg4"><a class="user_filter" href="#" title="">All Resources <span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
 		<li class="bg5"><a class="user_filter" href="#" title="Faculty"> Faculty Resources <span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
-		<li class="bg4"><a class="user_filter" href="#" title="Michael Bleed"> My Resources <span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
+		<li class="bg4"><a class="user_filter" href="#" title="<%= @user.firstname+' '+@user.lastname %>"> My Resources <span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
 	</ul>
 	
 	<h3 class="b2 bg2 filter_header">Filter Resources By Problem:</h3>
@@ -22,6 +22,14 @@
 		</li>
 		<% end %>
 	</ul>
+	
+	<h3 class="b2 bg2 filter_header">Filter Resources By Procedure:</h3>
+	<ul id="resources" class="filter_list">
+		<li class="bg4"><a class="category_filter" href="#" id="" title=""></span> All Procedures </a><span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></li>
+		<% @procedures.each do |procedure| cls = cycle("bg5", "bg4") %>
+		<li class="<%= cls %>"><a class="procedure_filter" href="#" id="<%=h procedure.id %>" title="<%=h procedure.name %>"><span id="procedure_filter_img_<%=h procedure.id %>" class="ui-icon ui-icon-triangle-1-e" style="float:left;"></span> <%=h procedure.name %></a></li>
+		<% end %>
+	</ul>
 
 </div> <!-- end yui-u first -->
 
@@ -31,9 +39,9 @@
 	<table id="resourceList" class="display">
 	<thead>
 	  <tr>
+	  	<th>Title</th>
 		<th>Category</th>
 		<th>Problem</th>
-	    <th>Title</th>
 	   	<th>Rating</th>
 	    <th>From</th>
 	    <th>Date</th>
@@ -50,20 +58,20 @@
 				tag_text = Diagnosis.find(tag_id).name 
 				category_text = DiagnosisCategory.find(Diagnosis.find(tag_id).category_id).name
 			end
-			if (tag == 'encounters') then tag_text = 'Encounter' end
+			if (tag == 'encounters') then tag_text = '<a href="/encounters/show/'+tag_id.to_s()+'">Encounter</a>' end
 			if (tag == 'procedures') then tag_text = Procedure.find(tag_id).name end
 			ri = resource.resource_instances.last;
 	%>
 	  <tr class='<%= cls %>' valign="top" align="left">
+	  	<td><a href="<%= (resource.filelocation == 'remote' && resource.url[0,4] != 'http') ? 'http://'+resource.url : resource.url %>"><%=h ri.title %></a></td>
 		<td><%= category_text %></td>
 		<td><%= tag_text %></td>
-	    <td><a href="<%= resource.url %>"><%=h ri.title %></a></td>
 	    <td nowrap="nowrap">
 	    <div class="entry">
 			<span id="votes_count_<%=h resource.id %>" class="votes_count"><%=h resource.score.to_i %></span>
 			<span id="vote_buttons" class="vote_buttons">
-				<a id="vote_up_<%=h resource.id %>" class="vote_up" href="#" title="This resource is useful and clear (click again to undo)">Vote Up!</a>
-				<a id="vote_down_<%=h resource.id %>" class="vote_down" href="#" title="This resource is unclear or not useful (click again to undo)">Vote Down!</a>
+				<a id="vote_up_<%=h resource.id %>" class="vote_up" href="#" title="This resource is useful and clear (click again to undo)" alt="Vote Up!"></a>
+				<a id="vote_down_<%=h resource.id %>" class="vote_down" href="#" title="This resource is unclear or not useful (click again to undo)" alt="Vote Down!"></a>
 			</span>
 		</div>
 	    </td>
@@ -73,7 +81,7 @@
 	     </td>
 	    <td><%=h ri.created_at.strftime '%m/%d/%Y' %></td>
 	    <td>Privacy</td>
-	    <td><a href="resources/show/<%=h resource.id %>">View</a></td>
+	    <td></td>
 	  </tr>
 
 	<% end %>	
@@ -95,7 +103,9 @@
 			"sDom": '<"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"if>rt<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"lp>',
 			"bJQueryUI": true,
 			"aaSorting": [[3,'desc']],
-			"aoColumns": [{ "bVisible": false },{ "bVisible": false },null,null,null,null,null,{ "bSortable": false }],
+			//"aoColumns": [null,{ "bVisible": false },{ "bVisible": false },null,null,null,null,{ "bSortable": false }],
+			"aoColumns": [null,null,null,null,null,null,null,{ "bSortable": false }],
+
 			"iDisplayLength": 10,
 			"sPaginationType" : "full_numbers"
 		} );
@@ -104,8 +114,8 @@
 			e.preventDefault();
 			var val = this.title;
 			var dxcid = this.id;
-			oTable.fnFilter("",1,false);
-			oTable.fnFilter( val, 0 );
+			oTable.fnFilter("",2,false);
+			oTable.fnFilter( val, 1 );
 			
 			if ($('#category_filter_img_'+dxcid).hasClass('ui-icon-triangle-1-e') ) {
 				$('#category_filter_img_'+dxcid).removeClass("ui-icon-triangle-1-e");
@@ -114,14 +124,19 @@
 				$('#category_filter_img_'+dxcid).removeClass("ui-icon-triangle-1-s");
 	    		$('#category_filter_img_'+dxcid).addClass("ui-icon-triangle-1-e");
 			}
+			$(this).parent().siblings().removeClass("outline");
+			$(this).parent().addClass("outline");
 			$("#diagnoses_list_"+dxcid).toggle();
 		} );
 		
 		$(".diagnosis_filter").click( function (e) {
 			e.preventDefault();
 			var val = this.title;
-			oTable.fnFilter("",0,false);
-			oTable.fnFilter( val, 1 );
+			oTable.fnFilter("",1,false);
+			oTable.fnFilter( val, 2 );
+			
+			$(this).parent().siblings().removeClass("outline");
+			$(this).parent().addClass("outline");
 		} );
 
 		$(".diagnoses_list").hide();
@@ -130,6 +145,18 @@
 			e.preventDefault();
 			var val = this.title;
 			oTable.fnFilter( val, 4 );
+			
+			$(this).parent().siblings().removeClass("outline");
+			$(this).parent().addClass("outline");
+		} );
+		
+		$(".procedure_filter").click( function (e) {
+			e.preventDefault();
+			var val = this.title;
+			oTable.fnFilter( val, 2 );
+			
+			$(this).parent().siblings().removeClass("outline");
+			$(this).parent().addClass("outline");
 		} );
 		
 		$('.vote_up').click(function(e) {
