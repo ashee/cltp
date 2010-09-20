@@ -175,6 +175,7 @@ end %>
 				return false;
 			},
 			select: function(event, ui) {
+				alert(this.value);
 				var terms = split( this.value );
 				// remove the current input
 				terms.pop();

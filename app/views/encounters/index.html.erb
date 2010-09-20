@@ -34,8 +34,9 @@
     <td><%=h encounter.clinic.clinic_name %> - <%=h encounter.clinic.location %></td>
 	<td><%=h encounter.age %> year old <%=h encounter.gender %></td>
     <td>
-		<b><%=h encounter.diagnoses.find_by_dx_type('P').diagnosis.name %></b>
-		<% @sdxs = encounter.diagnoses.find_all_by_dx_type('S') %>
+		<% pdx = encounter.primary_dx %>
+		<b><%=h(pdx.diagnosis.name) unless pdx.nil? %></b>
+		<% @sdxs = encounter.secondary_dx %>
 		<% if (@sdxs.nil?) then %>
 			&nbsp;
 		<% else %>
