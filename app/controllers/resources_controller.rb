@@ -9,7 +9,7 @@ class ResourcesController < ApplicationController
   def index
     @resources = Resource.all
     @clerkship = Clerkship.find_by_name('Pediatrics')    
-	  @dxcs = DiagnosisCategory.find_all_by_clerkship_id(@clerkship.id)
+	@dxcs = DiagnosisCategory.find_all_by_clerkship_id(@clerkship.id)
     @dxs = Diagnosis.find_all_by_clerkship_id(@clerkship.id)
 
     respond_to do |format|
@@ -59,8 +59,7 @@ class ResourcesController < ApplicationController
     ri = ResourceInstance.new(params[:resource_instance])
     tempfile = ri.filename_orig
     ri.filename_orig = tempfile.original_path
-    ri.tag = "tbd"
-    ri.tag_id = 10
+    ri.tag,ri.tag_id = ri.tag.split('_')
     ri.creator = @user
     ri.updater = @user
     
@@ -73,7 +72,8 @@ class ResourcesController < ApplicationController
       # Resource not in database
       
       # move uploaded file to 'uploads' folder
-      FileUtils.mv tempfile.path, File.join(UPLOAD_DIR, rsha1) if r.filelocation == 'local'
+      FileUtils.mv tempfile.path, File.join(UPLOAD_DIR, rsha1+'.'+ri.filename_orig.split('.').last) if r.filelocation == 'local'
+	  if r.filelocation == 'local' then r.url = '/uploads/'+rsha1+'.'+ri.filename_orig.split('.').last end
       
       # save resource_instance and its parent resource in database
       ri.resource = r
@@ -132,6 +132,26 @@ class ResourcesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(resources_url) }
       format.xml  { head :ok }
+    end
+  end
+  
+  def up_vote
+	@resource = Resource.find(params[:id])
+	@resource.score += 1
+	@resource.save()
+	respond_to do  |format|
+      format.html { redirect_to resources_path }
+      format.js {render :layout => false}
+    end
+  end
+  
+  def down_vote
+	@resource = Resource.find(params[:id])
+	@resource.score += -1
+	@resource.save()
+	respond_to do  |format|
+      format.html { redirect_to resources_path }
+      format.js {render :layout => false}
     end
   end
 

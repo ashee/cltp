@@ -3,7 +3,7 @@ class Compliance < ActiveRecord::Base
   
    
    def self.status_by_user(uid, clerkship_id)
-     sql = %Q{select count(*) as hx_done, cr.* , 0 as px_done
+     sql = %Q{select count(*) as hx_done, cr.clerkship_id, cr.care_setting_id, cr.hx_required, cr.px_required, 0 as px_done
      from compliance_requirements cr 
      join care_settings cs on cr.care_setting_id = cs.id
      join clinics c on c.care_setting = cs.code
@@ -11,7 +11,7 @@ class Compliance < ActiveRecord::Base
      where e.hx in ('P','B') and e.created_by = ? and e.clerkship_id = ? and c.care_setting = 'OP';
      }
      
-     ComplianceRequirement.find_by_sql [sql, uid, clerkship_id]
+     return ComplianceRequirement.find_by_sql [sql, uid, clerkship_id]
    end
 
 end

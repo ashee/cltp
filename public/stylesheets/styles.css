@@ -337,24 +337,27 @@ a.t1:hover {
 	font-weight: bold;
 	background-color: #336699;
 }
-
 .t2 {
 	font-family: arial;
 	color: #2F4777;
 	font-size: 18px;
 	font-weight: normal;
 }
-
 .t3 {
 	font-family: arial;
 	color: #2F4777;
 	font-size: 14px;
 	font-weight: normal;
 }
-
 .t4 {
 	font-family: arial;
 	color: #000000;
+	font-size: 13px;
+	font-weight: bold;
+}
+.t5 {
+	font-family: arial;
+	color: #FFFFFF;
 	font-size: 13px;
 	font-weight: bold;
 }
@@ -410,6 +413,15 @@ a.bt1:visited {
 .bg5 {
 	background-color: #F0F2F6;
 }
+.bg6 {
+	background-color: #283E68;
+}
+.bg7 {
+	background-color: #DCDBDB;
+}
+.bg8 {
+	background-color: #ECEDEE;
+}
 
 .box1 {
 	border: 1px solid #CCCCCC;
@@ -418,3 +430,90 @@ a.bt1:visited {
 .triangle1 {
 	color: #000000;
 }
+
+.pos {
+	color: #00B003;
+}
+.neg {
+	color: #FF0000;
+}
+
+/***********************      Voting       *******************************/
+.vote-up-off, .vote-up-on, .vote-down-off, .vote-down-on, .star-on, .star-off, .comment-up-off, .comment-up-on, .comment-flag, .flag-off, .vote-accepted-off, .vote-accepted-on, .vote-accepted-off, .vote-accepted-on {
+	font-size:1px;
+	text-indent:-9999em;
+}
+
+.vote-up-off, .vote-down-off, .vote-accepted-off, .star-off, .comment-up-off, .flag-off {
+	cursor:pointer;
+}
+
+.vote-up-off, .vote-up-on, .vote-down-off, .vote-down-on, .star-on, .star-off {
+	background-position:0 -265px;
+	display:block;
+	height:25px;
+	margin:0 auto;
+	width:41px;
+}
+
+.vote-up-off, .vote-up-on, .vote-down-off, .vote-down-on, .star-on, .star-off, .vote-accepted-off, .vote-accepted-on {
+	background-image:url("../images/sprites.png");
+	background-repeat:no-repeat;
+	overflow:hidden;
+}
+
+.vote span {
+	color:#808185;
+	display: block;
+	font-weight:bold;
+	float: left;
+}
+
+.star-off {
+	background-position:0 -150px;
+	height:31px;
+	width:33px;
+}
+
+.star-on {
+	background-position:0 -190px;
+	height:31px;
+	width:33px;
+}
+
+.vote-down-off {
+	background-position:0 -300px;
+}
+.vote-up-off {
+	background-position: 0 -265px;
+}
+.vote-down-on {
+	background-position:0 -330px;
+}
+.vote-up-on {
+	background-position: 0 -230px;
+}
+
+.vote-count-post {
+	display:block;
+	font-size:150%;
+}
+
+a.vote_up {
+background:url("../images/thumb_up.png") repeat scroll 0 0 transparent;
+}
+a.vote_down {
+background:url("../images/thumb_down.png") repeat scroll 0 0 transparent;
+}
+a.vote_up, a.vote_down {
+background-position:center center;
+display:inline-block;
+height:16px;
+margin-left:4px;
+text-indent:-900%;
+width:16px;
+}
+
+
+/* ---------------------------- LINK ICONS ------------------------------ */
+#resource_grid a[href^="http:"], #resource_grid_icon a[href^='https:'] {    display:inline-block;    padding-left:20px;    line-height:18px;    background:transparent url(../images/doc_www.png) center left no-repeat;}#resource_grid a[href$='.pdf'] {    display:inline-block;    padding-left:20px;    line-height:18px;    background:transparent url(../images/doc_acrobat.gif) center left no-repeat;}#resource_grid a[href$='.swf'], #resource_grid a[href$='.fla'], #resource_grid a[href$='.swd'] {    display:inline-block;    padding-left:20px;    line-height:18px;    background:transparent url(../images/doc_flash.gif) center left no-repeat;}#resource_grid a[href$='.jpg'], #resource_grid a[href$='.jpeg'], #resource_grid a[href$='.gif'], #resource_grid a[href$='.png'], #resource_grid a[href$='.JPG'], #resource_grid a[href$='.PNG'], #resource_grid a[href$='.GIF'] {    display:inline-block;    padding-left:20px;    line-height:18px;    background:transparent url(../images/doc_image.gif) center left no-repeat;}#resource_grid a[href$='.xls'], #resource_grid a[href$='.csv'], #resource_grid a[href$='.xlt'], #resource_grid a[href$='.xlw'] {    display:inline-block;    padding-left:20px;    line-height:18px;    background:transparent url(../images/doc_excel.gif) center left no-repeat;}#resource_grid a[href$='.ppt'], #resource_grid a[href$='.pps'] {    display:inline-block;    padding-left:20px;    line-height:18px;    background:transparent url(../images/doc_powerpoint.gif) center left no-repeat;}#resource_grid a[href$='.doc'], #resource_grid a[href$='.docx'], #resource_grid a[href$='.rtf'], #resource_grid a[href$='.txt'], #resource_grid a[href$='.wps'] {    display:inline-block;    padding-left:20px;    line-height:18px;    background:transparent url(../images/doc_word.gif) center left no-repeat;}#resource_grid a[href$='.zip'], #resource_grid a[href$='.gzip'], #resource_grid a[href$='.rar'] {    display:inline-block;    padding-left:20px;    line-height:18px;    background:transparent url(../images/doc_zip.gif) center left no-repeat;}

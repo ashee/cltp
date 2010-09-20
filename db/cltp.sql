@@ -655,6 +655,25 @@ INSERT INTO `compliance_requirements` VALUES (NULL, 1, 2, 5, 5);
 INSERT INTO `compliance_requirements` VALUES (NULL, 1, 3, 3, 3);
 INSERT INTO `compliance_requirements` VALUES (NULL, 1, 4, 4, 4);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedbacks`
+--
+
+CREATE TABLE `feedbacks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `subject` varchar(255) NOT NULL,
+  `body` text,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
 --
 -- Constraints for dumped tables
 --

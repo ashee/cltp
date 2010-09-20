@@ -2,16 +2,17 @@ class DashboardController < ApplicationController
   
   def index
     clerkship_id = Clerkship.find_by_name 'Pediatrics'
-    @compliances = Compliance.status_by_user(@user.id, clerkship_id)
-    # @encounters = Com1pliance.status_by_user(@user.id)
-   
-    # @compliance = Compliance.new()
-    # 
-    # gridline1 = gridline2 = gridline3 = gridline4 = []
-    # gridline1 << @compliance.inPatient
-    # gridline2 << @compliance.outPatient
-    # gridline3 << @compliance.newborn
-   
+    @compliance_line = Compliance.status_by_user(@user.id, clerkship_id)
+
+    
+ 
+     
+ #   for c in @compliance_line
+#     logger.debug "***************#{c.clerkship.name}"
+#      puts c.care_setting.name
+#      puts c.hx_done
+#      puts c.hx_required
+#   end
 
    ## @compliance = Compliance.status()
    # loop over all the caresettings
