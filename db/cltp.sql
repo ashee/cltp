@@ -768,3 +768,22 @@ select cr.*, (
 from compliance_requirements cr
 join care_settings cs on cr.care_setting_id = cs.id
 where cr.clerkship_id = 1;
+
+
+select cr.*,
+	(
+		select count(*) from encounters e join clinics c 
+		on e.clinic_id = c.id
+		join care_settings cs on c.care_setting = cs.code
+		where cs.id = cr.care_setting_id
+		and e.hx in ('P', 'B')
+	) as hx_done,
+	(
+		select count(*) from encounters e join clinics c 
+		on e.clinic_id = c.id
+		join care_settings cs on c.care_setting = cs.code
+		where cs.id = cr.care_setting_id
+		and e.px in ('P', 'B')
+	) as px_done
+from compliance_requirements cr
+where cr.clerkship_id = 1;
