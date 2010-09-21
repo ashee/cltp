@@ -17,16 +17,17 @@
 <div class="box1" style="margin: 15px;">
 	<div class="box1" style="margin: 15px;">
 	<table style="margin: 0px 30px 30px 30px;">
-	<h1 class="t3" style="margin-left: 30px;">Pediatrics Encounters: History Taken 27, Physical Exam: 28</h1>
+	<h1 class="t3" style="margin-left: 30px;">Pediatrics Encounters: History Taken <%= @hx_total %>, Physical Exam: <%= @px_total %></td></h1>
 	<thead>
 		<tr>
 			<th class="t5 bg6">Encounters</th>
 			<th class="t5 bg2" colspan="3">Histories Taken</th>
+			<th class="t5 bg2"></th>
 			<th class="t5 bg2" colspan="3">Physical Exams</th>
 			<th class="t5 bg2">Progress</th>
 		</tr>
 		<tr>
-			<th class="t4 bg4"></th>
+			<th class="t4 bg7"></th>
 			<th class="t4 bg4">Done</th>
 			<th class="t4 bg4">Required</th>
 			<th class="t4 bg4">Diff</th>
@@ -37,28 +38,41 @@
 			<th class="t4 bg4"></th>
 		</tr>	
 	</thead>
-	<tbody>
-		<% for status in @statuses %>
+	<tbody>		
+	    <% for status in @statuses do 
+		 	cls_rest = cycle("bg5","bg4", :name => 'rest_cols')
+		 	cls_col_1 = cycle("bg8","bg7", :name => 'first_col')
+		%>
 		<tr>
-			<td class="b1 bg8"><%= status.care_setting.name %></td>
-			<td class="b1 bg5"><%= status.hx_done %></td>
-			<td class="b1 bg5"><%= status.hx_required %></td>
-			<td class="b1 bg5">(<%= status.hx_diff %>)</td>
-			<td class="b1 bg5"><%= status.px_done %></td>
-			<td class="b1 bg5"><%= status.px_required %></td>
-			<td class="b1 bg5">(<%= status.px_diff %>)</td>
-			<td class="bg5"><span class="completed_bullet">6,6</span></td>
+			<td class="b1 <%= cls_col_1 %>"><%= status.care_setting.name %></td>
+			<td class="b1 <%= cls_rest %>"><%= status.hx_done %></td>
+			<td class="b1 <%= cls_rest %>"><%= status.hx_required %></td>
+			<% if status.hx_diff >= 0 %>
+			<td class="b1 <%= cls_rest %> pos">(<%= status.hx_diff %>)</td>
+			<% else %>
+			<td class="b1 <%= cls_rest %> neg">(<%= status.hx_diff %>)</td>
+			<% end %>
+			<td class="b1 <%= cls_rest %>"></td>
+			<td class="b1 <%= cls_rest %>"><%= status.px_done %></td>
+			<td class="b1 <%= cls_rest %>"><%= status.px_required %></td>
+			<% if status.px_diff >= 0 %>
+			<td class="b1 <%= cls_rest %> pos">(<%= status.px_diff %>)</td>
+			<% else %>
+			<td class="b1 <%= cls_rest %> neg">(<%= status.px_diff %>)</td>
+			<% end %>
+			<td class="<%= cls_rest %>"></td>
 		</tr>
 		<% end %>
 		<tr>
 			<td class="t4 bg8">Total</td>
 			<td class="t4 bg5"><%= @hx_total %></td>
-			<td class="t4 bg5">N/A</td>
+			<td class="t4 bg5"><%= @hx_required_total %></td>
+			<td class="t4 bg5"></td>
 			<td class="t4 bg5"></td>
 			<td class="t4 bg5"><%= @px_total %></td>
-			<td class="t4 bg5">N/A</td>
+			<td class="t4 bg5"><%= @px_required_total %></td>
 			<td class="t4 bg5"></td>
-			<td class="bg5"><span class="bullet">28,40</span></td>
+			<td class="bg5"><span class="bullet"><%= @hx_total + @px_total %>, <%= @hx_required_total + @px_required_total  %></span></td>
 		</tr>
 		</tbody>
 	</table>
