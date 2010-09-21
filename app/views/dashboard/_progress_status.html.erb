@@ -27,7 +27,7 @@
 			<th class="t5 bg2">Progress</th>
 		</tr>
 		<tr>
-			<th class="t4 bg4"></th>
+			<th class="t4 bg7"></th>
 			<th class="t4 bg4">Done</th>
 			<th class="t4 bg4">Required</th>
 			<th class="t4 bg4">Diff</th>
@@ -38,26 +38,29 @@
 			<th class="t4 bg4"></th>
 		</tr>	
 	</thead>
-	<tbody>
-		<% for status in @statuses do cls = cycle("bg5", "bg4") %>
+	<tbody>		
+	    <% for status in @statuses do 
+		 	cls_rest = cycle("bg5","bg4", :name => 'rest_cols')
+		 	cls_col_1 = cycle("bg8","bg7", :name => 'first_col')
+		%>
 		<tr>
-			<td class="b1 <%=cls %>"><%= status.care_setting.name %></td>
-			<td class="b1 <%=cls %>"><%= status.hx_done %></td>
-			<td class="b1 <%=cls %>"><%= status.hx_required %></td>
+			<td class="b1 <%= cls_col_1 %>"><%= status.care_setting.name %></td>
+			<td class="b1 <%= cls_rest %>"><%= status.hx_done %></td>
+			<td class="b1 <%= cls_rest %>"><%= status.hx_required %></td>
 			<% if status.hx_diff >= 0 %>
-			<td class="b1 <%=cls %> pos">(<%= status.hx_diff %>)</td>
+			<td class="b1 <%= cls_rest %> pos">(<%= status.hx_diff %>)</td>
 			<% else %>
-			<td class="b1 <%=cls %> neg">(<%= status.hx_diff %>)</td>
+			<td class="b1 <%= cls_rest %> neg">(<%= status.hx_diff %>)</td>
 			<% end %>
-			<td class="b1 <%=cls %>"></td>
-			<td class="b1 <%=cls %>"><%= status.px_done %></td>
-			<td class="b1 <%=cls %>"><%= status.px_required %></td>
+			<td class="b1 <%= cls_rest %>"></td>
+			<td class="b1 <%= cls_rest %>"><%= status.px_done %></td>
+			<td class="b1 <%= cls_rest %>"><%= status.px_required %></td>
 			<% if status.px_diff >= 0 %>
-			<td class="b1 <%=cls %> pos">(<%= status.px_diff %>)</td>
+			<td class="b1 <%= cls_rest %> pos">(<%= status.px_diff %>)</td>
 			<% else %>
-			<td class="b1 <%=cls %> neg">(<%= status.px_diff %>)</td>
+			<td class="b1 <%= cls_rest %> neg">(<%= status.px_diff %>)</td>
 			<% end %>
-			<td class="<%=cls %>"></td>
+			<td class="<%= cls_rest %>"></td>
 		</tr>
 		<% end %>
 		<tr>
