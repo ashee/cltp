@@ -2,7 +2,7 @@ class DashboardController < ApplicationController
   
   def index
    clerkship_id = Clerkship.find_by_name 'Pediatrics'
-   @statuses = Compliance.status_by_user(@user.id, clerkship_id, 'ER')
+   @statuses = Compliance.status_by_user(@user.id, clerkship_id)
    
    @hx_total, @px_total = 0, 0
    @statuses.each do |s|

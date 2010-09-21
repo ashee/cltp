@@ -7,7 +7,7 @@ class ComplianceRequirement < ActiveRecord::Base
   end
   
   def hx_diff
-    self[:hx_diff].to_i
+    hx_done - hx_required
   end
   
   def px_done
@@ -15,6 +15,6 @@ class ComplianceRequirement < ActiveRecord::Base
   end
   
   def px_diff
-    self[:px_diff].to_i
+    px_done - px_required
   end
 end
