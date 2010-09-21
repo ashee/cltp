@@ -760,3 +760,11 @@ ALTER TABLE `procedures`
 ALTER TABLE `encounter_procedures`
 	ADD CONSTRAINT ` encounter_procedures_fk_1` FOREIGN KEY (`encounter_id`) REFERENCES `encounters` (`id`),
 	ADD CONSTRAINT ` encounter_procedures_fk_2` FOREIGN KEY (`procedure_id`) REFERENCES `procedures` (`id`);
+
+
+select cr.*, (
+		select count(*) from encounters e join clinics c on e.clinic_id = c.id
+		where e.created_by = 1 and e.clerkship_id = 1 and e.hx in ('P','B') and c.care_setting = cs.code) as hx_done
+from compliance_requirements cr
+join care_settings cs on cr.care_setting_id = cs.id
+where cr.clerkship_id = 1;
