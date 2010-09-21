@@ -17,11 +17,12 @@
 <div class="box1" style="margin: 15px;">
 	<div class="box1" style="margin: 15px;">
 	<table style="margin: 0px 30px 30px 30px;">
-	<h1 class="t3" style="margin-left: 30px;">Pediatrics Encounters: History Taken 27, Physical Exam: 28</h1>
+	<h1 class="t3" style="margin-left: 30px;">Pediatrics Encounters: History Taken <%= @hx_total %>, Physical Exam: <%= @px_total %></td></h1>
 	<thead>
 		<tr>
 			<th class="t5 bg6">Encounters</th>
 			<th class="t5 bg2" colspan="3">Histories Taken</th>
+			<th class="t5 bg2"></th>
 			<th class="t5 bg2" colspan="3">Physical Exams</th>
 			<th class="t5 bg2">Progress</th>
 		</tr>
@@ -43,22 +44,32 @@
 			<td class="b1 bg8"><%= status.care_setting.name %></td>
 			<td class="b1 bg5"><%= status.hx_done %></td>
 			<td class="b1 bg5"><%= status.hx_required %></td>
-			<td class="b1 bg5">(<%= status.hx_diff %>)</td>
+			<% if status.hx_diff >= 0 %>
+			<td class="b1 bg5 pos">(<%= status.hx_diff %>)</td>
+			<% else %>
+			<td class="b1 bg5 neg">(<%= status.hx_diff %>)</td>
+			<% end %>
+			<td class="b1 bg5"></td>
 			<td class="b1 bg5"><%= status.px_done %></td>
 			<td class="b1 bg5"><%= status.px_required %></td>
-			<td class="b1 bg5">(<%= status.px_diff %>)</td>
-			<td class="bg5"><span class="completed_bullet">6,6</span></td>
+			<% if status.px_diff >= 0 %>
+			<td class="b1 bg5 pos">(<%= status.px_diff %>)</td>
+			<% else %>
+			<td class="b1 bg5 neg">(<%= status.px_diff %>)</td>
+			<% end %>
+			<td class="bg5"></td>
 		</tr>
 		<% end %>
 		<tr>
 			<td class="t4 bg8">Total</td>
 			<td class="t4 bg5"><%= @hx_total %></td>
-			<td class="t4 bg5">N/A</td>
+			<td class="t4 bg5"><%= @hx_required_total %></td>
+			<td class="t4 bg5"></td>
 			<td class="t4 bg5"></td>
 			<td class="t4 bg5"><%= @px_total %></td>
-			<td class="t4 bg5">N/A</td>
+			<td class="t4 bg5"><%= @px_required_total %></td>
 			<td class="t4 bg5"></td>
-			<td class="bg5"><span class="bullet">28,40</span></td>
+			<td class="bg5"><span class="bullet"><%= @hx_total + @px_total %>, <%= @hx_required_total + @px_required_total  %></span></td>
 		</tr>
 		</tbody>
 	</table>
