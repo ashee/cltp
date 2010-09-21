@@ -17,7 +17,7 @@
 <div class="box1" style="margin: 15px;">
 	<div class="box1" style="margin: 15px;">
 	<table style="margin: 0px 30px 30px 30px;">
-	<h1 class="t3" style="margin-left: 30px;">Pediatrics Encounters</h1>
+	<h1 class="t3" style="margin-left: 30px;">Pediatrics Encounters: History Taken 27, Physical Exam: 28</h1>
 	<thead>
 		<tr>
 			<th class="t5 bg6">Encounters</th>
@@ -26,10 +26,10 @@
 			<th class="t5 bg2">Progress</th>
 		</tr>
 		<tr>
-			<th class="t4 bg7"></th>
 			<th class="t4 bg4">Done</th>
 			<th class="t4 bg4">Required</th>
 			<th class="t4 bg4">Diff</th>
+			<th class="t4 bg4"></th>
 			<th class="t4 bg4">Done</th>
 			<th class="t4 bg4">Required</th>
 			<th class="t4 bg4">Diff</th>
@@ -37,16 +37,18 @@
 		</tr>
 	</thead>
 	<tbody>
+		<% for c in @compliance_line %>
 		<tr>
-			<td class="b1 bg8">Inpatient</td>
-			<td class="b1 bg5">7</td>
+			<td class="b1 bg8"><%= c.clerkship.name %></td>
+			<td class="b1 bg5"><%= c.hx_done %></td>
+			<td class="b1 bg5"><%= c.hx_required %></td>
+			<td class="b1 bg5">(+1)</td>
 			<td class="b1 bg5">6</td>
-			<td class="b1 bg5 pos">(+1)</td>
-			<td class="b1 bg5">20</td>
-			<td class="b1 bg5">30</td>
-			<td class="b1 bg5 pos">(0)</td>
+			<td class="b1 bg5">6</td>
+			<td class="b1 bg5">(0)</td>
 			<td class="bg5"><span class="completed_bullet">6,6</span></td>
 		</tr>
+		<%end%>
 		<tr>
 			<td class="b1 bg7">Outpatient</td>
 			<td class="b1 bg4">20</td>
