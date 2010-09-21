@@ -16,7 +16,9 @@ class EncountersController < ApplicationController
     @encounter = Encounter.find(params[:id])
 	  @encounterDiagnoses = @encounter.diagnoses
 	  @encounterProcedures = @encounter.procedures
-    @resources = Resource.find :all
+    @resources = Resource.find_by_encounter(@encounter.id)
+    @rel_resources = Resource.find_related_by_encounter(@encounter.id)
+    
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @encounter }

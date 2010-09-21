@@ -197,7 +197,7 @@ form.encounter fieldset ul.grid_item li{
 #rightbar {
 	font-size: 122%;
 	height: 800px;
-	border-left: 1px solid #998;
+/*	border-left: 1px solid #998;*/
 	padding: 3px;
 }
 #rightbar .rightbar_header {
@@ -519,4 +519,59 @@ width:16px;
 
 
 /* ---------------------------- LINK ICONS ------------------------------ */
-#resource_grid a[href^="http:"], #resource_grid a[href^="https:"], #resource_grid a[href^="www:"] {    display:inline-block;    padding-left:20px;    line-height:18px;    background:transparent url(../images/doc_www.png) center left no-repeat;}#resource_grid a[href$='.pdf'] {    display:inline-block;    padding-left:20px;    line-height:18px;    background:transparent url(../images/doc_acrobat.gif) center left no-repeat;}#resource_grid a[href$='.swf'], #resource_grid a[href$='.fla'], #resource_grid a[href$='.swd'] {    display:inline-block;    padding-left:20px;    line-height:18px;    background:transparent url(../images/doc_flash.gif) center left no-repeat;}#resource_grid a[href$='.jpg'], #resource_grid a[href$='.jpeg'], #resource_grid a[href$='.gif'], #resource_grid a[href$='.png'], #resource_grid a[href$='.JPG'], #resource_grid a[href$='.PNG'], #resource_grid a[href$='.GIF'] {    display:inline-block;    padding-left:20px;    line-height:18px;    background:transparent url(../images/doc_image.gif) center left no-repeat;}#resource_grid a[href$='.xls'], #resource_grid a[href$='.csv'], #resource_grid a[href$='.xlt'], #resource_grid a[href$='.xlw'] {    display:inline-block;    padding-left:20px;    line-height:18px;    background:transparent url(../images/doc_excel.gif) center left no-repeat;}#resource_grid a[href$='.ppt'], #resource_grid a[href$='.pps'] {    display:inline-block;    padding-left:20px;    line-height:18px;    background:transparent url(../images/doc_powerpoint.gif) center left no-repeat;}#resource_grid a[href$='.doc'], #resource_grid a[href$='.docx'], #resource_grid a[href$='.rtf'], #resource_grid a[href$='.txt'], #resource_grid a[href$='.wps'] {    display:inline-block;    padding-left:20px;    line-height:18px;    background:transparent url(../images/doc_word.gif) center left no-repeat;}#resource_grid a[href$='.zip'], #resource_grid a[href$='.gzip'], #resource_grid a[href$='.rar'] {    display:inline-block;    padding-left:20px;    line-height:18px;    background:transparent url(../images/doc_zip.gif) center left no-repeat;}
+
+#resource_grid a[href^="http:"], #resource_grid a[href^="https:"], #resource_grid a[href^="www:"] {
+    display:inline-block;
+    padding-left:20px;
+    line-height:18px;
+    background:transparent url(../images/doc_www.png) center left no-repeat;
+}
+
+#resource_grid a[href$='.pdf'] {
+    display:inline-block;
+    padding-left:20px;
+    line-height:18px;
+    background:transparent url(../images/doc_acrobat.gif) center left no-repeat;
+}
+
+#resource_grid a[href$='.swf'], #resource_grid a[href$='.fla'], #resource_grid a[href$='.swd'] {
+    display:inline-block;
+    padding-left:20px;
+    line-height:18px;
+    background:transparent url(../images/doc_flash.gif) center left no-repeat;
+}
+
+#resource_grid a[href$='.jpg'], #resource_grid a[href$='.jpeg'], #resource_grid a[href$='.gif'], #resource_grid a[href$='.png'], #resource_grid a[href$='.JPG'], #resource_grid a[href$='.PNG'], #resource_grid a[href$='.GIF'] {
+    display:inline-block;
+    padding-left:20px;
+    line-height:18px;
+    background:transparent url(../images/doc_image.gif) center left no-repeat;
+}
+
+#resource_grid a[href$='.xls'], #resource_grid a[href$='.csv'], #resource_grid a[href$='.xlt'], #resource_grid a[href$='.xlw'] {
+    display:inline-block;
+    padding-left:20px;
+    line-height:18px;
+    background:transparent url(../images/doc_excel.gif) center left no-repeat;
+}
+
+#resource_grid a[href$='.ppt'], #resource_grid a[href$='.pps'] {
+    display:inline-block;
+    padding-left:20px;
+    line-height:18px;
+    background:transparent url(../images/doc_powerpoint.gif) center left no-repeat;
+}
+
+#resource_grid a[href$='.doc'], #resource_grid a[href$='.docx'], #resource_grid a[href$='.rtf'], #resource_grid a[href$='.txt'], #resource_grid a[href$='.wps'] {
+    display:inline-block;
+    padding-left:20px;
+    line-height:18px;
+    background:transparent url(../images/doc_word.gif) center left no-repeat;
+}
+
+#resource_grid a[href$='.zip'], #resource_grid a[href$='.gzip'], #resource_grid a[href$='.rar'] {
+    display:inline-block;
+    padding-left:20px;
+    line-height:18px;
+    background:transparent url(../images/doc_zip.gif) center left no-repeat;
+}

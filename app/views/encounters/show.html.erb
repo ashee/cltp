@@ -95,8 +95,17 @@
 	
 		<%= render "my_resources" %> 
 		
-		<%= render "other_resources" %> 
-		
+		<div class="rightbar_header ui-widget-content ui-state-highlight ui-corner-all">
+			<span class="ui-icon ui-icon-suitcase" style="float: left; margin-right: 0.3em;"></span>
+			<strong>Related Resources</strong>
+		</div>
+		<div class="rightbar_section">
+			<ul id="rightbar_resources" class="rightbar_list">
+				<% if not @rel_resources.nil? %>
+				<%= render :partial => "resource", :collection => @rel_resources, :as => :resource %>
+				<% end %>		
+			</ul>
+		</div>
 	</div>
 	
 </div> <!-- end yui-u -->

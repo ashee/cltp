@@ -4,9 +4,7 @@
 </div>
 <div class="rightbar_section">
 	<ul id="rightbar_artifacts" class="rightbar_list">
-		<% for resource in @resources %>
-			<%= render "resource" %>
-		<% end %>
+		<%= render :partial => 'resource', :collection => @resources %>
 	</ul>
 	<span id="add_artifact" class="button" title="Add a Resource">Add Resource</span>
 		

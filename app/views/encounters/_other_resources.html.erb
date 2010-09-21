@@ -3,6 +3,12 @@
 	<strong>Related Resources</strong>
 </div>
 <div class="rightbar_section">
-	<ul id="rightbar_resources" class="rightbar_list"></ul>
+	<ul id="rightbar_resources" class="rightbar_list">
+		<% if not @rel_resources.nil? %>
+		<% for resource in @rel_resources %>
+			<%= render "resource", :resource => resource %>
+		<% end %>
+		<% end %>		
+	</ul>
 </div>
 

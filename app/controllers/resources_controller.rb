@@ -9,9 +9,9 @@ class ResourcesController < ApplicationController
   def index
     @resources = Resource.all
     @clerkship = Clerkship.find_by_name('Pediatrics')    
-	@dxcs = DiagnosisCategory.find_all_by_clerkship_id(@clerkship.id)
+    @dxcs = DiagnosisCategory.find_all_by_clerkship_id(@clerkship.id)
     @dxs = Diagnosis.find_all_by_clerkship_id(@clerkship.id)
-	@procedures = Procedure.find_all_by_clerkship_id([@clerkship.id, -1])
+    @procedures = Procedure.find_all_by_clerkship_id([@clerkship.id, -1])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -67,7 +67,8 @@ class ResourcesController < ApplicationController
 		ri.filename_orig = tempfile.original_path
 		# compute requested resource sha1 (to see if it exists in the database already)
 		rsha1 = sha1(tempfile) 
-		r.url = '/uploads/'+rsha1+'.'+ri.filename_orig.split('.').last
+		ext = tempfile
+		r.url = UPLOAD_DIR + rsha1 + '.' + ri.filename_orig.split('.').last
 	else 
 		rsha1 = sha1(StringIO.new(r.url))
 	end
