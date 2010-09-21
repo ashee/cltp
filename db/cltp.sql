@@ -761,29 +761,3 @@ ALTER TABLE `encounter_procedures`
 	ADD CONSTRAINT ` encounter_procedures_fk_1` FOREIGN KEY (`encounter_id`) REFERENCES `encounters` (`id`),
 	ADD CONSTRAINT ` encounter_procedures_fk_2` FOREIGN KEY (`procedure_id`) REFERENCES `procedures` (`id`);
 
-
-select cr.*, (
-		select count(*) from encounters e join clinics c on e.clinic_id = c.id
-		where e.created_by = 1 and e.clerkship_id = 1 and e.hx in ('P','B') and c.care_setting = cs.code) as hx_done
-from compliance_requirements cr
-join care_settings cs on cr.care_setting_id = cs.id
-where cr.clerkship_id = 1;
-
-
-select cr.*,
-	(
-		select count(*) from encounters e join clinics c 
-		on e.clinic_id = c.id
-		join care_settings cs on c.care_setting = cs.code
-		where cs.id = cr.care_setting_id
-		and e.hx in ('P', 'B')
-	) as hx_done,
-	(
-		select count(*) from encounters e join clinics c 
-		on e.clinic_id = c.id
-		join care_settings cs on c.care_setting = cs.code
-		where cs.id = cr.care_setting_id
-		and e.px in ('P', 'B')
-	) as px_done
-from compliance_requirements cr
-where cr.clerkship_id = 1;
