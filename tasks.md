@@ -1,3 +1,41 @@
+09/22/2010
+==========
+
+## Overall
+1. Highlight tabs
+
+## View Encounter
+1. Refresh display on add resource
+
+## Edit encounter
+2. Fix pop-up dx selection tool
+
+
+## Resource Tab
+1. Reduce the clutter on "All Resource" tab
+2. Wire filter logic to filter out private links from others
+3. Rating module
+
+
+## Feedback
+1. Students can just submit feedback
+
+## Google Analytics
+1. Add GA code
+2. Customize GA to pass user info
+
+## Reporting
+1. Report landing page
+2. Reports - query and grid
+
+## Vaculty View
+1. Customize menu options (top toolbar) 
+
+## Testing
+1. Create student/faculty/admin users
+2. Create 500-1000 resources
+
+
 Tasks
 =====
 

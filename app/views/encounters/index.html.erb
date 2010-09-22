@@ -31,7 +31,7 @@
     <td><a href="encounters/show/<%=h encounter.id %>">View</a></td>
     <td><%=h encounter.clerkship.name %></td>
     <td><%=h encounter.created_at.strftime '%m/%d/%Y' %></td>
-    <td><%=h encounter.clinic.clinic_name %> - <%=h encounter.clinic.location %></td>
+    <td><%=h encounter.clinic.displayname %></td>
 	<td><%=h encounter.age %> year old <%=h encounter.gender %></td>
     <td>
 		<% pdx = encounter.primary_dx %>
