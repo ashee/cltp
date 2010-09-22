@@ -22,7 +22,6 @@
     <th>Patient Info</th>
     <th>Problems (Primary in bold)</th>
     <th>Procedures</th>
-	<th></th>
   </tr>
 </thead>
 <tbody>
@@ -31,7 +30,7 @@
     <td><a href="encounters/show/<%=h encounter.id %>">View</a></td>
     <td><%=h encounter.clerkship.name %></td>
     <td><%=h encounter.created_at.strftime '%m/%d/%Y' %></td>
-    <td><%=h encounter.clinic.clinic_name %> - <%=h encounter.clinic.location %></td>
+    <td><%=h encounter.clinic.displayname %></td>
 	<td><%=h encounter.age %> year old <%=h encounter.gender %></td>
     <td>
 		<% pdx = encounter.primary_dx %>
@@ -55,26 +54,7 @@
 			<% end %>
 		<% end %>
 	</td>
-	<td valign="middle" align="middle" style="position:relative" nowrap>
-		<span id="popup_link_<%=h encounter.id %>"  ><img alt="" src="images/cleardot.gif" class="bluedownarrow"></span>
-		<span id="popup_<%=h encounter.id %>" class="ui-widget popupMenu" >
-		<ul>
-			<li><a href="#">Add Resource</a></li>
-			<li><a href="">View Resources</a></li>
-			<li><a href="">Clone</a></li>
-			<li><a href="#">Delete</a></li>
-		</ul>
-		</span>
-	</td>
   </tr>
-  
-<script type="text/javascript" charset="utf-8">
-$(function() {
-	$("span#popup_link_<%=h encounter.id %>").bind('click', function(e) {
-		$("#popup_<%=h encounter.id %>").toggle();	
-	});
-});
-</script>
 
 <% end %>
 
@@ -89,7 +69,6 @@ $(function() {
 		<th><input type="text" name="search_patient" value="Search this" class="search_init" /></th>
 		<th><input type="text" name="search_problems" value="Search this" class="search_init" /></th>
 		<th><input type="text" name="search_procedures" value="Search this" class="search_init" /></th>
-		<th><input type="text" name="search_7" value="Search this" class="search_init" style="display:none;" /></th>
 	</tr>
 </tfoot>
 
@@ -108,7 +87,7 @@ $(function() {
 		"sDom": 'T<"clear"><"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"if>rt<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"lp>',
 		"bJQueryUI": true,
 		"aaSorting": [[3,'desc']],
-		"aoColumns": [{ "bSortable": false },null,null,null,null,null,null,{ "bSortable": false }],
+		"aoColumns": [{ "bSortable": false },null,null,null,null,null,null],
 		"iDisplayLength": 10,
 		"sPaginationType" : "full_numbers"
 	} );
@@ -137,8 +116,6 @@ $(function() {
 			this.value = asInitVals[$("tfoot input").index(this)];
 		}
 	} );
-	
-	$('.popupMenu').hide();
 
 } );
 </script>

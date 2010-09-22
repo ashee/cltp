@@ -1,4 +1,4 @@
-<div class="rightbar_header ui-widget-content ui-state-highlight ui-corner-all">
+<div class="rightbar_header ui-widget-content ui-state-highlight ui-corner-all outline2 bg5">
 	<span class="ui-icon ui-icon-folder-open" style="float: left; margin-right: 0.3em;"></span>
 	<strong>My Resources</strong>
 </div>
@@ -6,7 +6,11 @@
 	<ul id="rightbar_artifacts" class="rightbar_list">
 		<%= render :partial => 'resource', :collection => @resources %>
 	</ul>
-	<span id="add_artifact" class="button" title="Add a Resource">Add Resource</span>
+	<div style="margin-top: 12px;">
+	<span class="ui-corner-all bg3" style="margin-left: 12px; padding: 5px;cursor: pointer;">
+		<a id="add_artifact" class="bt1" title="Add a Resource"><%= image_tag("add.png") %> Add Resource</a>	
+	</span>
+	</div>
 		
 <% form_tag('/resources/create', :multipart => true, :id => 'add_resource_form', :class => 'form') do %>
 <table>
@@ -96,7 +100,6 @@ $("#add_resource_form").dialog({
 	}
 });
 $('#add_artifact')
-	.button()
 	.click(function() {
 		$('#add_resource_form').dialog('open');
 });

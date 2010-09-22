@@ -148,11 +148,7 @@ form.encounter {
 }
 form.encounter fieldset {
   	margin-bottom: 10px;
-  	background-color: #DCDEE3;
   	padding: 4px 12px;
-  	-moz-border-radius: 12px;
-	-webkit-border-radius: 12px;
-	border: 1px solid #AFBDD4;
 }
 form.encounter label {
   	display: inline-block;
@@ -194,6 +190,11 @@ form.encounter fieldset ul.grid_item li{
 	font-size: 1.2em;
 }
 
+.drop_button {
+	margin: 0;
+	padding: 0;
+}
+
 #rightbar {
 	font-size: 122%;
 	height: 800px;
@@ -212,20 +213,16 @@ form.encounter fieldset ul.grid_item li{
 }
 #rightbar .rightbar_list {
 	margin-left: 12px;	
-	border: 1px solid #CCC;	
 }
 #rightbar .rightbar_list li {
 	margin: 0;
 	padding: 4px;	
 	font-size: 1.3em;
-	background-color: #EFEFEF;
+	border-bottom: 1px solid #CCCCCC;
 }
-#rightbar .rightbar_list li .action_menu {
-	margin: 4px 0px;	
-	font-size: 0.7em;
-}
-#rightbar .rightbar_list li.even {
-	background-color: #DDD;	
+#rightbar .rightbar_list li a {
+	color: #1A5FAE;
+	text-decoration: none;
 }
 
 /*  side navigation */
@@ -284,6 +281,10 @@ form.encounter fieldset ul.grid_item li{
 	padding-left:20px;
 }
 
+.edit_text:hover, .edit_area:hover {
+	background-color: #FFCC33;
+}
+
 /* form validation */
 label.error {
 	display: block;
@@ -291,6 +292,8 @@ label.error {
 	font-style: italic;
 	font-weight: normal;
 }
+
+.width100 { width: 100%; }
 
 input.error, select.error, textarea.error {
 	border: 2px solid red;
@@ -442,6 +445,13 @@ a.bt1:visited {
 	color: #FF0000;
 }
 
+.outline1 {
+	border: 1px solid #999999;	
+}
+.outline2 {
+	border: 1px solid #CCCCCC;
+}
+
 /***********************      Voting       *******************************/
 .vote-up-off, .vote-up-on, .vote-down-off, .vote-down-on, .star-on, .star-off, .comment-up-off, .comment-up-on, .comment-flag, .flag-off, .vote-accepted-off, .vote-accepted-on, .vote-accepted-off, .vote-accepted-on {
 	font-size:1px;
@@ -520,56 +530,72 @@ width:16px;
 
 /* ---------------------------- LINK ICONS ------------------------------ */
 
-#resource_grid a[href^="http:"], #resource_grid a[href^="https:"], #resource_grid a[href^="www:"] {
+#resource_grid a[href^="http:"], #resource_grid a[href^="https:"], #resource_grid a[href^="www:"],
+.rightbar_list li a[href^="http:"], .rightbar_list a[href^="https:"], .rightbar_list a[href^="www:"]
+{
     display:inline-block;
     padding-left:20px;
     line-height:18px;
     background:transparent url(../images/doc_www.png) center left no-repeat;
 }
 
-#resource_grid a[href$='.pdf'] {
+#resource_grid a[href$='.pdf'],
+.rightbar_list li a[href$='.pdf'] 
+{
     display:inline-block;
     padding-left:20px;
     line-height:18px;
     background:transparent url(../images/doc_acrobat.gif) center left no-repeat;
 }
 
-#resource_grid a[href$='.swf'], #resource_grid a[href$='.fla'], #resource_grid a[href$='.swd'] {
+#resource_grid a[href$='.swf'], #resource_grid a[href$='.fla'], #resource_grid a[href$='.swd'],
+.rightbar_list li a[href$='.swf'], .rightbar_list li a[href$='.fla'], .rightbar_list li a[href$='.swd'] 
+{
     display:inline-block;
     padding-left:20px;
     line-height:18px;
     background:transparent url(../images/doc_flash.gif) center left no-repeat;
 }
 
-#resource_grid a[href$='.jpg'], #resource_grid a[href$='.jpeg'], #resource_grid a[href$='.gif'], #resource_grid a[href$='.png'], #resource_grid a[href$='.JPG'], #resource_grid a[href$='.PNG'], #resource_grid a[href$='.GIF'] {
+#resource_grid a[href$='.jpg'], #resource_grid a[href$='.jpeg'], #resource_grid a[href$='.gif'], #resource_grid a[href$='.png'], #resource_grid a[href$='.JPG'], #resource_grid a[href$='.PNG'], #resource_grid a[href$='.GIF'], 
+.rightbar_list li a[href$='.jpg'], .rightbar_list li a[href$='.jpeg'], .rightbar_list li a[href$='.gif'], .rightbar_list li a[href$='.png'], .rightbar_list li a[href$='.JPG'], .rightbar_list li a[href$='.PNG'], .rightbar_list li a[href$='.GIF']
+{
     display:inline-block;
     padding-left:20px;
     line-height:18px;
     background:transparent url(../images/doc_image.gif) center left no-repeat;
 }
 
-#resource_grid a[href$='.xls'], #resource_grid a[href$='.csv'], #resource_grid a[href$='.xlt'], #resource_grid a[href$='.xlw'] {
+#resource_grid a[href$='.xls'], #resource_grid a[href$='.csv'], #resource_grid a[href$='.xlt'], #resource_grid a[href$='.xlw'],
+.rightbar_list li a[href$='.xls'], .rightbar_list li a[href$='.csv'], .rightbar_list li a[href$='.xlt'], .rightbar_list li a[href$='.xlw']  
+{
     display:inline-block;
     padding-left:20px;
     line-height:18px;
     background:transparent url(../images/doc_excel.gif) center left no-repeat;
 }
 
-#resource_grid a[href$='.ppt'], #resource_grid a[href$='.pps'] {
+#resource_grid a[href$='.ppt'], #resource_grid a[href$='.pps'],
+.rightbar_list li a[href$='.ppt'], .rightbar_list li a[href$='.pps'] 
+{
     display:inline-block;
     padding-left:20px;
     line-height:18px;
     background:transparent url(../images/doc_powerpoint.gif) center left no-repeat;
 }
 
-#resource_grid a[href$='.doc'], #resource_grid a[href$='.docx'], #resource_grid a[href$='.rtf'], #resource_grid a[href$='.txt'], #resource_grid a[href$='.wps'] {
+#resource_grid a[href$='.doc'], #resource_grid a[href$='.docx'], #resource_grid a[href$='.rtf'], #resource_grid a[href$='.txt'], #resource_grid a[href$='.wps'],
+.rightbar_list li a[href$='.doc'], .rightbar_list li a[href$='.docx'], .rightbar_list li a[href$='.rtf'], .rightbar_list li a[href$='.txt'], .rightbar_list li a[href$='.wps'] 
+{
     display:inline-block;
     padding-left:20px;
     line-height:18px;
     background:transparent url(../images/doc_word.gif) center left no-repeat;
 }
 
-#resource_grid a[href$='.zip'], #resource_grid a[href$='.gzip'], #resource_grid a[href$='.rar'] {
+#resource_grid a[href$='.zip'], #resource_grid a[href$='.gzip'], #resource_grid a[href$='.rar'],
+.rightbar_list li a[href$='.zip'], .rightbar_list li a[href$='.gzip'], .rightbar_list li a[href$='.rar'] 
+{
     display:inline-block;
     padding-left:20px;
     line-height:18px;

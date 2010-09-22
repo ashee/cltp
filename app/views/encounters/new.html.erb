@@ -1,23 +1,31 @@
-<div class="yui-ge">
+<div class="yui-gc">
 
 <div class="yui-u first">
 
 <% form_for(@encounter, :html => { :class  => "encounter"} ) do |f| %>
   <%= f.error_messages %>
+  <input type="hidden" name="encounter[clerkship_id]" value="<%= @clerkship.id %>" />
+  
+<fieldset class="outline2 bg5" style="background-color: #FFF; border: 0; float: right;">
+  	<p>
+    	<%= link_to 'Save', '#', :class=>'submit_encounter' %>
+  	</p>
+  	<p>
+  		<%= link_to 'Cancel and Return', encounters_path, :class=>'cancel_encounter' %>
+  	</p>
+</fieldset>
+
+<div style="clear:both"></div>
 
 <div class="error" style="display:none;">
  	<%= image_tag("warning.gif") %>
   	<span></span>.<br clear="all"/>
 </div>
 
-<fieldset>
+<fieldset class="outline2 bg5">
   	<p>
     	<%= f.label :encounter_date %><br />
-    	<%= f.text_field :encounter_date, :size=>10, :value => Time.now.strftime("%m/%d/%Y"), :class => 'datepicker ui-widget ui-widget-content ui-corner-all', :tabindex=>1 %>
-  	</p>
-	<p>
-    	<%= f.label :clerkship %><br />
-    	<%= select( "encounter", "clerkship_id", { "Pediatrics" => "1" }, {"tabIndex" => "10"} ) %>
+    	<%= f.text_field :encounter_date, :size=>10, :value => Time.now.strftime("%m/%d/%Y"), :class => 'datepicker ui-widget ui-widget-content outline1', :tabindex=>1 %>
   	</p>
 	<p>
 		<%= f.label :care_setting %><br />
@@ -31,10 +39,10 @@
 	</p>
 </fieldset>
 
-<fieldset>
+<fieldset class="outline2 bg5">
 	<p>
 	    <%= f.label :age %><br />
-    	<%= f.text_field :age, :size=>5, :class=>'ui-widget ui-widget-content ui-corner-all required', :tabindex=>40  %>
+    	<%= f.text_field :age, :size=>5, :class=>'ui-widget ui-widget-content outline1 required', :tabindex=>40  %>
 	</p>
 	<p>
     	<%= f.label :gender %><br />
@@ -58,7 +66,7 @@
 	
 	<p>
     	<%= f.label :primary_problem %><br />
-		<input type="text" tabindex="70" size="50" name="encounter[primary_problem]" id="encounter_primary_problem" class="ui-widget ui-widget-content ui-corner-left required" >
+		<input type="text" tabindex="70" size="50" name="encounter[primary_problem]" id="encounter_primary_problem" class="ui-widget ui-widget-content required outline1">
 		<button id="encounter_primary_problem_drop" class="drop_button"></button>
 	</p>
 	
@@ -66,7 +74,7 @@
 	
 	<p>
 	   	<%= f.label :secondary_problems %><br />
-	  	<textarea tabindex="100" rows="1" name="encounter[secondary_problems]" id="encounter_secondary_problems" cols="50" class="ui-widget ui-widget-content ui-corner-left"></textarea>
+	  	<textarea tabindex="100" rows="1" name="encounter[secondary_problems]" id="encounter_secondary_problems" cols="50" class="ui-widget ui-widget-content outline1"></textarea>
 	  	<button id="encounter_secondary_problems_drop" class="drop_button"></button>
 	</p>
 	
@@ -74,23 +82,21 @@
 	
 	<p>
 		<%= f.label :procedures_observed %><br />
-		<textarea tabindex="120" rows="1" name="encounter[procedures_observed]" id="encounter_procedures_observed" cols="50" class="ui-widget ui-widget-content ui-corner-left"></textarea>
+		<textarea tabindex="120" rows="1" name="encounter[procedures_observed]" id="encounter_procedures_observed" cols="50" class="ui-widget ui-widget-content outline1"></textarea>
 		<button id="encounter_procedures_observed_drop" class="drop_button"></button>
 	</p>
-
-
 </fieldset>
 
-<fieldset>
+<fieldset class="outline2 bg5">
 	<p>
 		<%= f.label :notes %><br />
-	  	<%= f.text_area :notes, :size=>"40x1", :class => "ui-widget ui-widget-content ui-corner-all", :tabindex=>130  %>
+	  	<%= f.text_area :notes, :size=>"40x1", :class => "ui-widget ui-widget-content outline1", :tabindex=>130  %>
 	</p>
 </fieldset>
 
-<fieldset style="background-color: #FFF; border: 0;">
+<fieldset class="outline2 bg5" style="background-color: #FFF; border: 0; float: right;">
   	<p>
-    	<%= link_to 'Create Encounter', '#', :class=>'submit_encounter' %>
+    	<%= link_to 'Save', '#', :class=>'submit_encounter' %>
   	</p>
   	<p>
   		<%= link_to 'Cancel and Return', encounters_path, :class=>'cancel_encounter' %>
@@ -140,6 +146,7 @@ $(function() {
 			dataType: 'script',
 			success: function(data) {
 				$('#clinics').html(data);
+				$('#encounter_clinic_id').show();
 			}	
 		});
 	});
@@ -175,13 +182,9 @@ end %>
 				return false;
 			},
 			select: function(event, ui) {
-				alert(this.value);
 				var terms = split( this.value );
-				// remove the current input
 				terms.pop();
-				// add the selected item
 				terms.push( ui.item.value );
-				// add placeholder to get the comma-and-space at the end
 				terms.push("");
 				this.value = terms.join(", ");
 				var arr = ui.item.value.split(',');
@@ -201,7 +204,7 @@ end %>
 					},
 					text: false
 				}).removeClass("ui-corner-all")
-				.addClass("ui-corner-right ui-button-icon")
+				.addClass("ui-button-icon")
 				.click(function(e) {
 					e.preventDefault();
 					// close if already visible
@@ -233,7 +236,7 @@ end %>
 					},
 					text: false
 				}).removeClass("ui-corner-all")
-				.addClass("ui-corner-right ui-button-icon")
+				.addClass("ui-button-icon")
 				.click(function(e) {
 					e.preventDefault();
 					if ($("#encounter_primary_problem").autocomplete("widget").is(":visible")) {
@@ -250,52 +253,6 @@ end %>
 		function extractLast(term) {
 			return split(term).pop();
 		}		
-		$("#encounter_procedures_performed").autocomplete({
-			minLength: 0,
-			source: function(request, response) {
-				response($.ui.autocomplete.filter(availableProcedures, extractLast(request.term)));
-			},
-			focus: function() {
-				return false;
-			},
-			select: function(event, ui) {
-				var terms = split( this.value );
-				terms.pop();
-				terms.push( ui.item.value );
-				terms.push("");
-				this.value = terms.join(", ");
-				var arr = ui.item.value.split(',');
-				$.each(arr, function(i, val) {
-      				$('#rightbar_resources').append('<li><a href="#">'+val+' Guidelines</a></li>');
-      				$('#rightbar_resources li:last-child').css("background-color","yellow").animate({'backgroundColor' : '#FFFFFF'}, 3000);
-
-    			});
-				return false;
-			}
-		});
-				
-		$("#encounter_procedures_performed_drop").attr("tabIndex", -1)
-				.attr("title", "Show All Items")
-				.button({
-					icons: {
-						primary: "ui-icon-triangle-1-s"
-					},
-					text: false
-				}).removeClass("ui-corner-all")
-				.addClass("ui-corner-right ui-button-icon")
-				.click(function(e) {
-					e.preventDefault();
-					// close if already visible
-					if ($("#encounter_procedures_performed").autocomplete("widget").is(":visible")) {
-						$("#encounter_procedures_performed").autocomplete("close");
-						return;
-					}
-					// pass empty string as value to search for, displaying all results
-					$("#encounter_procedures_performed").autocomplete("search", "");
-					$("#encounter_procedures_performed").focus();
-					return false;
-				});
-		$('textarea#encounter_procedures_performed').autoResize();
 		
 		$("#encounter_procedures_observed").autocomplete({
 			minLength: 0,
@@ -334,7 +291,7 @@ end %>
 					},
 					text: false
 				}).removeClass("ui-corner-all")
-				.addClass("ui-corner-right ui-button-icon")
+				.addClass("ui-button-icon")
 				.click(function(e) {
 					e.preventDefault();
 					// close if already visible
@@ -348,12 +305,13 @@ end %>
 					return false;
 				});
 		$('textarea#encounter_procedures_observed').autoResize();
-		$('textarea#notes').autoResize();
+		$('textarea#encounter_notes').autoResize();
 		$('.submit_encounter').button();
 		$('.cancel_encounter').button();
 		$('.rightbar_list > li:nth-child(even)').addClass('even');
 		$('.submit_encounter').click(function() {
 			$('#new_encounter').submit();
 		});
+		$('#encounter_clinic_id').hide();
 	});
 </script>

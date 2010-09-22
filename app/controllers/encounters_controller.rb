@@ -27,9 +27,9 @@ class EncountersController < ApplicationController
 
   # GET /encounters/new
   # GET /encounters/new.xml
-  def new
-	  @clerkship = Clerkship.find_by_name('Pediatrics')    
-    @encounter = Encounter.new
+  def new	
+  	@clerkship = Clerkship.find_by_name('Pediatrics')    
+	@encounter = Encounter.new
 	  @cs = CareSetting.all
 	  @clinics = Clinic.all
 	  @dxcs = DiagnosisCategory.find_all_by_clerkship_id(@clerkship.id)
@@ -86,9 +86,24 @@ class EncountersController < ApplicationController
     end
   end
 
-  # GET /encounters/1/edit
+  # GET /encounters/edit/1
   def edit
     @encounter = Encounter.find(params[:id])
+    @attributes={params[:field]=>params[:value]}
+    field = params[:field]
+    $fieldval = params[:value]
+
+    respond_to do |format|
+      if @encounter.update_attributes(@attributes)
+        flash[:notice] = 'Encounter was successfully updated.'
+      	#format.html { redirect_to encounters_path }
+      	format.js {render :layout => false}
+      else
+        flash[:notice] = 'Encounter was NOT successfully updated.'
+      	#format.html { redirect_to encounters_path }
+      	format.js {render :layout => false}
+      end
+    end    
   end
 
   # POST /encounters
@@ -154,9 +169,12 @@ class EncountersController < ApplicationController
   # PUT /encounters/1.xml
   def update
     @encounter = Encounter.find(params[:id])
+    @attributes={params[:field]=>params[:value]}
+    field = params[:field]
+    fieldval = params[:value]
 
     respond_to do |format|
-      if @encounter.update_attributes(params[:encounter])
+      if @encounter.update_attributes(@attributes)
         flash[:notice] = 'Encounter was successfully updated.'
         format.html { redirect_to(@encounter) }
         format.xml  { head :ok }
