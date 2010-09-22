@@ -7,12 +7,12 @@
   <input type="hidden" name="encounter[clerkship_id]" value="<%= @clerkship.id %>" />
   
 <fieldset class="outline2 bg5" style="background-color: #FFF; border: 0; float: right;">
-  	<p>
-    	<%= link_to 'Save', '#', :class=>'submit_encounter' %>
-  	</p>
-  	<p>
-  		<%= link_to 'Cancel and Return', encounters_path, :class=>'cancel_encounter' %>
-  	</p>
+  	<span class="ui-corner-all bt3">
+    	<a class="submit_encounter" href="#">Save</a>
+  	</span>
+  	<span class="ui-corner-all bt3">
+  		<a class="cancel_encounter" href="#">Cancel and Return</a>
+  	</span>
 </fieldset>
 
 <div style="clear:both"></div>
@@ -95,12 +95,12 @@
 </fieldset>
 
 <fieldset class="outline2 bg5" style="background-color: #FFF; border: 0; float: right;">
-  	<p>
-    	<%= link_to 'Save', '#', :class=>'submit_encounter' %>
-  	</p>
-  	<p>
-  		<%= link_to 'Cancel and Return', encounters_path, :class=>'cancel_encounter' %>
-  	</p>
+  	<span class="ui-corner-all bt3">
+    	<a class="submit_encounter" href="#">Save</a>
+  	</span>
+  	<span class="ui-corner-all bt3">
+  		<a class="cancel_encounter" href="#">Cancel and Return</a>
+  	</span>
 </fieldset>
 
 <% end %>
@@ -306,8 +306,8 @@ end %>
 				});
 		$('textarea#encounter_procedures_observed').autoResize();
 		$('textarea#encounter_notes').autoResize();
-		$('.submit_encounter').button();
-		$('.cancel_encounter').button();
+		//$('.submit_encounter').button();
+		//$('.cancel_encounter').button();
 		$('.rightbar_list > li:nth-child(even)').addClass('even');
 		$('.submit_encounter').click(function() {
 			$('#new_encounter').submit();
