@@ -22,6 +22,11 @@
 
 <fieldset class="outline2 bg5">
 	<p>
+	    <%= f.label :patient_id %>
+	    <br />
+	    <span class="edit_text" id="patient_id" name="patient_id"><%=h @encounter.patient_id %></span>
+	</p>
+	<p>
 	    <%= f.label :age %>
 	    <br />
 	    <span class="edit_text" id="age" name="age"><%=h @encounter.age %></span>

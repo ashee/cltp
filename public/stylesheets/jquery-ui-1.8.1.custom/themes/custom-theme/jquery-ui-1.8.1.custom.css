@@ -322,6 +322,7 @@
 	padding: 2px;
 	margin: 0;
 	display:block;
+	background-color: #FEFEE3;
 }
 .ui-menu .ui-menu {
 	margin-top: -3px;
@@ -337,7 +338,7 @@
 }
 .ui-menu .ui-menu-item a {
 	text-decoration:none;
-	font-size: 0.9em;
+	font-size: 13px;
 	display:block;
 	padding:.2em .4em;
 	line-height:1.3;

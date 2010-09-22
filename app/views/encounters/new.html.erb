@@ -41,6 +41,10 @@
 
 <fieldset class="outline2 bg5">
 	<p>
+	    <%= f.label :patient_id %><br />
+    	<%= f.text_field :patient_id, :size=>15, :class=>'ui-widget ui-widget-content outline1 required', :tabindex=>33  %>
+	</p>
+	<p>
 	    <%= f.label :age %><br />
     	<%= f.text_field :age, :size=>5, :class=>'ui-widget ui-widget-content outline1 required', :tabindex=>40  %>
 	</p>

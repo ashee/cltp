@@ -134,24 +134,24 @@ class EncountersController < ApplicationController
 		else 
 			px = 'N'
 	end
-    @encounter = Encounter.new("clerkship_id" => params[:encounter]['clerkship_id'], "clinic_id" => params[:encounter]['clinic_id'], "encounter_date" => params[:encounter]['encounter_date'], "patient_id" => 1, "age" => params[:encounter]['age'], "gender" => params[:encounter]['gender'], "hx" => hx, "px" => px, "notes" => params[:encounter]['notes'], "created_by" => 1, "updated_by" => 1)
+    @encounter = Encounter.new("clerkship_id" => params[:encounter]['clerkship_id'], "clinic_id" => params[:encounter]['clinic_id'], "encounter_date" => params[:encounter]['encounter_date'], "patient_id" => params[:encounter]['patient_id'], "age" => params[:encounter]['age'], "gender" => params[:encounter]['gender'], "hx" => hx, "px" => px, "notes" => params[:encounter]['notes'], "created_by" => @user, "updated_by" => @user)
     
     respond_to do |format|
       if @encounter.save
         #save single primary problem
         dx_xref = Diagnosis.find_by_name params[:encounter]['primary_problem'].split(' > ').last
-        @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'P', "dx_id" => dx_xref.id, "created_by" => 1, "updated_by" => 1)
+        @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'P', "dx_id" => dx_xref.id, "created_by" => @user, "updated_by" => @user)
         @edx.save
         #loop and save secondary problems
         for sdx in params[:encounter]['secondary_problems'].split(', ')
           dx_xref = Diagnosis.find_by_name sdx.split(' > ').last
-          @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'S', "dx_id" => dx_xref.id, "created_by" => 1, "updated_by" => 1)
+          @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'S', "dx_id" => dx_xref.id, "created_by" => @user, "updated_by" => @user)
           @edx.save
         end #for dx loop
         #loop and save procedures observed
         for po in params[:encounter]['procedures_observed'].split(', ')
           proc_xref = Procedure.find_by_name(po)
-          @po_new = @encounter.procedures.new("encounter_id" => @encounter.id, "participation_type" => 'O', "procedure_id" => proc_xref.id, "created_by" => 1, "updated_by" => 1)
+          @po_new = @encounter.procedures.new("encounter_id" => @encounter.id, "participation_type" => 'O', "procedure_id" => proc_xref.id, "created_by" => @user, "updated_by" => @user)
           @po_new.save
         end #for procedures observed loop
         
