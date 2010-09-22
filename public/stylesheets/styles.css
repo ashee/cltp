@@ -221,7 +221,8 @@ form.encounter fieldset ul.grid_item li{
 	border-bottom: 1px solid #CCCCCC;
 }
 #rightbar .rightbar_list li a {
-	color: #1A5FAE;
+	color: #2F4777;
+	font-size: 13px;
 	text-decoration: none;
 }
 
