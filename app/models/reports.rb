@@ -42,4 +42,6 @@ class Reports
   def self.summary_dx_observed_vs_performed
   end
   
+  def self.
+  
 end
