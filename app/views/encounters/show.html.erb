@@ -54,8 +54,12 @@
 	<p>
     	<%= f.label :primary_problem %><br />
 		<% @encounterDiagnoses.each do |edx| %> 
-			<% if (edx.dx_type == 'P') %> 
-				<%=h edx.diagnosis.name %><br />
+			<% if (edx.dx_type == 'P') %>
+				<% if (edx.diagnosis.name == 'Other') %> 
+					<%=h edx.other %><br />
+				<% else %>
+					<%=h edx.diagnosis.name %><br />
+				<% end %>
 			<% end %>
 		<% end %>
 	</p>
@@ -63,7 +67,11 @@
 	   	<%= f.label :secondary_problems %><br />
 	  	<% @encounterDiagnoses.each do |edx| %>
 	  		<% if (edx.dx_type == 'S') %> 
-				<%=h edx.diagnosis.name %><br />
+				<% if (edx.diagnosis.name == 'Other') %> 
+					<%=h edx.other %><br />
+				<% else %>
+					<%=h edx.diagnosis.name %><br />
+				<% end %>
 			<% end %>
 		<% end %>
 	</p>

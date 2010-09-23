@@ -139,14 +139,27 @@ class EncountersController < ApplicationController
     respond_to do |format|
       if @encounter.save
         #save single primary problem
-        dx_xref = Diagnosis.find_by_name params[:encounter]['primary_problem'].split(' > ').last
-        @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'P', "dx_id" => dx_xref.id, "created_by" => @user, "updated_by" => @user)
+        if params[:encounter]['primary_problem'].include? ' > ' then 
+        	dx_xref = Diagnosis.find_by_name params[:encounter]['primary_problem'].split(' > ').last
+        	dx_other = ''
+        else
+        	dx_xref = Diagnosis.find_by_name 'Other'
+        	dx_other = params[:encounter]['primary_problem']
+        end
+        @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'P', "dx_id" => dx_xref.id, "other" => dx_other, "created_by" => @user, "updated_by" => @user)
         @edx.save
+        
         #loop and save secondary problems
         for sdx in params[:encounter]['secondary_problems'].split(', ')
-          dx_xref = Diagnosis.find_by_name sdx.split(' > ').last
-          @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'S', "dx_id" => dx_xref.id, "created_by" => @user, "updated_by" => @user)
-          @edx.save
+			if sdx.include? ' > ' then 
+				dx_xref = Diagnosis.find_by_name sdx.split(' > ').last
+				dx_other = ''
+			else
+				dx_xref = Diagnosis.find_by_name 'Other'
+				dx_other = sdx
+			end        
+          	@edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'S', "dx_id" => dx_xref.id, "other" => dx_other, "created_by" => @user, "updated_by" => @user)
+          	@edx.save
         end #for dx loop
         #loop and save procedures observed
         for po in params[:encounter]['procedures_observed'].split(', ')
