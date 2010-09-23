@@ -38,7 +38,7 @@
 			<!-- start header -->
 			<div id="hd" class="bg1">
 				<ul id="userInfo">
-					<li class="b2"><%= @user.fullname %></li>
+					<li class="b2"><%= @user.fullname %> (<%= @user.primary_role %>)</li>
 					<li class="b2"><%= @user.academic_year %></li>
 					<li class="b2"><%= @user.current_period %></li>
 					<li class="b2">Current Clerkship: <%= @user.current_clerkship %></li>
@@ -46,15 +46,7 @@
 				</ul>
 			</div>
 			<div id="hd" class="ui-corner-bl ui-corner-br bg2">
-				<ul id="userInfo">
-					<li><%= link_to "Dashboard", {:controller => "dashboard", :action => "index"}, :class => "t1" %></li>
-					<li><%= link_to "Reports", {:controller => "reports", :action => "index"}, :class => "t1" %></li>
-					<li><%= link_to "New Encounter", new_encounter_path, :class => "t1" %></li>
-					<li><%= link_to "List Encounters", encounters_path, :class => "t1" %></li>
-					<li><%= link_to "All Resources", resources_path, :class => "t1" %></li>
-					<li><%= link_to "Give us feedback", feedbacks_path, :class => "t1" %></li>
-					<li style="float: right;" ><a href="https://weblogin.umich.edu/cgi-bin/logout" class="t1">Logout</a></li>
-				</ul>
+				<%= render @user.primary_role == "Student" ? 'layouts/topmenu_student' : 'layouts/topmenu_others' %>
 			</div>
 			<!-- end header -->
 			<div id="bd">

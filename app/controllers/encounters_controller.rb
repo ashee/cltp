@@ -2,7 +2,13 @@ class EncountersController < ApplicationController
   # GET /encounters
   # GET /encounters.xml
   def index
-    @encounters = Encounter.all
+    if @user.primary_role == "Student"
+      @encounters = Encounter.all_by_user(@user.id)
+      @page_title = "My Encounters"
+    else
+      @encounters = Encounter.all
+      @page_title = "All Encounters"
+    end
 
     respond_to do |format|
       format.html # index.html.erb

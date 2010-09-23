@@ -39,6 +39,9 @@ class FeedbacksController < ApplicationController
     # POST /feedbacks.xml
     def create
       @feedback = Feedback.new(params[:feedback])
+      @feedback.creator = @user
+      @feedback.updater = @user
+      
       respond_to do |format|
         if @feedback.save
           flash[:notice] = 'Feedback was successfully created.'

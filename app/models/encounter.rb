@@ -17,4 +17,8 @@ class Encounter < ActiveRecord::Base
     diagnoses.find_all_by_dx_type('S')
   end
   
+  def self.all_by_user(user_id)
+    self.find :all, :conditions => ["created_by = ?", user_id]
+  end
+  
 end

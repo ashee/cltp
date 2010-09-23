@@ -1,12 +1,41 @@
-<p>
-  <p><b>Subject:</b>&nbsp;<%=h @feedback.subject %></p>
-</p>
-<p></p>
-<p style="padding-top:10px">
-  <p><b>Body</b></p>
-  <%=h @feedback.body %>
-</p>
+<div class="yui-gc">
 
+<div class="yui-u first">
 
-<%= link_to 'Edit', edit_feedback_path(@feedback) %> |
-<%= link_to 'Back', feedbacks_path %>
+<% form_for(@feedback, :html => { :class  => "encounter"} ) do |f| %>
+  <%= f.error_messages %>
+
+<fieldset class="outline2 bg5">
+  	<p>
+    	<%= f.label :subject %><br />
+	    	<%=h @feedback.subject %>
+  	</p>
+	<p>
+    	<%= f.label :created_by %><br />
+    	<%=h @feedback.creator.fullname %>
+  	</p>
+	<p>
+    	<%= f.label :created_at %><br />
+    	<%=h @feedback.created_at.strftime("%B %d, %Y") %>
+  	</p>
+</fieldset>
+<fieldset class="outline2 bg5">
+	<div style="clear:both"></div>
+  	<p>
+    	<%= f.label :body %><br />
+   	 	<%=h @feedback.body %>
+	</p>
+</fieldset>
+<% end %>
+
+</div> <!-- end yui-u first -->
+
+<div class="yui-u">
+</div> <!-- end yui-u -->
+
+</div> <!-- end yui-ge -->
+
+<script>
+$(function() {
+});
+</script>

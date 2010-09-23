@@ -160,6 +160,13 @@ class ResourcesController < ApplicationController
       format.js {render :layout => false}
     end
   end
+  
+  def by_dx
+    # render :text => params[:id]
+    dx_ids = params[:id].split ","
+    @ris = Resource.find_by_dx(dx_ids)
+    render :json => @ris
+  end
 
 private
   def sha1 (io)
