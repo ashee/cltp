@@ -1,0 +1,104 @@
+<h1 class="t2" style="margin: 15px;">My Reports</h1>
+
+<!-- <div>
+<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
+	<a class="bt1" href="<%# new_report_path %>" style="vertical-align:middle;"><%= image_tag("add.png") %> New Report</a>
+</span>
+</div> -->
+
+<div>
+<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
+	<a class="bt1" href="<%=  %>" style="vertical-align:middle;"> Encounters by care setting</a>
+</span>
+
+<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
+	<a class="bt1" href="<%=  %>" style="vertical-align:middle;">Individual Diagnoses per student</a>
+</span>
+</div>
+
+<div class="box1" style="margin: 15px;">
+<table style="margin: 0px 30px 30px 30px;">
+<h1 class="t3" style="margin-left: 30px;">	THis report is just place-holder report  and should be replaced with a frame into which we can display the report with the data from the database.
+</h1>
+<thead>
+	<tr>
+		<th class="t5 bg2">Problems</th>
+		<th class="t5 bg2">Count</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td class="b1 bg4">Diabetes</td>
+		<td class="b1 bg4">1</td>
+	</tr>
+	<tr>
+		<td class="b1 bg5">Chest Pain</td>
+		<td class="b1 bg5">6</td>
+	</tr>
+	<tr>
+		<td class="b1 bg4">Anxiety</td>
+		<td class="b1 bg4">1</td>
+	</tr>
+	<tr>
+		<td class="b1 bg5">Chronic Medical Problem</td>
+		<td class="b1 bg5">3</td>
+	</tr>
+	<tr>
+		<td class="b1 bg4">Growth Problem</td>
+		<td class="b1 bg4">1</td>
+	</tr>
+	<tr>
+		<td class="t4 bg5">Total</td>
+		<td class="t4 bg5">12</td>
+	</tr>
+	</tbody>
+</table>
+</div>
+
+<script>
+var oTable;
+var asInitVals = new Array();
+		//"sDom": 'T<"clear">lfrtip',
+$(function() {
+	TableToolsInit.sSwfPath = "<%= javascript_path 'dataTables/media/swf/ZeroClipboard.swf' %>";
+	oTable = $('#fblist').dataTable( {
+		"oLanguage": {
+			"sSearch": "Search all columns:"
+		},
+		"sDom": 'T<"clear"><"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"if>rt<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"lp>',
+		"bJQueryUI": true,
+		"aaSorting": [[3,'desc']],
+		// "aoColumns": [{ "bSortable": false },null,null,null,null,null,null,{ "bSortable": false }],
+		"iDisplayLength": 10,
+		"sPaginationType" : "full_numbers"
+	} );
+	
+	$("tfoot input").keyup( function () {
+		/* Filter on the column (the index) of this element */
+		oTable.fnFilter( this.value, $("tfoot input").index(this) );
+	} );
+
+	$("tfoot input").each( function (i) {
+		asInitVals[i] = this.value;
+	} );
+	
+	$("tfoot input").focus( function () {
+		if ( this.className == "search_init" )
+		{
+			this.className = "";
+			this.value = "";
+		}
+	} );
+	
+	$("tfoot input").blur( function (i) {
+		if ( this.value == "" )
+		{
+			this.className = "search_init";
+			this.value = asInitVals[$("tfoot input").index(this)];
+		}
+	} );
+	
+	$('.popupMenu').hide();
+
+} );
+</script>

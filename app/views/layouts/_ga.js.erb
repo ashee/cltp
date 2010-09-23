@@ -3,7 +3,7 @@
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', '<%=GA_KEY%>']); 
   _gaq.push(['_setCustomVar', 1, 'username', '<%= @user.username %>', 3]);
-  _gaq.push(['_setCustomVar', 2, 'roles', '<%= @user.role_names %>', 3]);
+  _gaq.push(['_setCustomVar', 2, 'role', '<%= @user.primary_role %>', 3]);
   _gaq.push(['_trackPageview']);
  
 

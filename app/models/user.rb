@@ -23,7 +23,28 @@ class User < ActiveRecord::Base
   end
   
   def role_names
-    roles.map { |r| r.name }.join(",")
+    roles.map {  r  r.name }.join(",")
+  end
+  
+  def primary_role
+    %w[Admin Clerkship Program Faculty Staff Student].detect { |rn|
+      r = roles.detect {  |r|  r.name == rn }
+    }
+    
+=begin
+      # role_id in the db
+      6	Admin
+      3	Clerkship
+      2	Faculty
+      4	Program
+      5	Staff
+      1	Student
+      
+      # setup test data
+      insert into user_roles (user_id,role_id) values (1, 1);
+      insert into user_roles (user_id,role_id) values (1, 2);      
+      insert into user_roles (user_id,role_id) values (1, 5);
+=end
   end
   
 end
