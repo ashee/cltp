@@ -82,7 +82,11 @@
 	   	<%= f.label :procedures_observed %><br />
 	  	<% @encounterProcedures.each do |ep| %>
 	  		<% if (ep.participation_type == 'O') %> 
-				<%=h ep.procedure.name %><br />
+	  			<% if (ep.procedure.name == 'Other') %> 
+					<%=h ep.other %><br />
+				<% else %>
+					<%=h ep.procedure.name %><br />
+				<% end %>
 			<% end %>
 		<% end %>
 	</p>
