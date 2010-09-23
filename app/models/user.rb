@@ -22,4 +22,8 @@ class User < ActiveRecord::Base
     "Pediatrics"
   end
   
+  def role_names
+    roles.map { |r| r.name }.join(",")
+  end
+  
 end

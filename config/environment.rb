@@ -41,4 +41,5 @@ Rails::Initializer.run do |config|
   
   # cltp custom config's
   UPLOAD_DIR = 'public/uploads'
+  GA_KEY = 'UA-XXXXXXX-X' # change this to your own GA key
 end

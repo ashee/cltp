@@ -9,3 +9,4 @@ nbproject
 **/.DS_Store
 .DS_Store
 public/uploads/*
+config/ga.key
