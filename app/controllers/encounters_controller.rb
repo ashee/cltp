@@ -27,9 +27,9 @@ class EncountersController < ApplicationController
 
   # GET /encounters/new
   # GET /encounters/new.xml
-  def new
-	  @clerkship = Clerkship.find_by_name('Pediatrics')    
-    @encounter = Encounter.new
+  def new	
+  	@clerkship = Clerkship.find_by_name('Pediatrics')    
+	@encounter = Encounter.new
 	  @cs = CareSetting.all
 	  @clinics = Clinic.all
 	  @dxcs = DiagnosisCategory.find_all_by_clerkship_id(@clerkship.id)
@@ -86,9 +86,24 @@ class EncountersController < ApplicationController
     end
   end
 
-  # GET /encounters/1/edit
+  # GET /encounters/edit/1
   def edit
     @encounter = Encounter.find(params[:id])
+    @attributes={params[:field]=>params[:value]}
+    field = params[:field]
+    $fieldval = params[:value]
+
+    respond_to do |format|
+      if @encounter.update_attributes(@attributes)
+        flash[:notice] = 'Encounter was successfully updated.'
+      	#format.html { redirect_to encounters_path }
+      	format.js {render :layout => false}
+      else
+        flash[:notice] = 'Encounter was NOT successfully updated.'
+      	#format.html { redirect_to encounters_path }
+      	format.js {render :layout => false}
+      end
+    end    
   end
 
   # POST /encounters
@@ -119,24 +134,24 @@ class EncountersController < ApplicationController
 		else 
 			px = 'N'
 	end
-    @encounter = Encounter.new("clerkship_id" => params[:encounter]['clerkship_id'], "clinic_id" => params[:encounter]['clinic_id'], "encounter_date" => params[:encounter]['encounter_date'], "patient_id" => 1, "age" => params[:encounter]['age'], "gender" => params[:encounter]['gender'], "hx" => hx, "px" => px, "notes" => params[:encounter]['notes'], "created_by" => 1, "updated_by" => 1)
+    @encounter = Encounter.new("clerkship_id" => params[:encounter]['clerkship_id'], "clinic_id" => params[:encounter]['clinic_id'], "encounter_date" => params[:encounter]['encounter_date'], "patient_id" => params[:encounter]['patient_id'], "age" => params[:encounter]['age'], "gender" => params[:encounter]['gender'], "hx" => hx, "px" => px, "notes" => params[:encounter]['notes'], "created_by" => @user, "updated_by" => @user)
     
     respond_to do |format|
       if @encounter.save
         #save single primary problem
         dx_xref = Diagnosis.find_by_name params[:encounter]['primary_problem'].split(' > ').last
-        @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'P', "dx_id" => dx_xref.id, "created_by" => 1, "updated_by" => 1)
+        @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'P', "dx_id" => dx_xref.id, "created_by" => @user, "updated_by" => @user)
         @edx.save
         #loop and save secondary problems
         for sdx in params[:encounter]['secondary_problems'].split(', ')
           dx_xref = Diagnosis.find_by_name sdx.split(' > ').last
-          @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'S', "dx_id" => dx_xref.id, "created_by" => 1, "updated_by" => 1)
+          @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'S', "dx_id" => dx_xref.id, "created_by" => @user, "updated_by" => @user)
           @edx.save
         end #for dx loop
         #loop and save procedures observed
         for po in params[:encounter]['procedures_observed'].split(', ')
           proc_xref = Procedure.find_by_name(po)
-          @po_new = @encounter.procedures.new("encounter_id" => @encounter.id, "participation_type" => 'O', "procedure_id" => proc_xref.id, "created_by" => 1, "updated_by" => 1)
+          @po_new = @encounter.procedures.new("encounter_id" => @encounter.id, "participation_type" => 'O', "procedure_id" => proc_xref.id, "created_by" => @user, "updated_by" => @user)
           @po_new.save
         end #for procedures observed loop
         
@@ -154,9 +169,12 @@ class EncountersController < ApplicationController
   # PUT /encounters/1.xml
   def update
     @encounter = Encounter.find(params[:id])
+    @attributes={params[:field]=>params[:value]}
+    field = params[:field]
+    fieldval = params[:value]
 
     respond_to do |format|
-      if @encounter.update_attributes(params[:encounter])
+      if @encounter.update_attributes(@attributes)
         flash[:notice] = 'Encounter was successfully updated.'
         format.html { redirect_to(@encounter) }
         format.xml  { head :ok }

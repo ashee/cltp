@@ -1,14 +1,14 @@
-<div class="yui-ge">
+<div class="yui-gc">
 
 <div class="yui-u first">
 
 <% form_for(@encounter, :html => { :class  => "encounter"} ) do |f| %>
   <%= f.error_messages %>
 
-<fieldset>
+<fieldset class="outline2 bg5">
   	<p>
     	<%= f.label :encounter_date %><br />
-    	<%=h @encounter.encounter_date.strftime("%B %d, %Y") %>
+	    	<%=h @encounter.encounter_date.strftime("%B %d, %Y") %>
   	</p>
 	<p>
     	<%= f.label :clerkship %><br />
@@ -16,14 +16,20 @@
   	</p>
   	<p>
     	<%= f.label :Clinic %><br />
-   	 	<%=h @encounter.clinic.clinic_name %> - <%=h @encounter.clinic.location %>
+   	 	<%=h @encounter.clinic.displayname %>
 	</p>
 </fieldset>
 
-<fieldset>
+<fieldset class="outline2 bg5">
 	<p>
-	    <%= f.label :age %><br />
-    	<%=h @encounter.age %>
+	    <%= f.label :patient_id %>
+	    <br />
+	    <span class="edit_text" id="patient_id" name="patient_id"><%=h @encounter.patient_id %></span>
+	</p>
+	<p>
+	    <%= f.label :age %>
+	    <br />
+	    <span class="edit_text" id="age" name="age"><%=h @encounter.age %></span>
 	</p>
 	<p>
     	<%= f.label :gender %><br />
@@ -76,10 +82,10 @@
 
 </fieldset>
 
-<fieldset>
+<fieldset class="outline2 bg5">
 	<p>
-		<%= f.label :notes %><br />
-	  	<%=h @encounter.notes %>
+		<%= f.label :notes %>
+		<div class="edit_area" id="notes" name="notes"><%=h @encounter.notes %></div>
 	</p>
 </fieldset>
 
@@ -111,3 +117,30 @@
 </div> <!-- end yui-u -->
 
 </div> <!-- end yui-ge -->
+
+<script>
+$(function() {
+	$('.edit_area').each(function(i) {
+	  	$(this).editable('/encounters/edit/<%= @encounter.id %>', {
+	    	type	:		'textarea',
+	    	cancel	:	'Cancel',
+	    	submit	:	'OK',
+	    	indicator:	'Saving...',
+	    	tooltip	:	'Click to edit...',
+	    	submitdata:	function(value, settings) {return {_method: "put", authenticity_token: AUTH_TOKEN, field: $(this).attr('id')}; },
+	    	rows:		4
+	  	});
+	});
+	$('.edit_text').each(function(i) {
+	  	$(this).editable('/encounters/edit/<%= @encounter.id %>', {
+	    	type	:		'text',
+	    	cancel	:	'Cancel',
+	    	submit	:	'OK',
+	    	indicator:	'Saving...',
+	    	tooltip	:	'Click to edit...',
+	    	submitdata:	function(value, settings) {return {_method: "put", authenticity_token: AUTH_TOKEN, field: $(this).attr('id')}; },
+	    	rows:		4
+	  	});
+	});
+});
+</script>

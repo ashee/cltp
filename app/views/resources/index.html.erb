@@ -16,7 +16,7 @@
 		<li class="<%= cls %>"><a class="category_filter" href="#" id="<%=h dxc.id %>" title="<%=h dxc.name %>"><span id="category_filter_img_<%=h dxc.id %>" class="ui-icon ui-icon-triangle-1-e" style="float:left;"></span> <%=h dxc.name %></a>
 			<ul class="diagnoses_list filter_list" id="diagnoses_list_<%=h dxc.id %>">
 				<% dxc.diagnoses.each do |dx| %>
-				<li><a class="diagnosis_filter" href="#" title="<%=h dx.name %>"><%=h dx.name %><span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
+				<li><a class="diagnosis_filter" href="#" title="<%=h dx.name %>"><%=h dx.name %></a></li>
 				<% end %>
 			</ul>
 		</li>
@@ -41,7 +41,7 @@
 	  <tr>
 	  	<th>Title</th>
 		<th>Category</th>
-		<th>Problem</th>
+		<th>Tag</th>
 	   	<th>Rating</th>
 	    <th>From</th>
 	    <th>Date</th>
