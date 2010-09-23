@@ -3,9 +3,17 @@
 
 ## Overall
 1. Highlight tabs
+2. Remove hardcode - Academic Year and Period from the top bar
+
+## Security and access control
+1. Show customized top menu based on roles
+2. Restrict unauthorized access (e.g. list feedbacks should not be visible to students)
+3. List Encounters - *My Encounters* if student else *All Encounters*
 
 ## View Encounter
 1. Refresh display on add resource
+2. Change age column to dob in the database
+3. Re-factor code to use dob as opposed to age
 
 ## Edit encounter
 2. Fix pop-up dx selection tool
@@ -29,7 +37,7 @@
 2. Reports - query and grid
 
 ## Vaculty View
-1. Customize menu options (top toolbar) 
+1. Customize menu options (top toolbar)
 
 ## Testing
 1. Create student/faculty/admin users

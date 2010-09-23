@@ -1,34 +1,32 @@
-<h1 class="t2" style="margin: 15px;">My Feedbacks</h1>
+<h1 class="t2" style="margin: 15px;">All Feedbacks</h1>
 
-<div>
-<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
-	<a class="bt1" href="<%= new_feedback_path %>" style="vertical-align:middle;"><%= image_tag("add.png") %> New Feedback</a>
-</span>
-</div>
 <table id="fblist" class="display">
 <thead>
   <tr>
+    <th>ID</th>
     <th>Subject</th>
     <th>Body</th>
+	<th>Created By</th>
 	<th>Created At</th>
-	<th></th>
-	<th></th>
   </tr>
 </thead>
 <tbody>
 <% @feedbacks.each do |feedback| %>
   <tr>
+    <td><%=h feedback.id %></td>
     <td><%= link_to h(feedback.subject), feedback %></td>
     <td><%=h feedback.body %></td>
+    <td><%=h feedback.creator.fullname %></td>
     <td><%=h feedback.created_at.strftime '%m/%d/%Y'  %></td>
-    <td><%= link_to 'Edit', edit_feedback_path(feedback) %></td>
-    <td><%= link_to 'Destroy', feedback, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </tbody>
 <tfoot>
 	<tr>
 		<th><input type="text" name="search_subject" value="Search this" class="search_init" /></th>
+		<th><input type="text" name="search_subject" value="Search this" class="search_init" /></th>
+		<th><input type="text" name="search_body" value="Search this" class="search_init" /></th>
+		<th><input type="text" name="search_body" value="Search this" class="search_init" /></th>
 		<th><input type="text" name="search_body" value="Search this" class="search_init" /></th>
 	</tr>
 </tfoot>

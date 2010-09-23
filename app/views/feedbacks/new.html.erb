@@ -1,19 +1,45 @@
-<h1>New feedback</h1>
+<div class="yui-gc">
 
-<% form_for(@feedback) do |f| %>
+<div class="yui-u first">
+
+<h1>New feedback form</h1>
+
+<% form_for(@feedback, :html => { :class  => "encounter"})  do |f| %>
   <%= f.error_messages %>
 
+<fieldset class="outline2 bg5">
   <p>
     <%= f.label :subject %><br />
     <%= f.text_field :subject %>
-  </p>
+  </p><div style="clear:both"></div>
   <p>
     <%= f.label :body %><br />
     <%= f.text_area :body %>
   </p>
-  <p>
-    <%= f.submit 'Create' %>
-  </p>
-<% end %>
+</fieldset>
 
-<%= link_to 'Back', feedbacks_path %>
+<fieldset class="outline2 bg5" style="background-color: #FFF; border: 0; float: right;">
+  	<span class="ui-corner-all bt3">
+    	<a class="submit_encounter" href="#">Save</a>
+  	</span>
+  	<span class="ui-corner-all bt3">
+  		<a class="cancel_encounter" href="/">Cancel and Return</a>
+  	</span>
+</fieldset>
+
+<% end %>
+</div> <!-- end yui-u first -->
+
+<div class="yui-u">
+</div> <!-- end yui-u -->
+
+</div> <!-- end yui-ge -->
+
+<script type="text/javascript" charset="utf-8">
+	$(function() {
+		$('.submit_encounter').click(function() {
+			$('#new_feedback').submit();
+		});
+		
+	});
+</script>
