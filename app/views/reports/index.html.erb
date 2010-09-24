@@ -1,4 +1,4 @@
-<h1 class="t2" style="margin: 15px;">My Reports</h1>
+<h1 class="t2" style="margin: 15px;">Reports</h1>
 
 <!-- <div>
 <span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
@@ -8,50 +8,23 @@
 
 <div>
 <span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
-	<a class="bt1" href="<%=  %>" style="vertical-align:middle;"> Encounters by care setting</a>
+	<%= link_to "Encounters by Care Setting", {:controller => "reports", :action => "encounters_by_care_settings"}, :class => "bt1" %>
 </span>
 
 <span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
-	<a class="bt1" href="<%=  %>" style="vertical-align:middle;">Individual Diagnoses per student</a>
+	<%= link_to "Individual Diagnoses per Student", {:controller => "reports", :action => "dx_by_students"}, :class => "bt1" %>
 </span>
 </div>
 
+
 <div class="box1" style="margin: 15px;">
 <table style="margin: 0px 30px 30px 30px;">
-<h1 class="t3" style="margin-left: 30px;">	THis report is just place-holder report  and should be replaced with a frame into which we can display the report with the data from the database.
+	<tr
+	<td>
+		<h1 class="t3" style="margin-left: 30px;">	Click on one of the buttons above to view a specific report.
+	</td>
+	</tr>
 </h1>
-<thead>
-	<tr>
-		<th class="t5 bg2">Problems</th>
-		<th class="t5 bg2">Count</th>
-	</tr>
-</thead>
-<tbody>
-	<tr>
-		<td class="b1 bg4">Diabetes</td>
-		<td class="b1 bg4">1</td>
-	</tr>
-	<tr>
-		<td class="b1 bg5">Chest Pain</td>
-		<td class="b1 bg5">6</td>
-	</tr>
-	<tr>
-		<td class="b1 bg4">Anxiety</td>
-		<td class="b1 bg4">1</td>
-	</tr>
-	<tr>
-		<td class="b1 bg5">Chronic Medical Problem</td>
-		<td class="b1 bg5">3</td>
-	</tr>
-	<tr>
-		<td class="b1 bg4">Growth Problem</td>
-		<td class="b1 bg4">1</td>
-	</tr>
-	<tr>
-		<td class="t4 bg5">Total</td>
-		<td class="t4 bg5">12</td>
-	</tr>
-	</tbody>
 </table>
 </div>
 
