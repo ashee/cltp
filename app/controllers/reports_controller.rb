@@ -3,8 +3,8 @@ class ReportsController < ApplicationController
   end
     
   def encounters_by_care_settings
-    reportlinearray = Reports.encounters_by_care_settings
-    @reportline = reportlinearray.shift
+    @reportlinearray = Reports.encounters_by_care_settings
+    # @reportline = reportlinearray.shift
   end
 
   def dx_by_students

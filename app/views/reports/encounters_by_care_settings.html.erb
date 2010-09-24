@@ -4,21 +4,33 @@
 </h1>
 <thead>
 	<tr>
-		<th class="t5 bg2">Student</th>
-		<th class="t5 bg2">In-Patient</th>
-		<th class="t5 bg2">Out-Patient</th>
-		<th class="t5 bg2">Newborn</th>
-		<th class="t5 bg2">Emergency</th>
+		<th class="t5 bg2" colspan="2">Student</th>
+		<th class="t5 bg2" colspan="4">Encounters</th>
+	</tr>
+	<tr>
+		<th class="t4 bg4">FirstName</th>
+		<th class="t4 bg4">LastName</th>
+		<th class="t4 bg4">In-Patient</th>
+		<th class="t4 bg4">Out-Patient</th>
+		<th class="t4 bg4">Newborn</th>
+		<th class="t4 bg4">Emergency</th>
 	</tr>
 </thead>
 <tbody>
+    <% for reportline in @reportlinearray do 
+	 	cls_rest = cycle("bg5","bg4", :name => 'rest_cols')
+	 	cls_col_1 = cycle("bg8","bg7", :name => 'first_col')
+	%>
 	<tr>
-		<td class="b1 bg4">	<%= @reportline["Username"] %> </td>
-		<td class="b1 bg4">	<%= @reportline["Inpatient"] %> </td>
-		<td class="b1 bg4">	<%= @reportline["Outpatient"] %> </td>
-		<td class="b1 bg4">	<%= @reportline["Newborn"] %> </td>
-		<td class="b1 bg4">	<%= @reportline["Emergency"] %> </td>
+		<td class="b1 <%= cls_col_1 %>">	<%= reportline["Firstname"] %> </td>
+		<td class="b1 <%= cls_col_1 %>">	<%= reportline["Lastname"] %> </td>
+		<td class="b1 <%= cls_rest %>">		<%= reportline["Inpatient"] %> </td>
+		<td class="b1 <%= cls_rest %>">		<%= reportline["Outpatient"] %> </td>
+		<td class="b1 <%= cls_rest %>">		<%= reportline["Newborn"] %> </td>
+		<td class="b1 <%= cls_rest %>">		<%= reportline["Emergency"] %> </td>
 	</tr>
+	<% end %>
+
 	</tbody>
 </table>
 </div>
