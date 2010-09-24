@@ -122,68 +122,82 @@ class EncountersController < ApplicationController
   # POST /encounters.xml
   def create
 
-	case
-		when (params[:hx]['O'] == "1" && params[:hx]['P'] == "1")
-			hx = 'B'
-		when (params[:hx]['O'] == "1" && params[:hx]['P'] == "0") 
-			hx = 'O'
-		when (params[:hx]['O'] == "0" && params[:hx]['P'] == "1")
-			hx = 'P'
-		when (params[:hx]['O'] == "0" && params[:hx]['P'] == "0")
-			hx = 'N'
-		else
-			hx = 'N'
-	end
-	case
-		when (params[:px]['O'] == "1" && params[:px]['P'] == "1")
-			px = 'B'
-		when (params[:px]['O'] == "1" && params[:px]['P'] == "0") 
-			px = 'O'
-		when (params[:px]['O'] == "0" && params[:px]['P'] == "1")
-			px = 'P'
-		when (params[:px]['O'] == "0" && params[:px]['P'] == "0")
-			px = 'N'
-		else 
-			px = 'N'
-	end
-    @encounter = Encounter.new("clerkship_id" => params[:encounter]['clerkship_id'], "clinic_id" => params[:encounter]['clinic_id'], "encounter_date" => params[:encounter]['encounter_date'], "patient_id" => params[:encounter]['patient_id'], "age" => params[:encounter]['age'], "gender" => params[:encounter]['gender'], "hx" => hx, "px" => px, "notes" => params[:encounter]['notes'], "created_by" => @user, "updated_by" => @user)
+  	case
+  		when (params[:hx]['O'] == "1" && params[:hx]['P'] == "1")
+  			hx = 'B'
+  		when (params[:hx]['O'] == "1" && params[:hx]['P'] == "0") 
+  			hx = 'O'
+  		when (params[:hx]['O'] == "0" && params[:hx]['P'] == "1")
+  			hx = 'P'
+  		when (params[:hx]['O'] == "0" && params[:hx]['P'] == "0")
+  			hx = 'N'
+  		else
+  			hx = 'N'
+  	end
+  	case
+  		when (params[:px]['O'] == "1" && params[:px]['P'] == "1")
+  			px = 'B'
+  		when (params[:px]['O'] == "1" && params[:px]['P'] == "0") 
+  			px = 'O'
+  		when (params[:px]['O'] == "0" && params[:px]['P'] == "1")
+  			px = 'P'
+  		when (params[:px]['O'] == "0" && params[:px]['P'] == "0")
+  			px = 'N'
+  		else 
+  			px = 'N'
+  	end
+    
+    @encounter = Encounter.new(params[:encounter])
+    @encounter.hx = hx
+    @encounter.px = px
+    @encounter.creator = @user
+    @encounter.updater = @user
+    
+    primary_problem = params[:primary_problem]
+    secondary_problems = params[:secondary_problems]
+    procedures_observed = params[:procedures_observed]
     
     respond_to do |format|
       if @encounter.save
         #save single primary problem
-        if params[:encounter]['primary_problem'].include? ' > ' then 
-        	dx_xref = Diagnosis.find_by_name params[:encounter]['primary_problem'].split(' > ').last
+        if primary_problem.include? ' > ' then 
+        	dx_xref = Diagnosis.find_by_name primary_problem.split(' > ').last
         	dx_other = ''
         else
         	dx_xref = Diagnosis.find_by_name 'Other'
-        	dx_other = params[:encounter]['primary_problem']
+        	dx_other = primary_problem
         end
         @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'P', "dx_id" => dx_xref.id, "other" => dx_other, "created_by" => @user, "updated_by" => @user)
         @edx.save
         
         #loop and save secondary problems
-        for sdx in params[:encounter]['secondary_problems'].split(', ')
-			if sdx.include? ' > ' then 
-				dx_xref = Diagnosis.find_by_name sdx.split(' > ').last
-				dx_other = ''
-			else
-				dx_xref = Diagnosis.find_by_name 'Other'
-				dx_other = sdx
-			end        
-          	@edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'S', "dx_id" => dx_xref.id, "other" => dx_other, "created_by" => @user, "updated_by" => @user)
-          	@edx.save
+        for sdx in secondary_problems.split(', ')
+    			if sdx.include? ' > ' then 
+    				dx_xref = Diagnosis.find_by_name sdx.split(' > ').last
+    				dx_other = ''
+    			else
+    				dx_xref = Diagnosis.find_by_name 'Other'
+    				dx_other = sdx
+    			end
+    			      
+          @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'S', "dx_id" => dx_xref.id, "other" => dx_other, "created_by" => @user.id, "updated_by" => @user.id)
+          @edx.save
+        
         end #for dx loop
+        
         #loop and save procedures observed
-        for po in params[:encounter]['procedures_observed'].split(', ')
-			if (proc_xref = Procedure.find_by_name(po)) 
-			then 
-				proc_xref = Procedure.find_by_name(po)
-				proc_other = ''
-			else 
-				proc_xref = Procedure.find_by_name('Other')
-				proc_other = po
-			end
-          @po_new = @encounter.procedures.new("encounter_id" => @encounter.id, "participation_type" => 'O', "procedure_id" => proc_xref.id, "other" => proc_other, "created_by" => @user, "updated_by" => @user)
+        for po in procedures_observed.split(', ')
+          
+    			if (proc_xref = Procedure.find_by_name(po)) 
+    			then 
+    				proc_xref = Procedure.find_by_name(po)
+    				proc_other = ''
+    			else 
+    				proc_xref = Procedure.find_by_name('Other')
+    				proc_other = po
+    			end
+          
+          @po_new = @encounter.procedures.new("encounter_id" => @encounter.id, "participation_type" => 'O', "procedure_id" => proc_xref.id, "other" => proc_other, "created_by" => @user.id, "updated_by" => @user.id)
           @po_new.save
         end #for procedures observed loop
         
