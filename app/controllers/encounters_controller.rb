@@ -239,6 +239,7 @@ class EncountersController < ApplicationController
 			px = 'N'
 	end
     @encounter = Encounter.find(params[:encounter]['encounter_id'])
+    @encounter.update_attributes :age => params[:encounter]['age'], :encounter_date => params[:encounter]['encounter_date'], :patient_id => params[:encounter]['patient_id'], :gender => params[:encounter]['gender'], :notes => params[:encounter]['notes'], :clinic_id => params[:encounter]['clinic_id'], :hx => hx, :px => px, :updated_by =>@user.id 
         
     respond_to do |format|
       if @encounter.save
