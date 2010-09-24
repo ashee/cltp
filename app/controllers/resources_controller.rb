@@ -162,8 +162,7 @@ class ResourcesController < ApplicationController
   end
   
   def by_dx
-    # render :text => params[:id]
-    dx_ids = params[:id].split ","
+    dx_ids = params[:id]
     @ris = Resource.find_by_dx(dx_ids)
     render :json => @ris
   end

@@ -11,7 +11,7 @@
     	<a class="submit_encounter" href="#">Save</a>
   	</span>
   	<span class="ui-corner-all bt3">
-  		<a class="cancel_encounter" href="#">Cancel and Return</a>
+  		<a class="cancel_encounter" href="/encounters/">Cancel and Return</a>
   	</span>
 </fieldset>
 
@@ -70,7 +70,7 @@
 	
 	<p>
     	<%= f.label :primary_problem %><br />
-		<input type="text" tabindex="70" size="50" name="encounter[primary_problem]" id="encounter_primary_problem" class="ui-widget ui-widget-content required outline1">
+		<input type="text" tabindex="70" size="50" name="primary_problem" id="encounter_primary_problem" class="ui-widget ui-widget-content required outline1">
 		<button id="encounter_primary_problem_drop" class="drop_button"></button>
 	</p>
 	
@@ -78,7 +78,7 @@
 	
 	<p>
 	   	<%= f.label :secondary_problems %><br />
-	  	<textarea tabindex="100" rows="1" name="encounter[secondary_problems]" id="encounter_secondary_problems" cols="50" class="ui-widget ui-widget-content outline1"></textarea>
+	  	<textarea tabindex="100" rows="1" name="secondary_problems" id="encounter_secondary_problems" cols="50" class="ui-widget ui-widget-content outline1"></textarea>
 	  	<button id="encounter_secondary_problems_drop" class="drop_button"></button>
 	</p>
 	
@@ -86,7 +86,7 @@
 	
 	<p>
 		<%= f.label :procedures_observed %><br />
-		<textarea tabindex="120" rows="1" name="encounter[procedures_observed]" id="encounter_procedures_observed" cols="50" class="ui-widget ui-widget-content outline1"></textarea>
+		<textarea tabindex="120" rows="1" name="procedures_observed]" id="encounter_procedures_observed" cols="50" class="ui-widget ui-widget-content outline1"></textarea>
 		<button id="encounter_procedures_observed_drop" class="drop_button"></button>
 	</p>
 </fieldset>
@@ -103,13 +103,11 @@
     	<a class="submit_encounter" href="#">Save</a>
   	</span>
   	<span class="ui-corner-all bt3">
-  		<a class="cancel_encounter" href="#">Cancel and Return</a>
+  		<a class="cancel_encounter" href="/encounters/">Cancel and Return</a>
   	</span>
 </fieldset>
 
 <% end %>
-
-
 
 </div> <!-- end yui-u first -->
 
@@ -155,24 +153,10 @@ $(function() {
 		});
 	});
 		
-	var availableProblems = 
-[
-<% for dx in @dxs 
-	@dxcs.each do |dxc|
-		if (dxc.id == dx.category_id) then %>
-"<%= dxc.name %> > <%= dx.name %>", <% 		
-		end  
-	end  
-end %>
-""
-];
-	var availableProcedures = 
-[
-<% for procedure in @procedures %>
-"<%= procedure.name %>", <% 		 	
-end %>
-""
-];
+	var availableProblems = [<%= @dx_names %>];
+	var dx_hash = {<%= @dx_hash %>};
+	var availableProcedures = [<%= @proc_names %>];
+	var proc_hash = {<%= @proc_hash %>};
 
 	$(".datepicker").datepicker();
 	$("#encounter_secondary_problems").autocomplete({
@@ -227,8 +211,14 @@ end %>
 			source: availableProblems,
 			minLength: 0,
 			change: function(event, ui) {
-				$('#rightbar_resources').append('<li><a href="#">'+ui.item.value+' Guidelines</a></li>');
-				$('#rightbar_resources li:last-child').css("background-color","yellow").animate({'backgroundColor' : '#FFFFFF'}, 3000);
+				dxid = dx_hash[ui.item.value];
+				$.post("/resources/by_dx", {"id": dxid }, function(data, status) {
+					// console.log(data);
+					for (var i = 0; i < data.length; i++) {
+						$('#rightbar_resources').append('<li><a href="#">'+ "---testing---"+' Guidelines</a></li>');						
+					}
+					$('#rightbar_resources li:last-child').css("background-color","yellow").animate({'backgroundColor' : '#FFFFFF'}, 3000);
+				});
 			}
 	});
 
