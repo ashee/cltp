@@ -169,8 +169,15 @@ class EncountersController < ApplicationController
         end #for dx loop
         #loop and save procedures observed
         for po in params[:encounter]['procedures_observed'].split(', ')
-          proc_xref = Procedure.find_by_name(po)
-          @po_new = @encounter.procedures.new("encounter_id" => @encounter.id, "participation_type" => 'O', "procedure_id" => proc_xref.id, "created_by" => @user, "updated_by" => @user)
+			if (proc_xref = Procedure.find_by_name(po)) 
+			then 
+				proc_xref = Procedure.find_by_name(po)
+				proc_other = ''
+			else 
+				proc_xref = Procedure.find_by_name('Other')
+				proc_other = po
+			end
+          @po_new = @encounter.procedures.new("encounter_id" => @encounter.id, "participation_type" => 'O', "procedure_id" => proc_xref.id, "other" => proc_other, "created_by" => @user, "updated_by" => @user)
           @po_new.save
         end #for procedures observed loop
         
