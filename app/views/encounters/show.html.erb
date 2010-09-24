@@ -4,6 +4,15 @@
 
 <% form_for(@encounter, :html => { :class  => "encounter"} ) do |f| %>
   <%= f.error_messages %>
+  
+<div style="margin-bottom: 10px; float: right;">
+<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
+	<a class="bt1" href="/encounters/edit/<%=h @encounter.id %>" style="vertical-align:middle;"><%= image_tag("edit.png") %> Edit this Encounter</a>
+</span>
+</div>
+
+<div style="clear:both"></div>
+
 
 <fieldset class="outline2 bg5">
   	<p>
@@ -24,12 +33,12 @@
 	<p>
 	    <%= f.label :patient_id %>
 	    <br />
-	    <span class="edit_text" id="patient_id" name="patient_id"><%=h @encounter.patient_id %></span>
+	    <span id="patient_id" name="patient_id"><%=h @encounter.patient_id %></span>
 	</p>
 	<p>
 	    <%= f.label :age %>
 	    <br />
-	    <span class="edit_text" id="age" name="age"><%=h @encounter.age %></span>
+	    <span id="age" name="age"><%=h @encounter.age %></span>
 	</p>
 	<p>
     	<%= f.label :gender %><br />
@@ -133,19 +142,8 @@
 <script>
 $(function() {
 	$('.edit_area').each(function(i) {
-	  	$(this).editable('/encounters/edit/<%= @encounter.id %>', {
+	  	$(this).editable('/encounters/inplaceupdate/<%= @encounter.id %>', {
 	    	type	:		'textarea',
-	    	cancel	:	'Cancel',
-	    	submit	:	'OK',
-	    	indicator:	'Saving...',
-	    	tooltip	:	'Click to edit...',
-	    	submitdata:	function(value, settings) {return {_method: "put", authenticity_token: AUTH_TOKEN, field: $(this).attr('id')}; },
-	    	rows:		4
-	  	});
-	});
-	$('.edit_text').each(function(i) {
-	  	$(this).editable('/encounters/edit/<%= @encounter.id %>', {
-	    	type	:		'text',
 	    	cancel	:	'Cancel',
 	    	submit	:	'OK',
 	    	indicator:	'Saving...',
