@@ -1,1 +1,351 @@
-<%= $fieldval %>
+<div class="yui-gc">
+
+<div class="yui-u first">
+
+<% form_for(@encounter, :html => { :class  => "encounter"} ) do |f| %>
+  <%= f.error_messages %>
+  <input type="hidden" name="encounter[clerkship_id]" value="<%= @clerkship.id %>" />
+  <input type="hidden" name="encounter[encounter_id]" value="<%= @encounter.id %>" />
+  
+<fieldset class="outline2 bg5" style="background-color: #FFF; border: 0; float: right;">
+  	<span class="ui-corner-all bt3">
+    	<a class="submit_encounter" href="#">Save</a>
+  	</span>
+  	<span class="ui-corner-all bt3">
+  		<a class="cancel_encounter" href="/encounters/show/<%= @encounter.id %>">Cancel and Return</a>
+  	</span>
+</fieldset>
+
+<div style="clear:both"></div>
+
+<div class="error" style="display:none;">
+ 	<%= image_tag("warning.gif") %>
+  	<span></span>.<br clear="all"/>
+</div>
+
+<fieldset class="outline2 bg5">
+  	<p>
+    	<%= f.label :encounter_date %><br />
+    	<%= f.text_field :encounter_date, :size=>10, :value => @encounter.encounter_date.strftime("%m/%d/%Y"), :class => 'datepicker ui-widget ui-widget-content outline1', :tabindex=>1 %>
+  	</p>
+	<p>
+		<%= f.label :care_setting %><br />
+		<%= collection_select(:encounter, :id, @cs, :code, :name, {:prompt => "Select a care setting"}, {"class" => "required"} ) %>
+	</p>
+  	<p>
+    	<%= f.label :Clinic %><br />
+		<span id="clinics">
+		<%= render :partial => 'clinics', :object => @clinics %>
+		</span>
+	</p>
+</fieldset>
+
+<fieldset class="outline2 bg5">
+	<p>
+	    <%= f.label :patient_id %><br />
+    	<%= f.text_field :patient_id, :size=>15, :class=>'ui-widget ui-widget-content outline1 required', :tabindex=>33  %>
+	</p>
+	<p>
+	    <%= f.label :age %><br />
+    	<%= f.text_field :age, :size=>5, :class=>'ui-widget ui-widget-content outline1 required', :tabindex=>40  %>
+	</p>
+	<p>
+    	<%= f.label :gender %><br />
+   	 	<%= select( "encounter", "gender", { "Male" => "M", "Female" => "F", "Other" => "O" }) %>
+	</p> 
+	
+	<div style="clear:both"></div>
+	
+	<p>
+		<%= f.label :patient_history %><br />
+	  	<%= check_box_tag 'hx', 'P', (@encounter.hx == 'P' || @encounter.hx == 'B') %> Performed
+	  	<%= check_box_tag 'hx', 'O', (@encounter.hx == 'O' || @encounter.hx == 'B') %> Observed
+	</p>
+	<p>
+		<%= f.label :physical_exam %><br />
+	  	<%= check_box_tag 'px', 'P', (@encounter.px == 'P' || @encounter.px == 'B') %> Performed
+	  	<%= check_box_tag 'px', 'O', (@encounter.px == 'O' || @encounter.px == 'B') %> Observed
+	</p>
+	
+	<div style="clear:both"></div>
+	
+	<p>
+    	<%= f.label :primary_problem %><br />
+    	<% @encounterDiagnoses.each do |edx| %> 
+			<% if (edx.dx_type == 'P') %>
+				<% if (edx.diagnosis.name == 'Other') %> 
+					<% $primary_problem = edx.other %>
+				<% else %>
+					<% $primary_problem = edx.diagnosis.category.name+' > '+edx.diagnosis.name %>
+				<% end %>
+			<% end %>
+		<% end %>
+		<input type="text" tabindex="70" size="50" name="encounter[primary_problem]" id="encounter_primary_problem" class="ui-widget ui-widget-content required outline1" value="<%= $primary_problem %>" />
+		<button id="encounter_primary_problem_drop" class="drop_button"></button>
+	</p>
+	
+	<div style="clear:both"></div>
+	
+	<p>
+	   	<%= f.label :secondary_problems %><br />
+	  	<textarea tabindex="100" rows="1" name="encounter[secondary_problems]" id="encounter_secondary_problems" cols="50" class="ui-widget ui-widget-content outline1"><% 
+		$sps = ''
+	  	@encounterDiagnoses.each do |edx|
+			if (edx.dx_type == 'S')
+				if (edx.diagnosis.name == 'Other')
+					$sps += edx.other
+				else
+					$sps += edx.diagnosis.category.name+' > '+edx.diagnosis.name
+				end
+				$sps += ', '
+			end
+		end
+%><%= $sps %></textarea>
+	  	<button id="encounter_secondary_problems_drop" class="drop_button"></button>
+	</p>
+	
+	<div style="clear:both"></div>
+	
+	<p>
+		<%= f.label :procedures_observed %><br />
+		<textarea tabindex="120" rows="1" name="encounter[procedures_observed]" id="encounter_procedures_observed" cols="50" class="ui-widget ui-widget-content outline1"><% 
+	$procs = ''
+	@encounterProcedures.each do |ep| 
+		if (ep.participation_type == 'O')
+	  		if (ep.procedure.name == 'Other')
+				$procs += ep.other
+			else
+				$procs += ep.procedure.name
+			end
+			$procs += ', '
+		end
+	end
+%><%= $procs %></textarea>
+		<button id="encounter_procedures_observed_drop" class="drop_button"></button>
+	</p>
+</fieldset>
+
+<fieldset class="outline2 bg5">
+	<p>
+		<%= f.label :notes %><br />
+	  	<%= f.text_area :notes, :size=>"40x1", :class => "ui-widget ui-widget-content outline1", :tabindex=>130  %>
+	</p>
+</fieldset>
+
+<fieldset class="outline2 bg5" style="background-color: #FFF; border: 0; float: right;">
+  	<span class="ui-corner-all bt3">
+    	<a class="submit_encounter" href="#">Save</a>
+  	</span>
+  	<span class="ui-corner-all bt3">
+  		<a class="cancel_encounter" href="/encounters/show/<%= @encounter.id %>">Cancel and Return</a>
+  	</span>
+</fieldset>
+
+<% end %>
+
+
+
+</div> <!-- end yui-u first -->
+
+<div class="yui-u">
+
+	<div id="rightbar" class="ui-widget ">
+		
+		<%= render "other_resources" %>
+		
+	</div>
+	
+</div> <!-- end yui-u -->
+
+</div> <!-- end yui-ge -->
+
+<script type="text/javascript">
+$(function() {
+	jQuery.validator.messages.required = "";
+	$("#edit_encounter_<%= @encounter.id %>").validate({
+		invalidHandler: function(e, validator) {
+					var errors = validator.numberOfInvalids();
+					if (errors) {
+						var message = errors == 1
+							? 'You missed 1 field. It has been highlighted below'
+							: 'You missed ' + errors + ' fields.  They have been highlighted below';
+						$("div.error span").html(message);
+						$("div.error").show();
+					} else {
+						$("div.error").hide();
+					}
+				},
+				onkeyup: false
+	});
+	
+	$('#encounter_id').change(function() {
+		$.ajax({
+	  		url: '/encounters/get_clerkships_by_care_setting/'+$(this).val(),
+			dataType: 'script',
+			success: function(data) {
+				$('#clinics').html(data);
+				$('#encounter_clinic_id').show();
+			}	
+		});
+	});
+		
+	var availableProblems = 
+[
+<% for dx in @dxs 
+	@dxcs.each do |dxc|
+		if (dxc.id == dx.category_id) then %>
+"<%= dxc.name %> > <%= dx.name %>", <% 		
+		end  
+	end  
+end %>
+""
+];
+	var availableProcedures = 
+[
+<% for procedure in @procedures %>
+"<%= procedure.name %>", <% 		 	
+end %>
+""
+];
+
+	$(".datepicker").datepicker();
+	$("#encounter_secondary_problems").autocomplete({
+			minLength: 0,
+			source: function(request, response) {
+				// delegate back to autocomplete, but extract the last term
+				response($.ui.autocomplete.filter(availableProblems, extractLast(request.term)));
+			},
+			focus: function() {
+				// prevent value inserted on focus
+				return false;
+			},
+			select: function(event, ui) {
+				var terms = split( this.value );
+				terms.pop();
+				terms.push( ui.item.value );
+				terms.push("");
+				this.value = terms.join(", ");
+				var arr = ui.item.value.split(',');
+				$.each(arr, function(i, val) {
+      				$('#rightbar_resources').append('<li><a href="#">'+val+' Guidelines</a></li>');
+     				$('#rightbar_resources li:last-child').css("background-color","yellow").animate({'backgroundColor' : '#FFFFFF'}, 3000);
+    			});
+				return false;
+			}
+		});
+				
+		$("#encounter_secondary_problems_drop").attr("tabIndex", -1)
+				.attr("title", "Show All Items")
+				.button({
+					icons: {
+						primary: "ui-icon-triangle-1-s"
+					},
+					text: false
+				}).removeClass("ui-corner-all")
+				.addClass("ui-button-icon")
+				.click(function(e) {
+					e.preventDefault();
+					// close if already visible
+					if ($("#encounter_secondary_problems").autocomplete("widget").is(":visible")) {
+						$("#encounter_secondary_problems").autocomplete("close");
+						return;
+					}
+					// pass empty string as value to search for, displaying all results
+					$("#encounter_secondary_problems").autocomplete("search", "");
+					$("#encounter_secondary_problems").focus();
+					return false;
+				});
+	$('textarea#encounter_secondary_problems').autoResize();
+		
+  	$("#encounter_primary_problem").autocomplete({
+			source: availableProblems,
+			minLength: 0,
+			change: function(event, ui) {
+				$('#rightbar_resources').append('<li><a href="#">'+ui.item.value+' Guidelines</a></li>');
+				$('#rightbar_resources li:last-child').css("background-color","yellow").animate({'backgroundColor' : '#FFFFFF'}, 3000);
+			}
+	});
+
+	$("#encounter_primary_problem_drop").attr("tabIndex", -1)
+				.attr("title", "Show All Items")
+				.button({
+					icons: {
+						primary: "ui-icon-triangle-1-s"
+					},
+					text: false
+				}).removeClass("ui-corner-all")
+				.addClass("ui-button-icon")
+				.click(function(e) {
+					e.preventDefault();
+					if ($("#encounter_primary_problem").autocomplete("widget").is(":visible")) {
+						$("#encounter_primary_problem").autocomplete("close");
+						return;
+					}
+					$("#encounter_primary_problem").autocomplete("search", "");
+					$("#encounter_primary_problem").focus();
+					return false;
+				});
+		function split(val) {
+			return val.split(/,\s*/);
+		}
+		function extractLast(term) {
+			return split(term).pop();
+		}		
+		
+		$("#encounter_procedures_observed").autocomplete({
+			minLength: 0,
+			source: function(request, response) {
+				// delegate back to autocomplete, but extract the last term
+				response($.ui.autocomplete.filter(availableProcedures, extractLast(request.term)));
+			},
+			focus: function() {
+				// prevent value inserted on focus
+				return false;
+			},
+			select: function(event, ui) {
+				var terms = split( this.value );
+				terms.pop();
+				terms.push( ui.item.value );
+				terms.push("");
+				this.value = terms.join(", ");
+				var arr = ui.item.value.split(',');
+				$.each(arr, function(i, val) {
+      				$('#rightbar_resources').append('<li><a href="#">'+val+' Guidelines</a></li>');
+      				$('#rightbar_resources li:last-child').css("background-color","yellow").animate({'backgroundColor' : '#FFFFFF'}, 3000);
+
+    			});
+				return false;
+			}
+		});
+				
+		$("#encounter_procedures_observed_drop").attr("tabIndex", -1)
+				.attr("title", "Show All Items")
+				.button({
+					icons: {
+						primary: "ui-icon-triangle-1-s"
+					},
+					text: false
+				}).removeClass("ui-corner-all")
+				.addClass("ui-button-icon")
+				.click(function(e) {
+					e.preventDefault();
+					// close if already visible
+					if ($("#encounter_procedures_observed").autocomplete("widget").is(":visible")) {
+						$("#encounter_procedures_observed").autocomplete("close");
+						return;
+					}
+					// pass empty string as value to search for, displaying all results
+					$("#encounter_procedures_observed").autocomplete("search", "");
+					$("#encounter_procedures_observed").focus();
+					return false;
+				});
+		$('textarea#encounter_procedures_observed').autoResize();
+		$('textarea#encounter_notes').autoResize();
+		//$('.submit_encounter').button();
+		//$('.cancel_encounter').button();
+		$('.rightbar_list > li:nth-child(even)').addClass('even');
+		$('.submit_encounter').click(function() {
+			$('#edit_encounter_<%= @encounter.id %>').submit();
+		});
+	});
+</script>
