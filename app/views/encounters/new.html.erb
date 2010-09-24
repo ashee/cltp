@@ -155,24 +155,10 @@ $(function() {
 		});
 	});
 		
-	var availableProblems = 
-[
-<% for dx in @dxs 
-	@dxcs.each do |dxc|
-		if (dxc.id == dx.category_id) then %>
-"<%= dxc.name %> > <%= dx.name %>", <% 		
-		end  
-	end  
-end %>
-""
-];
-	var availableProcedures = 
-[
-<% for procedure in @procedures %>
-"<%= procedure.name %>", <% 		 	
-end %>
-""
-];
+	var availableProblems = [<%= @dx_names %>];
+	var dx_hash = {<%= @dx_hash %>};
+	var availableProcedures = [<%= @proc_names %>];
+	var proc_hash = {<%= @proc_hash %>};
 
 	$(".datepicker").datepicker();
 	$("#encounter_secondary_problems").autocomplete({
@@ -227,8 +213,14 @@ end %>
 			source: availableProblems,
 			minLength: 0,
 			change: function(event, ui) {
-				$('#rightbar_resources').append('<li><a href="#">'+ui.item.value+' Guidelines</a></li>');
-				$('#rightbar_resources li:last-child').css("background-color","yellow").animate({'backgroundColor' : '#FFFFFF'}, 3000);
+				dxid = dx_hash[ui.item.value];
+				$.post("/resources/by_dx", {"id": dxid }, function(data, status) {
+					// console.log(data);
+					for (var i = 0; i < data.length; i++) {
+						$('#rightbar_resources').append('<li><a href="#">'+ "---testing---"+' Guidelines</a></li>');						
+					}
+					$('#rightbar_resources li:last-child').css("background-color","yellow").animate({'backgroundColor' : '#FFFFFF'}, 3000);
+				});
 			}
 	});
 

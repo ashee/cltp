@@ -35,12 +35,18 @@ class EncountersController < ApplicationController
   # GET /encounters/new.xml
   def new	
   	@clerkship = Clerkship.find_by_name('Pediatrics')    
-	@encounter = Encounter.new
+	  @encounter = Encounter.new
 	  @cs = CareSetting.all
 	  @clinics = Clinic.all
 	  @dxcs = DiagnosisCategory.find_all_by_clerkship_id(@clerkship.id)
     @dxs = Diagnosis.find_all_by_clerkship_id(@clerkship.id)
     @procedures = Procedure.find_all_by_clerkship_id([@clerkship.id, -1]) 
+    
+    @dxbycats = Diagnosis.dx_by_categories(@clerkship.id)
+    @dx_names = @dxbycats.map { |dxc| "'#{dxc.category_name} > #{dxc.name}'"}.join(",")
+    @dx_hash = @dxbycats.map { |dxc| "'#{dxc.category_name} > #{dxc.name}' : #{dxc.id}"}.join(",")
+    @proc_names = @procedures.collect { |proc| "'#{proc.name}'" }.join(",")
+    @proc_hash = @procedures.collect { |proc| "'#{proc.name}' : #{proc.id}" }.join(",")
     
     respond_to do |format|
       format.html # new.html.erb

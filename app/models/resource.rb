@@ -32,8 +32,7 @@ class Resource < ActiveRecord::Base
   end
   
   def self.find_by_tag(tag,tag_ids)
-    tids = tag_ids.join(",")
-    ResourceInstance.find :all, :conditions => ["tag = ? and tag_id in (?)", tag, tids]
+    ResourceInstance.find :all, :conditions => ["tag = ? and tag_id in (?)", tag, tag_ids]
   end
   
 end
