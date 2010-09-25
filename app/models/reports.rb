@@ -30,7 +30,9 @@ class Reports
              sum(if(c.care_setting='OP',1,0)) as 'Outpatient',
              sum(if(c.care_setting='IP',1,0)) as 'Inpatient',
              sum(if(c.care_setting='ER',1,0)) as 'Emergency',
-             sum(if(c.care_setting='NB',1,0)) as 'Newborn'
+             sum(if(c.care_setting='NB',1,0)) as 'Newborn',
+             u.firstname as 'Firstname', 
+             u.lastname as 'Lastname'
       from encounters e join clinics c on e.clinic_id = c.id
       join users u on e.created_by = u.id
       where e.clerkship_id = 1
