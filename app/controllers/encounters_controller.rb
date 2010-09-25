@@ -20,8 +20,8 @@ class EncountersController < ApplicationController
   # GET /encounters/1.xml
   def show
    	@encounter = Encounter.find(params[:id])
-	@encounterDiagnoses = @encounter.diagnoses
-	@encounterProcedures = @encounter.procedures
+	  @encounterDiagnoses = @encounter.diagnoses
+	  @encounterProcedures = @encounter.procedures
     @resources = Resource.find_by_encounter(@encounter.id)
     @rel_resources = Resource.find_related_by_encounter(@encounter.id)
     
@@ -103,11 +103,11 @@ class EncountersController < ApplicationController
   def edit
     @encounter = Encounter.find(params[:id])
     @encounterDiagnoses = @encounter.diagnoses
-	@encounterProcedures = @encounter.procedures
+	  @encounterProcedures = @encounter.procedures
     @clerkship = Clerkship.find_by_name('Pediatrics')    
-	@cs = CareSetting.all
-	@clinics = Clinic.all
-	@dxcs = DiagnosisCategory.find_all_by_clerkship_id(@clerkship.id)
+	  @cs = CareSetting.all
+	  @clinics = Clinic.all
+	  @dxcs = DiagnosisCategory.find_all_by_clerkship_id(@clerkship.id)
     @dxs = Diagnosis.find_all_by_clerkship_id(@clerkship.id)
     @procedures = Procedure.find_all_by_clerkship_id([@clerkship.id, -1]) 
     
@@ -120,31 +120,8 @@ class EncountersController < ApplicationController
   # POST /encounters
   # POST /encounters.xml
   def create
-
-  	case
-  		when (params[:hx]['O'] == "1" && params[:hx]['P'] == "1")
-  			hx = 'B'
-  		when (params[:hx]['O'] == "1" && params[:hx]['P'] == "0") 
-  			hx = 'O'
-  		when (params[:hx]['O'] == "0" && params[:hx]['P'] == "1")
-  			hx = 'P'
-  		when (params[:hx]['O'] == "0" && params[:hx]['P'] == "0")
-  			hx = 'N'
-  		else
-  			hx = 'N'
-  	end
-  	case
-  		when (params[:px]['O'] == "1" && params[:px]['P'] == "1")
-  			px = 'B'
-  		when (params[:px]['O'] == "1" && params[:px]['P'] == "0") 
-  			px = 'O'
-  		when (params[:px]['O'] == "0" && params[:px]['P'] == "1")
-  			px = 'P'
-  		when (params[:px]['O'] == "0" && params[:px]['P'] == "0")
-  			px = 'N'
-  		else 
-  			px = 'N'
-  	end
+    hx = hnp_flag(params[:hx])
+    px = hnp_flag(params[:px])
     
     @encounter = Encounter.new(params[:encounter])
     @encounter.hx = hx
@@ -166,6 +143,7 @@ class EncountersController < ApplicationController
         	dx_xref = Diagnosis.find_by_name 'Other'
         	dx_other = primary_problem
         end
+        
         @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'P', "dx_id" => dx_xref.id, "other" => dx_other, "created_by" => @user, "updated_by" => @user)
         @edx.save
         
@@ -213,31 +191,9 @@ class EncountersController < ApplicationController
   # POST /update
   # POST /update.xml
   def update
+    hx = hnp_flag(params[:hx])
+    px = hnp_flag(params[:px])
 
-	case
-		when (params[:hx]['O'] == "1" && params[:hx]['P'] == "1")
-			hx = 'B'
-		when (params[:hx]['O'] == "1" && params[:hx]['P'] == "0") 
-			hx = 'O'
-		when (params[:hx]['O'] == "0" && params[:hx]['P'] == "1")
-			hx = 'P'
-		when (params[:hx]['O'] == "0" && params[:hx]['P'] == "0")
-			hx = 'N'
-		else
-			hx = 'N'
-	end
-	case
-		when (params[:px]['O'] == "1" && params[:px]['P'] == "1")
-			px = 'B'
-		when (params[:px]['O'] == "1" && params[:px]['P'] == "0") 
-			px = 'O'
-		when (params[:px]['O'] == "0" && params[:px]['P'] == "1")
-			px = 'P'
-		when (params[:px]['O'] == "0" && params[:px]['P'] == "0")
-			px = 'N'
-		else 
-			px = 'N'
-	end
     @encounter = Encounter.find(params[:encounter]['encounter_id'])
     @encounter.update_attributes :age => params[:encounter]['age'], :encounter_date => params[:encounter]['encounter_date'], :patient_id => params[:encounter]['patient_id'], :gender => params[:encounter]['gender'], :notes => params[:encounter]['notes'], :clinic_id => params[:encounter]['clinic_id'], :hx => hx, :px => px, :updated_by =>@user.id 
         
@@ -326,4 +282,22 @@ class EncountersController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+private
+  def hnp_flag(hx_or_px)
+  	case
+  		when (hx_or_px['O'] == "1" && hx_or_px['P'] == "1")
+  			hpx = 'B'
+  		when (hx_or_px['O'] == "1" && hx_or_px['P'] == "0") 
+  			hpx = 'O'
+  		when (hx_or_px['O'] == "0" && hx_or_px['P'] == "1")
+  			hpx = 'P'
+  		when (hx_or_px['O'] == "0" && hx_or_px['P'] == "0")
+  			hpx = 'N'
+  		else
+  			hpx = 'N'
+  	end
+  	hpx
+  end
+  
 end
