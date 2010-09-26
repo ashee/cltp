@@ -4,17 +4,44 @@
 </h1>
 <thead>
 	<tr>
-		<th class="t5 bg2">Student</th>
-
-	    <% for category in @categories do %>
-		<th class="t5 bg2"><% category["id"] %></th>
+		<th class="t5 bg2" colspan="2">Student</th>
+		<% fields = @reportarray[0] %>
+		<th class="t5 bg2" colspan=" <%= fields.size %> ">Diagnoses</th>
+	</tr>
+	<tr>
+		<th class="t4 bg4">FirstName</th>
+		<th class="t4 bg4">LastName</th>
+	    <% fields.each do |fieldname|%>
+		<th class="t4 bg4"> <%= fieldname %></th>
 		<% end %>
+
 	</tr>
 </thead>
 <tbody>
-	<tr>
-
+     <% rows = @reportarray[1]
+		for arow in rows do 
+	 	cls_rest = cycle("bg5","bg4", :name => 'rest_cols')
+	 	cls_col_1 = cycle("bg8","bg7", :name => 'first_col')
+	%>
+	<tr>	
+			<!-- The first three lines of Ruby are to remove the first element 
+			containing the username and to pop off the last two elements which 
+			contain the first name and last name -->			 
+		<% 	arow.shift
+			lastname = arow.pop
+			firstname= arow.pop %>
+			<td class="b1 <%= cls_col_1 %>">	<%= firstname %> </td>
+			<td class="b1 <%= cls_col_1 %>">	<%= lastname %> </td>
+			
+		<% 	for aval in arow do %>
+		<td class="b1 <%= cls_rest %>"> <%= aval %></td>
+		<% end %>
 	</tr>
-	</tbody>
+	<% end %>
+
+</tbody>
+
 </table>
 </div>
+
+

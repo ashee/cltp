@@ -27,9 +27,8 @@ class Reports
   def self.encounters_by_care_settings
     sql = <<-EOF
       select u.username as 'Username',
-             sum(if(c.care_setting='OP',1,0)) as 'Outpatient',
-             sum(if(c.care_setting='IP',1,0)) as 'Inpatient',
-             sum(if(c.care_setting='ER',1,0)) as 'Emergency',
+      sum(if(c.care_setting='OP' or c.care_setting='ER',1,0)) as 'Outpatient',
+            sum(if(c.care_setting='IP',1,0)) as 'Inpatient',
              sum(if(c.care_setting='NB',1,0)) as 'Newborn',
              u.firstname as 'Firstname', 
              u.lastname as 'Lastname'
@@ -42,21 +41,94 @@ class Reports
     ActiveRecord::Base.connection.select_all sql
   end
   
-  def self.dx_categories
-     sql = <<-EOF
-       select * from dx_categories
-     EOF
-
-     ActiveRecord::Base.connection.select_all sql
-   end
-
-  def self.dx_by_students
-    sql = <<-EOF
-      select * from dx_categories
-    EOF
+ 
+  #-------------------------------------------
+  # self.dx_categories
+  #-------------------------------------------
+  # select u.username as 'Username',
+  # sum(if(edx.dx_id=1,1,0)) as 'Behavior',
+  # sum(if(edx.dx_id=2,1,0)) as 'Cardiology',
+  # sum(if(edx.dx_id=3,1,0)) as 'Chronic Medical Problem',
+  # sum(if(edx.dx_id=4,1,0)) as 'Dermatology',
+  # sum(if(edx.dx_id=5,1,0)) as 'Emergent Clinical Problem',
+  # sum(if(edx.dx_id=6,1,0)) as 'Gastroenterology',
+  # sum(if(edx.dx_id=7,1,0)) as 'Growth',
+  # sum(if(edx.dx_id=8,1,0)) as 'H/O',
+  # sum(if(edx.dx_id=9,1,0)) as 'Health Maintenance',
+  # sum(if(edx.dx_id=10,1,0)) as 'Infectious Disease',
+  # sum(if(edx.dx_id=11,1,0)) as 'Neurology',
+  # sum(if(edx.dx_id=12,1,0)) as 'Nutrition',
+  # sum(if(edx.dx_id=13,1,0)) as 'Respiratory',
+  # sum(if(edx.dx_id=14,1,0)) as 'Unique Condition',
+  # sum(if(edx.dx_id=15,1,0)) as 'Other',
+  #       u.firstname as 'Firstname', 
+  #       u.lastname as 'Lastname'
+  #   from encounters e 
+  #   join users u on e.created_by = u.id
+  #   join encounter_dx edx on e.created_by = u.id
+  #    where e.clerkship_id = 1
+  #   group by e.created_by;
     
-    ActiveRecord::Base.connection.select_all sql
-  end
+  def self.dx_by_students
+    dxcats = DiagnosisCategory.all
+    ActiveRecord::Base.logger.debug "dxcats: #{dxcats}"
+    
+     template = %Q{sum(if(edx.dx_id=%s,1,0)) as '%s'}
+       
+     partialSqlStatement = dxcats.map { |dxc| 
+       sprintf template, dxc["id"], dxc["name"]
+     }.join(",\n")
+    
+    
+      sql = <<-EOF
+        select u.username as 'Username',
+         #{partialSqlStatement},
+        u.firstname as 'Firstname', 
+         u.lastname as 'Lastname'
+  from encounters e 
+  join users u on e.created_by = u.id
+  join encounter_dx edx on e.created_by = u.id
+  where e.clerkship_id = 1
+  group by e.created_by;
+  
+  
+  
+      EOF
+
+      # Calling ActiveRecord::Base.connection.execute(sql) in order to get the fields of each record returned
+      # in the correct order.  Using the select_all method returns a hash of the rows but they are not ordered 
+      # correctly
+      
+      res = ActiveRecord::Base.connection.execute(sql)     
+ 
+      # this returns a Mysql::Result object.
+      # first check whether something was returned
+      if res != nil
+        # first extract the field names
+        numfields = res.num_fields - 3
+        # skip over field 1 and stop 3 from the end
+        count = 1
+        fieldnames = Array.new
+        while count <= numfields do
+          afield = res.fetch_field_direct(count)
+          fieldnames.push afield.name
+          count += 1
+        end
+      
+        # now extract the rows of data
+        rows = Array.new
+        while row = res.fetch_row do 
+          rows.push row
+        end
+                       
+        res.free;
+      end
+      
+      catAndDataArray = Array.new
+      catAndDataArray << fieldnames << rows
+      ActiveRecord::Base.logger.debug "catAndDataArray: #{catAndDataArray}"
+      return catAndDataArray
+    end
   
   def self.hnp_observed_vs_performed
   end
