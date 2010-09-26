@@ -125,6 +125,89 @@
 
 <script type="text/javascript">
 $(function() {
+
+	var availableProblems = [<%= @dx_names %>];
+	var dx_hash = {<%= @dx_hash %>};
+	var availableProcedures = [<%= @proc_names %>];
+	var proc_hash = {<%= @proc_hash %>};
+
+	var cltp = {};
+
+	cltp.Resources = (function() {
+		var dx_list = [];
+		var p_list = [];
+		
+		function detect_changes(csv, lookup_hash, current_list) {
+			var items = $.map(csv.split(","), function(items,i) { return $.trim(item); });
+			var ids = $.map(items, function(item,i) { return lookup_hash[item]; });
+		
+			// detect the new dxid's
+			var nids = $.grep(ids, function(n,i) {
+				return $.inArray(n, current_list) == -1;
+			});
+			// console.log("new ids: ", nids);
+		
+			// detect deletes
+			var dids = $.grep(current_list, function(n,i) {
+				return $.inArray(n, ids) == -1;
+			});
+			// console.log("deleted ids: ", dids);
+		
+			// update dx_list
+			var tmp = $.grep(current_list, function(n,i) { return $.inArray(n, dids) == -1 } );
+			current_list = tmp;
+			$.merge(current_list, nids);
+			
+			return { added: nids, removed: dids }		
+		}
+		
+		function get_resources_by_dxs() {
+			pdx = $("#encounter_primary_problem").val();
+			sdx = $("#encounter_secondary_problems").val();
+			dxs = $.map([pdx,sdx].join(",").split(","), function(n,i) { return $.trim(n); });
+			dxids = $.map(dxs, function(n,i) { return dx_hash[n]; });
+		
+			// detect the new dxid's
+			var nids = $.grep(dxids, function(n,i) {
+				return $.inArray(n, dx_list) == -1;
+			});
+			// console.log("new ids: ", nids);
+		
+			// detect deletes
+			var dids = $.grep(dx_list, function(n,i) {
+				return $.inArray(n, dxids) == -1;
+			});
+			// console.log("deleted ids: ", dids);
+		
+			// update dx_list
+			var tmp = $.grep(dx_list, function(n,i) { return $.inArray(n, dids) == -1 } );
+			dx_list = tmp;
+			$.merge(dx_list, nids);
+			// console.log("updated list: ", dx_list);
+		
+			// trigger ui updates
+			
+			// delete resources for deleted dxid's
+			$.each(dids, function(i, dxid) {
+				$("#rightbar_resources li[dx_id=" + dxid + "]").remove();
+			});
+			
+			<%url = url_for :controller => "resources", :action => "by_dx" %>
+			if (nids.length > 0) {
+				$.post('<%= url %>', {"id": nids }, function(data, status) {
+					$('#rightbar_resources').append(data);						
+				});
+			}
+		}
+		
+		function get_resources_by_procs() {
+			
+		}
+		
+		window.setInterval(function() { get_resources_by_dxs(); }, 1000);		
+	})();
+	
+	
 	jQuery.validator.messages.required = "";
 	$("#new_encounter").validate({
 		invalidHandler: function(e, validator) {
@@ -144,7 +227,8 @@ $(function() {
 	
 	$('#encounter_id').change(function() {
 		$.ajax({
-	  		url: '/encounters/get_clerkships_by_care_setting/'+$(this).val(),
+			<%url = url_for :controller => "encounters", :action => "get_clerkships_by_care_setting" %>
+	  		url: '<%= url %>'+$(this).val(),
 			dataType: 'script',
 			success: function(data) {
 				$('#clinics').html(data);
@@ -153,11 +237,6 @@ $(function() {
 		});
 	});
 		
-	var availableProblems = [<%= @dx_names %>];
-	var dx_hash = {<%= @dx_hash %>};
-	var availableProcedures = [<%= @proc_names %>];
-	var proc_hash = {<%= @proc_hash %>};
-
 	$(".datepicker").datepicker();
 	$("#encounter_secondary_problems").autocomplete({
 			minLength: 0,
@@ -175,11 +254,15 @@ $(function() {
 				terms.push( ui.item.value );
 				terms.push("");
 				this.value = terms.join(", ");
-				var arr = ui.item.value.split(',');
-				$.each(arr, function(i, val) {
-      				$('#rightbar_resources').append('<li><a href="#">'+val+' Guidelines</a></li>');
-     				$('#rightbar_resources li:last-child').css("background-color","yellow").animate({'backgroundColor' : '#FFFFFF'}, 3000);
-    			});
+				// var arr = ui.item.value.split(',');
+				// var dxids = $.map(arr, function(n,i) {
+				// 	return dx_hash[n];
+				// });
+				// cltp.Resources.change_dxs();
+				// $.each(arr, function(i, val) {
+				//       				$('#rightbar_resources').append('<li><a href="#">'+val+' Guidelines</a></li>');
+				//      				$('#rightbar_resources li:last-child').css("background-color","yellow").animate({'backgroundColor' : '#FFFFFF'}, 3000);
+				//     			});
 				return false;
 			}
 		});
@@ -211,14 +294,7 @@ $(function() {
 			source: availableProblems,
 			minLength: 0,
 			change: function(event, ui) {
-				dxid = dx_hash[ui.item.value];
-				$.post("/resources/by_dx", {"id": dxid }, function(data, status) {
-					// console.log(data);
-					for (var i = 0; i < data.length; i++) {
-						$('#rightbar_resources').append('<li><a href="#">'+ "---testing---"+' Guidelines</a></li>');						
-					}
-					$('#rightbar_resources li:last-child').css("background-color","yellow").animate({'backgroundColor' : '#FFFFFF'}, 3000);
-				});
+				// cltp.Resources.change_dxs();
 			}
 	});
 

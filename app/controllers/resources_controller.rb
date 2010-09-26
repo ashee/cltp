@@ -164,7 +164,7 @@ class ResourcesController < ApplicationController
   def by_dx
     dx_ids = params[:id]
     @ris = Resource.find_by_dx(dx_ids)
-    render :json => @ris
+    render :partial => "resource", :collection => @ris, :as => :ri
   end
 
 private
