@@ -24,11 +24,9 @@
 	 	cls_col_1 = cycle("bg8","bg7", :name => 'first_col')
 	%>
 	<tr>	
-			<!-- The first three lines of Ruby are to remove the first element 
-			containing the username and to pop off the last two elements which 
-			contain the first name and last name -->			 
-		<% 	arow.shift
-			lastname = arow.pop
+			<!-- The following two lines of Ruby are to pop off the last 
+			two elements which contain the first name and last name -->			 
+		<% 	lastname = arow.pop
 			firstname= arow.pop %>
 			<td class="b1 <%= cls_col_1 %>">	<%= firstname %> </td>
 			<td class="b1 <%= cls_col_1 %>">	<%= lastname %> </td>

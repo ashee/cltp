@@ -118,19 +118,24 @@ class Reports
         # now extract the rows of data
         rows = Array.new
         while row = res.fetch_row do 
+          # remove the first element as this is the username which is not needed for the report
+          row.shift
           rows.push row
         end
                        
         res.free;
       end
       
-      catAndDataArray = Array.new
-      catAndDataArray << fieldnames << rows
-      ActiveRecord::Base.logger.debug "catAndDataArray: #{catAndDataArray}"
-      return catAndDataArray
+      fieldNamesAndDataArray = Array.new
+      fieldNamesAndDataArray << fieldnames << rows
+      ActiveRecord::Base.logger.debug "fieldNamesAndDataArray: #{fieldNamesAndDataArray}"
+      return fieldNamesAndDataArray
     end
   
+  
   def self.hnp_observed_vs_performed
+  
+  
   end
   
   def self.dx_observed_vs_performed
