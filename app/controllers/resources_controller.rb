@@ -161,9 +161,10 @@ class ResourcesController < ApplicationController
     end
   end
   
-  def by_dx
-    dx_ids = params[:id]
-    @ris = Resource.find_by_dx(dx_ids)
+  def by_tag
+    tag = params[:tag]
+    tag_ids = params[:tag_ids]
+    @ris = Resource.find_by_tag(tag, tag_ids)
     render :partial => "resource", :collection => @ris, :as => :ri
   end
 

@@ -27,10 +27,6 @@ class Resource < ActiveRecord::Base
     ResourceInstance.find_by_sql [sql, encounter_id]
   end
   
-  def self.find_by_dx(dx_ids)
-    self.find_by_tag 'dx', dx_ids
-  end
-  
   def self.find_by_tag(tag,tag_ids)
     ResourceInstance.find :all, :conditions => ["tag = ? and tag_id in (?)", tag, tag_ids], :include => :resource
   end
