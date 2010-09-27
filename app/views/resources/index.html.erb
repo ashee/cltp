@@ -49,11 +49,11 @@
 	  	<th>Title</th>
 		<th>Category</th>
 		<th>Tag</th>
+		<th>Rating</th>
 	   	<th>Rating</th>
 	    <th>From</th>
 	    <th>Date</th>
 	    <th>Who Can View?</th>
-	  	<th></th>
 	  </tr>
 	</thead>
 	<tbody>
@@ -73,12 +73,13 @@
 	  	<td><a target="_blank" href="<%= (resource.filelocation == 'remote' && resource.url[0,4] != 'http') ? 'http://'+resource.url : resource.url %>"><%=h ri.title %></a></td>
 		<td><%= category_text %></td>
 		<td><%= tag_text %></td>
+		<td><%= resource.score.to_i %></td>
 	    <td nowrap="nowrap">
 	    <div class="entry">
 			<span id="votes_count_<%=h resource.id %>" class="votes_count"><%=h resource.score.to_i %></span>
 			<span id="vote_buttons" class="vote_buttons">
-				<a id="vote_up_<%=h resource.id %>" class="vote_up" href="#" title="This resource is useful and clear (click again to undo)" alt="Vote Up!"></a>
-				<a id="vote_down_<%=h resource.id %>" class="vote_down" href="#" title="This resource is unclear or not useful (click again to undo)" alt="Vote Down!"></a>
+				<a id="vote_up_<%=h resource.id %>" class="vote_up" href="#" title="This resource is useful and clear" alt="Vote Up!"></a>
+				<a id="vote_down_<%=h resource.id %>" class="vote_down" href="#" title="This resource is unclear or not useful" alt="Vote Down!"></a>
 			</span>
 		</div>
 	    </td>
@@ -88,7 +89,6 @@
 	     </td>
 	    <td><%=h ri.created_at.strftime '%m/%d/%Y' %></td>
 	    <td><%= (ri.privacy == 'A') ? 'All' : 'Only Me' %></td>
-	    <td></td>
 	  </tr>
 
 	<% end %>	
@@ -168,10 +168,6 @@ $("#add_resource_form").dialog({
 	modal: true,
 	buttons: {
 		'Save Resource': function() {
-			// send ajax request to save
-			// $.post("/resources/create", $("#add_resource_form").serialize(), function(data,status) {
-			// 	alert(data);
-			// });
 			$(this).submit();
 			$(this).dialog('close');
 		},
@@ -191,37 +187,6 @@ $('.from').change(function(e) {
 	$('#from_'+$(this).val()).toggle();
 });
 $('.add_resource').button();
-$('.show_resource_details').button()
-.click(function(e) {
-	e.preventDefault();
-	var url = this.href;
-	var restitle = this.title;
-	var dialog = $('<div style="display:hidden"></div>').appendTo('body');
-	dialog.load(
-		url, 
-		{},
-		function (responseText, textStatus, XMLHttpRequest) {
-			dialog.dialog({
-			title: restitle,
-   			modal: true,
-   			height: 600,
-   			width: '50%'
-			});
-		}
-	);
-})
-.next()
-	.button( {
-		text: false,
-		icons: {
-			primary: "ui-icon-triangle-1-s"
-		}
-	})
-	.click( function() {
-		alert( "Could display a menu to select an action" );
-	})
-.parent()
-	.buttonset();
 });
 </script>
 
@@ -238,7 +203,7 @@ $('.show_resource_details').button()
 			"bJQueryUI": true,
 			"aaSorting": [[3,'desc']],
 			//"aoColumns": [null,{ "bVisible": false },{ "bVisible": false },null,null,null,null,{ "bSortable": false }],
-			"aoColumns": [null,null,null,null,null,null,null,{ "bSortable": false }],
+			"aoColumns": [null,null,null,{ "bVisible": false },null,null,null,null],
 
 			"iDisplayLength": 10,
 			"sPaginationType" : "full_numbers"
@@ -295,25 +260,29 @@ $('.show_resource_details').button()
 		$('.vote_up').click(function(e) {
 			e.preventDefault();
 			var vote_up_id = this.id.substring(8);
-			$.ajax({
-				url: '/resources/up_vote/'+vote_up_id,
-				dataType: 'script',
-				success: function(data) {
-					$('#votes_count_'+vote_up_id).html(data);
-				}	
-			});
+			if (!$(this).hasClass('alreadyvoted')) {
+				$.ajax({
+					url: '/resources/up_vote/'+vote_up_id,
+					dataType: 'script',
+					success: function(data) {
+						$('#votes_count_'+vote_up_id).html(data);
+					}	
+				});
+			}
 		} );
 		
 		$('.vote_down').click(function(e) {
 			e.preventDefault();
 			var vote_down_id = this.id.substring(10);
-			$.ajax({
-				url: '/resources/down_vote/'+vote_down_id,
-				dataType: 'script',
-				success: function(data) {
-					$('#votes_count_'+vote_down_id).html(data);
-				}	
-			});
+			if (!$(this).hasClass('alreadyvoted')) {
+				$.ajax({
+					url: '/resources/down_vote/'+vote_down_id,
+					dataType: 'script',
+					success: function(data) {
+						$('#votes_count_'+vote_down_id).html(data);
+					}	
+				});
+			}
 		} );
 	} );
 	</script>

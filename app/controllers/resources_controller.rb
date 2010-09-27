@@ -142,9 +142,18 @@ class ResourcesController < ApplicationController
   end
   
   def up_vote
-	@resource = Resource.find(params[:id])
-	@resource.score += 1
-	@resource.save()
+  @resource = Resource.find(params[:id])
+  	if (!ResourceVote.exists?({:resource_id => params[:id], :created_by => @user.id, :vote => 1})) then
+		#if (ResourceVote.find(:conditions => {:resource_id => params[:id], :created_by => @user.id, :vote => -1})) then ResourceVote.find(:conditions => {:resource_id => params[:id], :created_by => @user.id, :vote => -1}).destroy
+  		#end		#@resource = Resource.find(params[:id])
+		@resource.score += 1
+		@resource.save()
+		@vote = ResourceVote.new
+		@vote.resource_id = @resource.id 
+		@vote.vote = +1
+		@vote.created_by = @user.id
+		@vote.save
+	end
 	respond_to do  |format|
       format.html { redirect_to resources_path }
       format.js {render :layout => false}
@@ -152,9 +161,19 @@ class ResourcesController < ApplicationController
   end
   
   def down_vote
-	@resource = Resource.find(params[:id])
-	@resource.score += -1
-	@resource.save()
+  	@resource = Resource.find(params[:id])
+  	if (!ResourceVote.exists?(:resource_id => params[:id], :created_by => @user.id, :vote => -1)) then
+  		#if (ResourceVote.find(:conditions => {:resource_id => params[:id], :created_by => @user.id, :vote => 1})) then ResourceVote.find(:conditions => {:resource_id => params[:id], :created_by => @user.id, :vote => 1}).destroy
+  		#end
+		#@resource = Resource.find(params[:id])
+		@resource.score += -1
+		@resource.save()
+		@vote = ResourceVote.new
+		@vote.resource_id = @resource.id 
+		@vote.vote = -1
+		@vote.created_by = @user.id
+		@vote.save
+	end
 	respond_to do  |format|
       format.html { redirect_to resources_path }
       format.js {render :layout => false}
