@@ -8,15 +8,6 @@
 	</span>
 </div>
 
-<!--
-	<h3 class="b2 bg2 filter_header">Filter Resources By User:</h3>
-	<ul id="resources" class="filter_list">
-		<li class="bg4"><a class="user_filter" href="#" title="">All Resources <span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
-		<li class="bg5"><a class="user_filter" href="#" title="Faculty"> Faculty Resources <span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
-		<li class="bg4"><a class="user_filter" href="#" title="<%= @user.firstname+' '+@user.lastname %>"> My Resources <span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
-	</ul>
--->
-
 	<h3 class="b2 bg2 filter_header">Filter Resources By Problem:</h3>
 	<ul id="resources" class="filter_list">
 		<li class="bg4"><a class="category_filter" href="#" id="" title=""></span> All Problems </a><span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></li>
@@ -79,7 +70,7 @@
 			ri = resource.resource_instances.last;
 	%>
 	  <tr class='<%= cls %>' valign="top" align="left">
-	  	<td><a href="<%= (resource.filelocation == 'remote' && resource.url[0,4] != 'http') ? 'http://'+resource.url : resource.url %>"><%=h ri.title %></a></td>
+	  	<td><a target="_blank" href="<%= (resource.filelocation == 'remote' && resource.url[0,4] != 'http') ? 'http://'+resource.url : resource.url %>"><%=h ri.title %></a></td>
 		<td><%= category_text %></td>
 		<td><%= tag_text %></td>
 	    <td nowrap="nowrap">
