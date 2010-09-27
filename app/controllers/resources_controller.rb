@@ -68,7 +68,7 @@ class ResourcesController < ApplicationController
 		# compute requested resource sha1 (to see if it exists in the database already)
 		rsha1 = sha1(tempfile) 
 		ext = tempfile
-		r.url = UPLOAD_DIR + rsha1 + '.' + ri.filename_orig.split('.').last
+		r.url = 'uploads/' + rsha1 + '.' + ri.filename_orig.split('.').last
 	else 
 		rsha1 = sha1(StringIO.new(r.url))
 	end
