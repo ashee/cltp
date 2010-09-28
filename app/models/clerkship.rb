@@ -4,4 +4,5 @@ class Clerkship < ActiveRecord::Base
   has_many :diagnoses
   has_many :procedures
   has_many :compliance_requirements
+  has_many :user_rotations
 end

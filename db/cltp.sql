@@ -698,6 +698,27 @@ CREATE TABLE `feedbacks` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `user_rotations`
+--
+
+CREATE TABLE `user_rotations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `clerkship_id` int(11) NOT NULL,
+  `academic_year` int NOT NULL,
+  `term` varchar(50) NOT NULL,
+  `period` tinyint NOT NULL,
+  `start_date` datetime NOT NULL,
+  `end_date` datetime NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+--
 -- Constraints for dumped tables
 --
 

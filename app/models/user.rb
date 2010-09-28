@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_many :user_rotations
   has_and_belongs_to_many :roles, :join_table => 'user_roles'  
   belongs_to :creator, :class_name => 'User', :foreign_key => 'created_by'
   belongs_to :updater, :class_name => 'User', :foreign_key => 'updated_by'
@@ -55,6 +56,10 @@ class User < ActiveRecord::Base
     }
     
     self.find_by_sql sql
+  end
+  
+  def self.current_rotation(user_id)
+    # lookup user_rotations for the given user_id where currrent date in between start_date and end_date
   end
   
 end
