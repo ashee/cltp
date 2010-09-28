@@ -34,7 +34,9 @@
 	<td><%=h encounter.age %> year old <%=h encounter.gender %></td>
     <td>
 		<% pdx = encounter.primary_dx %>
+		<% if !pdx.nil? %>
 		<b><%= (pdx.diagnosis.name == 'Other') ?  pdx.other : pdx.diagnosis.name %></b>
+		<% end %>
 		<% @sdxs = encounter.secondary_dx %>
 		<% if (@sdxs.nil?) then %>
 			&nbsp;
