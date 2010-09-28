@@ -81,15 +81,15 @@ class Reports
     
     
       sql = <<-EOF
-        select u.username as 'Username',
-         #{partialSqlStatement},
-        u.firstname as 'Firstname', 
-         u.lastname as 'Lastname'
-  from encounters e 
-  join users u on e.created_by = u.id
-  join encounter_dx edx on e.created_by = u.id
-  where e.clerkship_id = 1
-  group by e.created_by;
+        select 
+            u.firstname as 'Firstname', 
+            u.lastname as 'Lastname',
+            #{partialSqlStatement}
+          from encounters e 
+          join users u on e.created_by = u.id
+          join encounter_dx edx on e.created_by = u.id
+          where e.clerkship_id = 1
+          group by e.created_by;
   
   
   
@@ -99,49 +99,90 @@ class Reports
       # in the correct order.  Using the select_all method returns a hash of the rows but they are not ordered 
       # correctly
       
-      res = ActiveRecord::Base.connection.execute(sql)     
+      sqlResult = ActiveRecord::Base.connection.execute sql     
  
       # this returns a Mysql::Result object.
       # first check whether something was returned
-      if res != nil
+      if sqlResult != nil
         # first extract the field names
-        numfields = res.num_fields - 3
-        # skip over field 1 and stop 3 from the end
-        count = 1
-        fieldnames = Array.new
-        while count <= numfields do
-          afield = res.fetch_field_direct(count)
-          fieldnames.push afield.name
-          count += 1
-        end
+        fieldObjectArray = sqlResult.fields
+        
+        fieldNames = Array.new
+        fieldObjectArray.each do |aField|
+            fieldNames << aField.name
+          end               
       
         # now extract the rows of data
-        rows = Array.new
-        while row = res.fetch_row do 
-          # remove the first element as this is the username which is not needed for the report
-          row.shift
-          rows.push row
-        end
-                       
-        res.free;
+       rows = Array.new
+       sqlResult.each do |row|
+          rows << row
+        end               
+        sqlResult.free;
       end
       
       fieldNamesAndDataArray = Array.new
-      fieldNamesAndDataArray << fieldnames << rows
-      ActiveRecord::Base.logger.debug "fieldNamesAndDataArray: #{fieldNamesAndDataArray}"
+      fieldNamesAndDataArray << fieldNames << rows
+      # FOR DEBUGGING ActiveRecord::Base.logger.debug "fieldNamesAndDataArray: #{fieldNamesAndDataArray}"
       return fieldNamesAndDataArray
     end
   
   
   def self.hnp_observed_vs_performed
-  
-  
+    
   end
   
   def self.dx_observed_vs_performed
+    sql = <<-EOF
+    select 
+       u.firstname as 'FirstName',
+       u.lastname as 'LastName',
+        sum(if(e.hx='P' or e.hx='B',1,0)) as 'hxPerformed',
+        sum(if(e.hx='O' or e.hx='B',1,0)) as 'hxObserved',
+        sum(if(e.px='P' or e.px='B',1,0)) as 'pxPerformed',
+        sum(if(e.px='O' or e.px='B',1,0)) as 'pxObserved'
+        from encounters e 
+       join users u on e.created_by = u.id
+       where e.clerkship_id = 1
+       group by e.created_by;
+     EOF
+    
+    ActiveRecord::Base.logger.debug "sql: #{sql}"
+    ret = ActiveRecord::Base.connection.select_all sql  
+    ActiveRecord::Base.logger.debug "ret: #{ret}"
+    return ret
   end
   
   def self.summary_dx_observed_vs_performed
   end
   
-end
+    def self.student_individual_dx
+      # Need to populate the popup menu with all the users.
+   
+      sql = <<-EOF
+      select distinct edx.dx_id,
+             dx.name as 'dxname'
+           from encounter_dx edx
+           join dx on edx.dx_id = dx.id
+           EOF
+      
+      user_id = 1
+      sql = <<-EOF
+      select distinct edx.dx_id,
+             dx.name as 'dxname'
+           from encounter_dx edx
+           join dx on edx.dx_id = dx.id
+           EOF
+      sql = sql + "where edx.created_by = "
+      sql = sql + user_id.to_s
+      sql = sql + " order by dx_id;"
+
+      ActiveRecord::Base.logger.debug "sql: #{sql}"
+
+      sqlResult = ActiveRecord::Base.connection.select_all sql 
+      
+      ActiveRecord::Base.logger.debug "sqlResult: #{sqlResult}"
+      
+          
+   end
+   
+  end

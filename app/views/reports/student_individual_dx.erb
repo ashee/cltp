@@ -1,40 +1,23 @@
 <div class="box1" style="margin: 15px;">
-<table id="encList" class="display">
-<h1 class="t6" style="margin-left: 30px;margin-top: 30px;">	dx Observed vs Performed Per Student.
+<table id="encList" style="margin: 0px 30px 30px 30px;">
+<h1 class="t3" style="margin-left: 30px;">	individual Diagnoses input by a student.
 </h1>
 <thead>
 	<tr>
-		<th class="t5 bg2" colspan="2">Student</th>
-		<th class="t5 bg2" colspan="2">hx</th>
-		<th class="t5 bg2" colspan="2">px</th>
-	</tr>
-	<tr>
-		<th class="t4 bg4">First Name</th>
-		<th class="t4 bg4">Last Name</th>
-		<th class="t4 bg4">Observed</th>
-		<th class="t4 bg4">Performed</th>
-		<th class="t4 bg4">Observed</th>
-		<th class="t4 bg4">Performed</th>
+		<th class="t5 bg2" colspan="2"><?? "User Name"      /th>
+		<th class="t5 bg2" colspan="3">Diagnoses Input</th>
 	</tr>
 </thead>
+	<tbody>
+	    <% for reportline in @reportlinearray do 
+		 	cls_rest = cycle("bg5","bg4", :name => 'rest_cols')
+		%>
+		<tr>
+			<td class="b1 <%= cls_rest %>">	<%= reportline["dx_id"] %> </td>
+		</tr>
+		<% end %>
 
-<tbody>
-    <% for reportline in @reportlinearray do 
-	 	cls_rest = cycle("bg5","bg4", :name => 'rest_cols')
-	 	cls_col_1 = cycle("bg8","bg7", :name => 'first_col')
-	%>
-	<tr>
-		<td class="b1 <%= cls_col_1 %>">	<%= reportline["FirstName"] %> </td>
-		<td class="b1 <%= cls_col_1 %>">	<%= reportline["LastName"] %> </td>
-		<td class="b1 <%= cls_rest %>">		<%= reportline["hxPerformed"] %> </td>
-		<td class="b1 <%= cls_rest %>">		<%= reportline["hxObserved"] %> </td>
-		<td class="b1 <%= cls_rest %>">		<%= reportline["pxPerformed"] %> </td>
-		<td class="b1 <%= cls_rest %>">		<%= reportline["pxObserved"] %> </td>
-	</tr>
- 	<% end %>
-
-</tbody>
-
+	</tbody>
 </table>
 </div>
 
