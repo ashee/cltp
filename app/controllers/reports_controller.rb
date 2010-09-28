@@ -4,6 +4,8 @@ class ReportsController < ApplicationController
     
   def encounters_by_care_settings
     @reportlinearray = Reports.encounters_by_care_settings
+    ActiveRecord::Base.logger.debug "@reportlinearray: #{@reportlinearray}"
+    
   end
 
   def dx_by_students
@@ -27,9 +29,8 @@ class ReportsController < ApplicationController
 
   def student_names
      # Need to populate the popup menu with all the users.
-     @userlist = User.all
-     ActiveRecord::Base.logger.debug "@userlist: #{@userlist}"
-  end
+     # @userlist = User.all(:select => 'lastname, firstname', 'id')
+   end
   
   def student_individual_dx_select
       # Need to populate the popup menu with all the users.
