@@ -182,6 +182,7 @@ class Reports
       
       ActiveRecord::Base.logger.debug "sqlResult: #{sqlResult}"
       
+      sqlResult
           
    end
    
