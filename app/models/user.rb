@@ -47,4 +47,14 @@ class User < ActiveRecord::Base
 =end
   end
   
+  def self.students
+    sql = %Q{
+      select u.*
+      from users u join user_roles ur
+      on u.id = ur.user_id and ur.role_id = 1
+    }
+    
+    self.find_by_sql sql
+  end
+  
 end
