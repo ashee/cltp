@@ -382,7 +382,12 @@ a.t1:hover {
 	font-size: 13px;
 	font-weight: bold;
 }
-
+.t6 {
+	font-family: arial;
+	color: #2F4777;
+	font-size: 20px;
+	font-weight: bold;
+}
 .b1 {
 	font-family: Arial;
 	color: #000000;
@@ -635,3 +640,5 @@ width:16px;
     line-height:18px;
     background:transparent url(../images/doc_zip.gif) center left no-repeat;
 }
+
+float_right	{ float::right;}

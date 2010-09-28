@@ -10,13 +10,30 @@ class ReportsController < ApplicationController
      @reportarray = Reports.dx_by_students
   end
   
+  def dx_by_students
+      @reportarray = Reports.dx_by_students
+   end
+ 
   def hnp_observed_vs_performed
+     
   end
   
   def dx_observed_vs_performed
+    @reportlinearray = Reports.dx_observed_vs_performed
   end
   
   def summary_dx_observed_vs_performed
   end
 
+  def student_names
+     # Need to populate the popup menu with all the users.
+     @userlist = User.all
+     ActiveRecord::Base.logger.debug "@userlist: #{@userlist}"
+  end
+  
+  def student_individual_dx(firstname, lastname)
+      # Need to populate the popup menu with all the users.
+      @userlist = User.find(:all)
+   end
+  
 end
