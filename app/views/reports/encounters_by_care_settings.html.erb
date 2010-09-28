@@ -5,7 +5,7 @@
 <thead>
 	<tr>
 		<th class="t5 bg2" colspan="2">Student</th>
-		<th class="t5 bg2" colspan="4">Encounters</th>
+		<th class="t5 bg2" colspan="3">Encounters</th>
 	</tr>
 	<tr>
 		<th class="t4 bg4">FirstName</th>
@@ -13,7 +13,6 @@
 		<th class="t4 bg4">In-Patient</th>
 		<th class="t4 bg4">Out-Patient</th>
 		<th class="t4 bg4">Newborn</th>
-		<th class="t4 bg4">Emergency</th>
 	</tr>
 </thead>
 <tbody>
@@ -27,7 +26,6 @@
 		<td class="b1 <%= cls_rest %>">		<%= reportline["Inpatient"] %> </td>
 		<td class="b1 <%= cls_rest %>">		<%= reportline["Outpatient"] %> </td>
 		<td class="b1 <%= cls_rest %>">		<%= reportline["Newborn"] %> </td>
-		<td class="b1 <%= cls_rest %>">		<%= reportline["Emergency"] %> </td>
 	</tr>
 	<% end %>
 
