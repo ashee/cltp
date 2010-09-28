@@ -125,6 +125,85 @@
 
 <script type="text/javascript">
 $(function() {
+
+	var availableProblems = [<%= @dx_names %>];
+	var dx_hash = {<%= @dx_hash %>};
+	var availableProcedures = [<%= @proc_names %>];
+	var proc_hash = {<%= @proc_hash %>};
+
+	var cltp = {};
+
+	cltp.Resources = (function() {
+		var dx_list = [];
+		var p_list = [];
+		
+		function detect_changes(csv, lookup_hash, current_list) {
+			var items = $.map(csv.split(","), function(n,i) { return $.trim(n); });
+			var ids = $.map(items, function(item,i) { return lookup_hash[item]; });
+		
+			// detect the new dxid's
+			var nids = $.grep(ids, function(n,i) {
+				return $.inArray(n, current_list) == -1;
+			});
+			// console.log("new ids: ", nids);
+		
+			// detect deletes
+			var dids = $.grep(current_list, function(n,i) {
+				return $.inArray(n, ids) == -1;
+			});
+			// console.log("deleted ids: ", dids);
+		
+			// update dx_list
+			current_list = $.grep(current_list, function(n,i) { return $.inArray(n, dids) == -1 } );
+			$.merge(current_list, nids);
+			
+			return { added: nids, removed: dids, updated_list: current_list }		
+		}
+		
+		function get_resources_by_dxs() {
+			var pdx = $("#encounter_primary_problem").val();
+			var sdx = $("#encounter_secondary_problems").val();
+			var dxs = [pdx,sdx].join(","); // combined list
+			var chgs = detect_changes(dxs, dx_hash, dx_list);
+			dx_list = chgs.updated_list;
+			
+			// trigger ui updates
+			
+			// delete resources for deleted dxid's
+			$.each(chgs.removed, function(i, dxid) {
+				$("#rightbar_resources li[dx_id=" + dxid + "]").remove();
+			});
+			
+			<%url = url_for :controller => "resources", :action => "by_tag" %>
+			if (chgs.added.length > 0) {
+				$.post('<%= url %>', {"tag": "dx", "tag_ids": chgs.added }, function(data, status) {
+					$('#rightbar_resources').append(data);						
+				});
+			}
+		}
+		
+		function get_resources_by_procs() {
+			var procs = $("#encounter_procedures_observed").val();
+			var chgs = detect_changes(procs, proc_hash, p_list);
+			p_list = chgs.updated_list;
+			
+			$.each(chgs.removed, function(i, pid) {
+				$("#rightbar_resources li[procedures_id=" + pid + "]").remove();
+			});
+			
+			<%url = url_for :controller => "resources", :action => "by_tag" %>
+			if (chgs.added.length > 0) {
+				$.post('<%= url %>', {"tag": "procedures", "tag_ids": chgs.added }, function(data, status) {
+					$('#rightbar_resources').append(data);						
+				});
+			}
+		}
+		
+		// poll to detect changes and synch up
+		window.setInterval(function() { get_resources_by_dxs(); get_resources_by_procs();}, 1500);		
+	})();
+	
+	
 	jQuery.validator.messages.required = "";
 	$("#new_encounter").validate({
 		invalidHandler: function(e, validator) {
@@ -144,7 +223,7 @@ $(function() {
 	
 	$('#encounter_id').change(function() {
 		$.ajax({
-	  		url: '/encounters/get_clerkships_by_care_setting/'+$(this).val(),
+			url: '/encounters/get_clerkships_by_care_setting/'+$(this).val(),
 			dataType: 'script',
 			success: function(data) {
 				$('#clinics').html(data);
@@ -153,11 +232,6 @@ $(function() {
 		});
 	});
 		
-	var availableProblems = [<%= @dx_names %>];
-	var dx_hash = {<%= @dx_hash %>};
-	var availableProcedures = [<%= @proc_names %>];
-	var proc_hash = {<%= @proc_hash %>};
-
 	$(".datepicker").datepicker();
 	$("#encounter_secondary_problems").autocomplete({
 			minLength: 0,
@@ -175,11 +249,6 @@ $(function() {
 				terms.push( ui.item.value );
 				terms.push("");
 				this.value = terms.join(", ");
-				var arr = ui.item.value.split(',');
-				$.each(arr, function(i, val) {
-      				$('#rightbar_resources').append('<li><a href="#">'+val+' Guidelines</a></li>');
-     				$('#rightbar_resources li:last-child').css("background-color","yellow").animate({'backgroundColor' : '#FFFFFF'}, 3000);
-    			});
 				return false;
 			}
 		});
@@ -211,14 +280,6 @@ $(function() {
 			source: availableProblems,
 			minLength: 0,
 			change: function(event, ui) {
-				dxid = dx_hash[ui.item.value];
-				$.post("/resources/by_dx", {"id": dxid }, function(data, status) {
-					// console.log(data);
-					for (var i = 0; i < data.length; i++) {
-						$('#rightbar_resources').append('<li><a href="#">'+ "---testing---"+' Guidelines</a></li>');						
-					}
-					$('#rightbar_resources li:last-child').css("background-color","yellow").animate({'backgroundColor' : '#FFFFFF'}, 3000);
-				});
 			}
 	});
 
@@ -267,12 +328,6 @@ $(function() {
 				// add placeholder to get the comma-and-space at the end
 				terms.push("");
 				this.value = terms.join(", ");
-				var arr = ui.item.value.split(',');
-				$.each(arr, function(i, val) {
-      				$('#rightbar_resources').append('<li><a href="#">'+val+' Guidelines</a></li>');
-      				$('#rightbar_resources li:last-child').css("background-color","yellow").animate({'backgroundColor' : '#FFFFFF'}, 3000);
-
-    			});
 				return false;
 			}
 		});

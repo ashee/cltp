@@ -58,13 +58,17 @@
 	
 	<p>
 		<%= f.label :patient_history %><br />
-	  	<%= check_box_tag 'hx', 'P', (@encounter.hx == 'P' || @encounter.hx == 'B') %> Performed
-	  	<%= check_box_tag 'hx', 'O', (@encounter.hx == 'O' || @encounter.hx == 'B') %> Observed
+		<input type="hidden" name="hx[P]" value="0">
+		<input type="hidden" name="hx[O]" value="0">
+	  	<%= check_box_tag 'hx[P]', '1', (@encounter.hx == 'P' || @encounter.hx == 'B') %> Performed
+	  	<%= check_box_tag 'hx[O]', '1', (@encounter.hx == 'O' || @encounter.hx == 'B') %> Observed
 	</p>
 	<p>
 		<%= f.label :physical_exam %><br />
-	  	<%= check_box_tag 'px', 'P', (@encounter.px == 'P' || @encounter.px == 'B') %> Performed
-	  	<%= check_box_tag 'px', 'O', (@encounter.px == 'O' || @encounter.px == 'B') %> Observed
+		<input type="hidden" name="px[P]" value="0">
+		<input type="hidden" name="px[O]" value="0">
+	  	<%= check_box_tag 'px[P]', '1', (@encounter.px == 'P' || @encounter.px == 'B') %> Performed
+	  	<%= check_box_tag 'px[O]', '1', (@encounter.px == 'O' || @encounter.px == 'B') %> Observed
 	</p>
 	
 	<div style="clear:both"></div>

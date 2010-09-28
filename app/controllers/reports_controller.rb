@@ -32,7 +32,15 @@ class ReportsController < ApplicationController
      # @userlist = User.all(:select => 'lastname, firstname', 'id')
    end
   
-  def student_individual_dx
+  def student_individual_dx_select
+      # Need to populate the popup menu with all the users.
+      @students = User.students
+   end
+   
+   def student_individual_dx
+     student_id = params[:student_id]
+     @items = Reports.student_individual_dx
+     render :layout => false
    end
   
 end

@@ -34,13 +34,15 @@
 	<td><%=h encounter.age %> year old <%=h encounter.gender %></td>
     <td>
 		<% pdx = encounter.primary_dx %>
-		<b><%=h(pdx.diagnosis.name) unless pdx.nil? %></b>
+		<% if !pdx.nil? %>
+		<b><%= (pdx.diagnosis.name == 'Other') ?  pdx.other : pdx.diagnosis.name %></b>
+		<% end %>
 		<% @sdxs = encounter.secondary_dx %>
 		<% if (@sdxs.nil?) then %>
 			&nbsp;
 		<% else %>
 			<% @sdxs.each do |sdx| %>
-				, <%= sdx.diagnosis.name %>
+				, <%= (sdx.diagnosis.name == 'Other') ?  sdx.other : sdx.diagnosis.name %>
 			<% end %>
 		<% end %>
 	</td>
@@ -50,7 +52,7 @@
 			&nbsp;
 		<% else %>
 			<% @procs.each do |proc| %>
-				<%= proc.procedure.name %>,
+				<%= (proc.procedure.name == 'Other') ? proc.other : proc.procedure.name %>,
 			<% end %>
 		<% end %>
 	</td>

@@ -226,6 +226,18 @@ form.encounter fieldset ul.grid_item li{
 	text-decoration: none;
 }
 
+.activenav {
+	background-color: #4263A5;
+	margin: 0;
+	padding: 0;
+}
+.activenav a {
+	font-family: Arial;
+	color: #FFFFFF !important;
+	font-size: 12px;
+	font-weight: normal;	
+}
+
 /*  side navigation */
 .uiSideNav {
 	margin-top: 25px;	
@@ -319,6 +331,7 @@ div.error img {
 }
 
 .outline {
+	background-color: #FFCC33;
 	border: 2px solid #FFCC33;	
 }
 

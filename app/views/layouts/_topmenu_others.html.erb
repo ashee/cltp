@@ -1,7 +1,7 @@
 <ul id="userInfo">
-	<li><%= link_to "Reports", {:controller => "reports", :action => "index"}, :class => "t1" %></li>
-	<li><%= link_to "List Encounters", encounters_path, :class => "t1" %></li>
-	<li><%= link_to "All Resources", resources_path, :class => "t1" %></li>
-	<li><%= link_to "Feedbacks", feedbacks_path, :class => "t1" %></li>
+	<li <%= (current_page?(:controller => 'reports')) ? 'class="activenav"' : '' %> ><%= link_to "Reports", {:controller => "reports", :action => "index"}, :class => "t1" %></li>
+	<li <%= (current_page?(:controller => 'encounters')) ? 'class="activenav"' : '' %> ><%= link_to "List Encounters", encounters_path, :class => "t1" %></li>
+	<li <%= (current_page?(:controller => 'resources')) ? 'class="activenav"' : '' %> ><%= link_to "All Resources", resources_path, :class => "t1" %></li>
+	<li <%= (current_page?(:controller => 'feedbacks')) ? 'class="activenav"' : '' %> ><%= link_to "Feedbacks", feedbacks_path, :class => "t1" %></li>
 	<li style="float: right;" ><a href="https://weblogin.umich.edu/cgi-bin/logout" class="t1">Logout</a></li>
 </ul>

@@ -68,7 +68,7 @@ class ResourcesController < ApplicationController
 		# compute requested resource sha1 (to see if it exists in the database already)
 		rsha1 = sha1(tempfile) 
 		ext = tempfile
-		r.url = UPLOAD_DIR + rsha1 + '.' + ri.filename_orig.split('.').last
+		r.url = 'uploads/' + rsha1 + '.' + ri.filename_orig.split('.').last
 	else 
 		rsha1 = sha1(StringIO.new(r.url))
 	end
@@ -142,9 +142,18 @@ class ResourcesController < ApplicationController
   end
   
   def up_vote
-	@resource = Resource.find(params[:id])
-	@resource.score += 1
-	@resource.save()
+  @resource = Resource.find(params[:id])
+  	if (!ResourceVote.exists?({:resource_id => params[:id], :created_by => @user.id, :vote => 1})) then
+		#if (ResourceVote.find(:conditions => {:resource_id => params[:id], :created_by => @user.id, :vote => -1})) then ResourceVote.find(:conditions => {:resource_id => params[:id], :created_by => @user.id, :vote => -1}).destroy
+  		#end		#@resource = Resource.find(params[:id])
+		@resource.score += 1
+		@resource.save()
+		@vote = ResourceVote.new
+		@vote.resource_id = @resource.id 
+		@vote.vote = +1
+		@vote.created_by = @user.id
+		@vote.save
+	end
 	respond_to do  |format|
       format.html { redirect_to resources_path }
       format.js {render :layout => false}
@@ -152,19 +161,30 @@ class ResourcesController < ApplicationController
   end
   
   def down_vote
-	@resource = Resource.find(params[:id])
-	@resource.score += -1
-	@resource.save()
+  	@resource = Resource.find(params[:id])
+  	if (!ResourceVote.exists?(:resource_id => params[:id], :created_by => @user.id, :vote => -1)) then
+  		#if (ResourceVote.find(:conditions => {:resource_id => params[:id], :created_by => @user.id, :vote => 1})) then ResourceVote.find(:conditions => {:resource_id => params[:id], :created_by => @user.id, :vote => 1}).destroy
+  		#end
+		#@resource = Resource.find(params[:id])
+		@resource.score += -1
+		@resource.save()
+		@vote = ResourceVote.new
+		@vote.resource_id = @resource.id 
+		@vote.vote = -1
+		@vote.created_by = @user.id
+		@vote.save
+	end
 	respond_to do  |format|
       format.html { redirect_to resources_path }
       format.js {render :layout => false}
     end
   end
   
-  def by_dx
-    dx_ids = params[:id]
-    @ris = Resource.find_by_dx(dx_ids)
-    render :json => @ris
+  def by_tag
+    tag = params[:tag]
+    tag_ids = params[:tag_ids]
+    @ris = Resource.find_by_tag(tag, tag_ids)
+    render :partial => "resource", :collection => @ris, :as => :ri
   end
 
 private

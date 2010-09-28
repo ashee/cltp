@@ -2,13 +2,12 @@
 
 <div class="yui-u first">
 
-	<h3 class="b2 bg2 filter_header">Filter Resources By User:</h3>
-	<ul id="resources" class="filter_list">
-		<li class="bg4"><a class="user_filter" href="#" title="">All Resources <span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
-		<li class="bg5"><a class="user_filter" href="#" title="Faculty"> Faculty Resources <span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
-		<li class="bg4"><a class="user_filter" href="#" title="<%= @user.firstname+' '+@user.lastname %>"> My Resources <span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></a></li>
-	</ul>
-	
+<div style="margin: 12px;">
+	<span class="ui-corner-all bg3" style="margin-left: 12px; padding: 5px;cursor: pointer;">
+		<a id="add_artifact" class="bt1" title="Add a Resource"><%= image_tag("add.png") %> Add Resource</a>	
+	</span>
+</div>
+
 	<h3 class="b2 bg2 filter_header">Filter Resources By Problem:</h3>
 	<ul id="resources" class="filter_list">
 		<li class="bg4"><a class="category_filter" href="#" id="" title=""></span> All Problems </a><span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></li>
@@ -22,7 +21,7 @@
 		</li>
 		<% end %>
 	</ul>
-	
+	<!--
 	<h3 class="b2 bg2 filter_header">Filter Resources By Procedure:</h3>
 	<ul id="resources" class="filter_list">
 		<li class="bg4"><a class="category_filter" href="#" id="" title=""></span> All Procedures </a><span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></li>
@@ -30,10 +29,18 @@
 		<li class="<%= cls %>"><a class="procedure_filter" href="#" id="<%=h procedure.id %>" title="<%=h procedure.name %>"><span id="procedure_filter_img_<%=h procedure.id %>" class="ui-icon ui-icon-triangle-1-e" style="float:left;"></span> <%=h procedure.name %></a></li>
 		<% end %>
 	</ul>
-
+-->
 </div> <!-- end yui-u first -->
 
 <div class="yui-u">
+
+<p class="b1" style="padding-top: 8px">Filter by:
+	<span class="b3">
+		<a class="user_filter" href="#" title="">All Resources</a>
+		<a class="user_filter" href="#" title="Faculty">Faculty Resources</a>
+		<a class="user_filter" href="#" title="<%= @user.firstname+' '+@user.lastname %>">My Resources</a>
+	</span>
+</p>
 
 	<div id="resource_grid">
 	<table id="resourceList" class="display">
@@ -42,11 +49,11 @@
 	  	<th>Title</th>
 		<th>Category</th>
 		<th>Tag</th>
+		<th>Rating</th>
 	   	<th>Rating</th>
 	    <th>From</th>
 	    <th>Date</th>
 	    <th>Who Can View?</th>
-	  	<th></th>
 	  </tr>
 	</thead>
 	<tbody>
@@ -63,15 +70,16 @@
 			ri = resource.resource_instances.last;
 	%>
 	  <tr class='<%= cls %>' valign="top" align="left">
-	  	<td><a href="<%= (resource.filelocation == 'remote' && resource.url[0,4] != 'http') ? 'http://'+resource.url : resource.url %>"><%=h ri.title %></a></td>
+	  	<td><a target="_blank" href="<%= (resource.filelocation == 'remote' && resource.url[0,4] != 'http') ? 'http://'+resource.url : resource.url %>"><%=h ri.title %></a></td>
 		<td><%= category_text %></td>
 		<td><%= tag_text %></td>
+		<td><%= resource.score.to_i %></td>
 	    <td nowrap="nowrap">
 	    <div class="entry">
 			<span id="votes_count_<%=h resource.id %>" class="votes_count"><%=h resource.score.to_i %></span>
 			<span id="vote_buttons" class="vote_buttons">
-				<a id="vote_up_<%=h resource.id %>" class="vote_up" href="#" title="This resource is useful and clear (click again to undo)" alt="Vote Up!"></a>
-				<a id="vote_down_<%=h resource.id %>" class="vote_down" href="#" title="This resource is unclear or not useful (click again to undo)" alt="Vote Down!"></a>
+				<a id="vote_up_<%=h resource.id %>" class="vote_up" href="#" title="This resource is useful and clear" alt="Vote Up!"></a>
+				<a id="vote_down_<%=h resource.id %>" class="vote_down" href="#" title="This resource is unclear or not useful" alt="Vote Down!"></a>
 			</span>
 		</div>
 	    </td>
@@ -80,8 +88,7 @@
 	    	<%=h @By.firstname %> <%=h @By.lastname %>
 	     </td>
 	    <td><%=h ri.created_at.strftime '%m/%d/%Y' %></td>
-	    <td>Privacy</td>
-	    <td></td>
+	    <td><%= (ri.privacy == 'A') ? 'All' : 'Only Me' %></td>
 	  </tr>
 
 	<% end %>	
@@ -90,6 +97,98 @@
 
 	</table>
 	</div>
+	
+	<% form_tag('/resources/create', :multipart => true, :id => 'add_resource_form', :class => 'form') do %>
+<table>
+<tr>
+	<th><label>From:</label></th>
+	<td>
+		<input type="radio" id="resource[filelocation]" name="resource[filelocation]" class="from" value="local" /> Your Computer 
+		<br> 
+		<input type="radio" id="resource[filelocation]" name="resource[filelocation]" class="from" value="remote" /> Internet link
+	</td>
+</tr>
+<tr class="hide" id="from_local">
+	<th><label>Upload File:</label></th>
+	<td><div id="upldDiv"><input type="file" id="filename_orig" name="resource_instance[filename_orig]" value=""></div></td>
+</tr>
+<tr class="hide" id="from_remote">
+	<th>Enter a link:</th>
+	<td><input type="text" name="resource[url]" size="25" value=""/></td>
+</tr>
+<tr>
+	<th>Title</th>
+	<td><input type="text" name="resource_instance[title]" id="resource_instance[title]" validation="required" size="31" /></td>
+</tr>
+<tr>
+	<th>Description</th>
+	<td><textarea name="resource_instance[description]" id="artifact_description" style="width:100%"></textarea></td>
+</tr>
+<tr>
+	<th>Privacy Settings</th>
+	<td><select name="resource_instance[privacy]"><option value="A">Everybody can view</option>
+		<option value="P">Only I can view</option></select></td>
+</tr>
+<tr>
+	<th>Tagged With</th>
+	<td><!-- drop down here -->
+		<select name="resource_instance[tag]" id="resource_instance[tag]">
+				<% for dx in @dxs 
+						@dxcs.each do |dxc|
+						if (dxc.id == dx.category_id) then %>
+<option value="dx_<%= dx.id %>"><%= dxc.name %> > <%= dx.name %></option>
+<% 		
+						end  
+					end  
+				end %>
+		</select>
+	</td>
+</tr>
+</table>
+
+<div class="error"></div>
+<%end%>
+</div>
+
+<script>
+$(function() {
+
+$("#add_resource_form").bind('submit', function() {
+	$(this).ajaxSubmit({
+		target: '#error'
+	});
+	return false; 
+});
+
+$("#add_resource_form").dialog({
+	title: 'Add a Resource',
+	autoOpen: false,
+	height: 450,
+	width: 700,
+	modal: true,
+	buttons: {
+		'Save Resource': function() {
+			$(this).submit();
+			$(this).dialog('close');
+		},
+		'Cancel': function() {
+			$(this).dialog('close');
+		}
+	}
+});
+$('#add_artifact')
+	.click(function() {
+		$('#add_resource_form').dialog('open');
+});
+$('#artifact_description').autoResize();
+$('.hide').hide();
+$('.from').change(function(e) {
+	$('.hide').hide();
+	$('#from_'+$(this).val()).toggle();
+});
+$('.add_resource').button();
+});
+</script>
 
 	<script>
 	var oTable;
@@ -104,7 +203,7 @@
 			"bJQueryUI": true,
 			"aaSorting": [[3,'desc']],
 			//"aoColumns": [null,{ "bVisible": false },{ "bVisible": false },null,null,null,null,{ "bSortable": false }],
-			"aoColumns": [null,null,null,null,null,null,null,{ "bSortable": false }],
+			"aoColumns": [null,null,null,{ "bVisible": false },null,null,null,null],
 
 			"iDisplayLength": 10,
 			"sPaginationType" : "full_numbers"
@@ -116,7 +215,7 @@
 			var dxcid = this.id;
 			oTable.fnFilter("",2,false);
 			oTable.fnFilter( val, 1 );
-			
+			$(this).parent().siblings().removeClass("outline");
 			if ($('#category_filter_img_'+dxcid).hasClass('ui-icon-triangle-1-e') ) {
 				$('#category_filter_img_'+dxcid).removeClass("ui-icon-triangle-1-e");
 	    		$('#category_filter_img_'+dxcid).addClass("ui-icon-triangle-1-s");
@@ -124,7 +223,6 @@
 				$('#category_filter_img_'+dxcid).removeClass("ui-icon-triangle-1-s");
 	    		$('#category_filter_img_'+dxcid).addClass("ui-icon-triangle-1-e");
 			}
-			$(this).parent().siblings().removeClass("outline");
 			$(this).parent().addClass("outline");
 			$("#diagnoses_list_"+dxcid).toggle();
 		} );
@@ -146,8 +244,8 @@
 			var val = this.title;
 			oTable.fnFilter( val, 4 );
 			
-			$(this).parent().siblings().removeClass("outline");
-			$(this).parent().addClass("outline");
+			$(this).siblings().removeClass("outline");
+			$(this).addClass("outline");
 		} );
 		
 		$(".procedure_filter").click( function (e) {
@@ -162,25 +260,29 @@
 		$('.vote_up').click(function(e) {
 			e.preventDefault();
 			var vote_up_id = this.id.substring(8);
-			$.ajax({
-				url: '/resources/up_vote/'+vote_up_id,
-				dataType: 'script',
-				success: function(data) {
-					$('#votes_count_'+vote_up_id).html(data);
-				}	
-			});
+			if (!$(this).hasClass('alreadyvoted')) {
+				$.ajax({
+					url: '/resources/up_vote/'+vote_up_id,
+					dataType: 'script',
+					success: function(data) {
+						$('#votes_count_'+vote_up_id).html(data);
+					}	
+				});
+			}
 		} );
 		
 		$('.vote_down').click(function(e) {
 			e.preventDefault();
 			var vote_down_id = this.id.substring(10);
-			$.ajax({
-				url: '/resources/down_vote/'+vote_down_id,
-				dataType: 'script',
-				success: function(data) {
-					$('#votes_count_'+vote_down_id).html(data);
-				}	
-			});
+			if (!$(this).hasClass('alreadyvoted')) {
+				$.ajax({
+					url: '/resources/down_vote/'+vote_down_id,
+					dataType: 'script',
+					success: function(data) {
+						$('#votes_count_'+vote_down_id).html(data);
+					}	
+				});
+			}
 		} );
 	} );
 	</script>
