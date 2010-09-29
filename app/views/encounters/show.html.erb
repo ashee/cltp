@@ -142,7 +142,8 @@
 <script>
 $(function() {
 	$('.edit_area').each(function(i) {
-	  	$(this).editable('/encounters/inplaceupdate/<%= @encounter.id %>', {
+		<%url = url_for :controller => "encounters", :action => "inplaceupdate"%>
+	  	$(this).editable('<%= url %>/<%= @encounter.id %>', {
 	    	type	:		'textarea',
 	    	cancel	:	'Cancel',
 	    	submit	:	'OK',
