@@ -105,7 +105,7 @@ class Reports
       # first check whether something was returned
       if sqlResult != nil
         # first extract the field names
-        fieldObjectArray = sqlResult.fields
+        fieldObjectArray = sqlResult.fetch_fields()
         
         fieldNames = Array.new
         fieldObjectArray.each do |aField|
