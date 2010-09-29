@@ -1,11 +1,4 @@
-<h1 class="t2" style="margin: 15px;">Reports</h1>
-
-<!-- <div>
-<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
-	<a class="bt1" href="<%# new_report_path %>" style="vertical-align:middle;"><%= image_tag("add.png") %> New Report</a>
-</span>
-</div> -->
-
+<h1>fdhjfhdsajhjlf hjfdls hjfdsal</h1>
 <div>
 <span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
 	<%= link_to "Encounters by Care Setting", {:controller => "reports", :action => "encounters_by_care_settings"}, :class => "bt1" %>
@@ -17,6 +10,10 @@
 
 <span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
 	<%= link_to "Dx Observed vs Performed Per Student", {:controller => "reports", :action => "dx_observed_vs_performed"}, :class => "bt1" %>
+</span>
+
+<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
+	<%= link_to "Individual Diagnoses by a Student", {:controller => "reports", :action => "student_individual_dx.html"}, :class => "bt1" %>
 </span>
 </div>
 

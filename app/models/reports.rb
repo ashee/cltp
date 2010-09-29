@@ -146,9 +146,9 @@ class Reports
        group by e.created_by;
      EOF
     
-    ActiveRecord::Base.logger.debug "sql: #{sql}"
+   # ActiveRecord::Base.logger.debug "sql: #{sql}"
     ret = ActiveRecord::Base.connection.select_all sql  
-    ActiveRecord::Base.logger.debug "ret: #{ret}"
+   # ActiveRecord::Base.logger.debug "ret: #{ret}"
     return ret
   end
   
