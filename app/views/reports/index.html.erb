@@ -1,36 +1,6 @@
 <h1 class="t2" style="margin: 15px;">Reports</h1>
 
-<!-- <div>
-<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
-	<a class="bt1" href="<%# new_report_path %>" style="vertical-align:middle;"><%= image_tag("add.png") %> New Report</a>
-</span>
-</div> -->
-
-<div>
-<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
-	<%= link_to "Encounters by Care Setting", {:controller => "reports", :action => "encounters_by_care_settings"}, :class => "bt1" %>
-</span>
-
-<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
-	<%= link_to "Individual Diagnoses per Student", {:controller => "reports", :action => "dx_by_students"}, :class => "bt1" %>
-</span>
-
-<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
-	<%= link_to "Dx Observed vs Performed Per Student", {:controller => "reports", :action => "dx_observed_vs_performed"}, :class => "bt1" %>
-</span>
-</div>
-
-
-<div class="box1" style="margin: 15px;">
-<table style="margin: 0px 30px 30px 30px;">
-	<tr
-	<td>
-		<h1 class="t3" style="margin-left: 30px;">	Click on one of the buttons above to view a specific report.
-	</td>
-	</tr>
-</h1>
-</table>
-</div>
+<%= render "toolbar" %> 
 
 <script>
 var oTable;
