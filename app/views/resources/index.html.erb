@@ -262,7 +262,7 @@ $('.add_resource').button();
 			var vote_up_id = this.id.substring(8);
 			if (!$(this).hasClass('alreadyvoted')) {
 				$.ajax({
-					url: '/resources/up_vote/'+vote_up_id,
+					url: '<%= url_for :controller => "resources", :action => "up_vote" %>/'+vote_up_id,
 					dataType: 'script',
 					success: function(data) {
 						$('#votes_count_'+vote_up_id).html(data);
@@ -276,7 +276,7 @@ $('.add_resource').button();
 			var vote_down_id = this.id.substring(10);
 			if (!$(this).hasClass('alreadyvoted')) {
 				$.ajax({
-					url: '/resources/down_vote/'+vote_down_id,
+					url: '<%= url_for :controller => "resources", :action => "down_vote" %>/'+vote_down_id,
 					dataType: 'script',
 					success: function(data) {
 						$('#votes_count_'+vote_down_id).html(data);
