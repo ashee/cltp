@@ -6,10 +6,6 @@
   <%= f.error_messages %>
 
 <fieldset class="outline2 bg5">
-  	<p>
-    	<%= f.label :subject %><br />
-	    	<%=h @feedback.subject %>
-  	</p>
 	<p>
     	<%= f.label :created_by %><br />
     	<%=h @feedback.creator.fullname %>
@@ -20,6 +16,10 @@
   	</p>
 </fieldset>
 <fieldset class="outline2 bg5">
+  	<p>
+    	<%= f.label :subject %><br />
+	    	<%=h @feedback.subject %>
+  	</p>
 	<div style="clear:both"></div>
   	<p>
     	<%= f.label :body %><br />

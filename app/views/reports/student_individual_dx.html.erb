@@ -1,20 +1,8 @@
-<div>
-<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
-	<%= link_to "Encounters by Care Setting", {:controller => "reports", :action => "encounters_by_care_settings"}, :class => "bt1" %>
-</span>
+<%= render "toolbar" %>
 
-<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
-	<%= link_to "Individual Diagnoses per Student", {:controller => "reports", :action => "dx_by_students"}, :class => "bt1" %>
-</span>
-
-<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
-	<%= link_to "Dx Observed vs Performed Per Student", {:controller => "reports", :action => "dx_observed_vs_performed"}, :class => "bt1" %>
-</span>
-
-<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
-	<%= link_to "Individual Diagnoses by a Student", {:controller => "reports", :action => "student_individual_dx.html"}, :class => "bt1" %>
-</span>
-</div>
+<%for item in @items do %>
+	<li><%= item[:dxname] %> - remove me!!!</li>
+<% end %>
 
 <div class="box1" style="margin: 15px;">
 <table id="encList" style="margin: 0px 30px 30px 30px;">

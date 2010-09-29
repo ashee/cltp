@@ -376,6 +376,16 @@ a.t1:hover {
 	font-size: 13px;
 	font-weight: bold;
 }
+a.t4 {
+	text-decoration: none;
+}
+a.t4:hover {
+	font-family: arial;
+	color: #FFF;
+	font-size: 13px;
+	font-weight: bold;
+	background-color: #336699;
+}
 .t5 {
 	font-family: arial;
 	color: #FFFFFF;
@@ -642,3 +652,11 @@ width:16px;
 }
 
 float_right	{ float::right;}
+
+ul.reports_toolbar li {
+	display: inline;
+	margin: 0 4px;
+}	
+ul.reports_toolbar li a {
+	padding: 2px 6px;
+}

@@ -1,25 +1,8 @@
-<div>
-<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
-	<%= link_to "Encounters by Care Setting", {:controller => "reports", :action => "encounters_by_care_settings"}, :class => "bt1" %>
-</span>
-
-<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
-	<%= link_to "Individual Diagnoses per Student", {:controller => "reports", :action => "dx_by_students"}, :class => "bt1" %>
-</span>
-
-<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
-	<%= link_to "Dx Observed vs Performed Per Student", {:controller => "reports", :action => "dx_observed_vs_performed"}, :class => "bt1" %>
-</span>
-
-<span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
-	<%= link_to "Individual Diagnoses by a Student", {:controller => "reports", :action => "student_individual_dx.html"}, :class => "bt1" %>
-</span>
-</div>
+<%= render "toolbar" %>
 
 <div class="box1" style="margin: 15px;">
 <table  id="encList" class="display">
-<h1 class="t6" style="margin-left: 30px;margin-top: 30px;">	Individual Diagnoses Per Student.
-</h1>
+<h1 class="t3">	Individual Diagnoses Per Student.</h1>
 <thead>
 	<% fields = @reportarray[0] %>
 	<tr>
