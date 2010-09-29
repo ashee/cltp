@@ -490,7 +490,7 @@ CREATE TABLE `encounters` (
   `clinic_id` int(11) NOT NULL,
   `encounter_date` datetime NOT NULL,
   `patient_id` varchar(25) NOT NULL COMMENT 'not a db foreign key - just bizname of a text field',
-  `age` varchar(25) NOT NULL,
+  `age` varchar(25) NULL,
   `dob` datetime NULL,
   `gender` char(1) NOT NULL,
   `hx` char(1) NOT NULL COMMENT 'P = performed, O = observed, B = both',
