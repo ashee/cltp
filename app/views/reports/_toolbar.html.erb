@@ -1,8 +1,7 @@
 <ul class="reports_toolbar">
-<li>
-	<%= link_to "Encounters by Care Setting", {:controller => "reports", :action => "encounters_by_care_settings"}, :class => "t4" %>
-<li>
-	<%= link_to "Individual Diagnoses per Student", {:controller => "reports", :action => "dx_by_students"}, :class => "t4" %>
-<li>
-	<%= link_to "Dx Observed vs Performed Per Student", {:controller => "reports", :action => "dx_observed_vs_performed"}, :class => "t4" %>
+	<li>Available reports:</li>
+	<li><%= link_to "Encounters by Care Setting", {:controller => "reports", :action => "encounters_by_care_settings"}, :class => "t4" %></li>
+	<li><%= link_to "Diagnosis Categories per Student", {:controller => "reports", :action => "dx_by_students"}, :class => "t4" %></li>
+	<li><%= link_to "Dx Observed vs Performed Per Student", {:controller => "reports", :action => "dx_observed_vs_performed"}, :class => "t4" %></li>
+	<li><%= link_to "Diagnoses per Student", {:controller => "reports", :action => "dx_by_students"}, :class => "t4" %></li>
 </ul>

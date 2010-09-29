@@ -2,7 +2,7 @@
 
 <div class="box1" style="margin: 15px;">
 <table id="encList" class="display">
-<h1 class="t3" style="margin-left: 30px;">	dx Observed vs Performed Per Student.</h1>
+<h1 class="t3">Diagnoses Observed vs Performed Per Student</h1>
 <thead>
 	<tr>
 		<th class="t5 bg2" colspan="2">Student</th>
@@ -27,10 +27,10 @@
 	<tr>
 		<td class="b1 <%= cls_col_1 %>">	<%= reportline["FirstName"] %> </td>
 		<td class="b1 <%= cls_col_1 %>">	<%= reportline["LastName"] %> </td>
-		<td class="b1 <%= cls_rest %>">		<%= reportline["hxPerformed"] %> </td>
 		<td class="b1 <%= cls_rest %>">		<%= reportline["hxObserved"] %> </td>
-		<td class="b1 <%= cls_rest %>">		<%= reportline["pxPerformed"] %> </td>
+		<td class="b1 <%= cls_rest %>">		<%= reportline["hxPerformed"] %> </td>
 		<td class="b1 <%= cls_rest %>">		<%= reportline["pxObserved"] %> </td>
+		<td class="b1 <%= cls_rest %>">		<%= reportline["pxPerformed"] %> </td>
 	</tr>
  	<% end %>
 

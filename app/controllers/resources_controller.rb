@@ -1,7 +1,7 @@
 require 'pp'
 require "digest/sha1"
 require "stringio"
-require 'FileUtils'
+require 'fileutils'
 
 class ResourcesController < ApplicationController
   # GET /resources
