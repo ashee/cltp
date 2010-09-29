@@ -27,7 +27,7 @@
 <tbody>
 <% @encounters.each do |encounter| cls = cycle("bg4", "bg5") %>
   <tr class='<%= cls %>' valign="top" align="left">
-    <td><a href="encounters/show/<%=h encounter.id %>">View</a></td>
+    <td><%= link_to "View", encounter_path(encounter) %></td>
     <td><%=h encounter.clerkship.name %></td>
     <td><%=h encounter.created_at.strftime '%m/%d/%Y' %></td>
     <td><%=h encounter.clinic.displayname %></td>

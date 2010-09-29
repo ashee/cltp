@@ -12,7 +12,7 @@
     	<a class="submit_encounter" href="#">Save</a>
   	</span>
   	<span class="ui-corner-all bt3">
-  		<a class="cancel_encounter" href="/encounters/show/<%= @encounter.id %>">Cancel and Return</a>
+		<%= link_to "Cancel and Return", encounter_path(@encounter), :class => "cancel_encounter" %>
   	</span>
 </fieldset>
 
@@ -141,7 +141,7 @@
     	<a class="submit_encounter" href="#">Save</a>
   	</span>
   	<span class="ui-corner-all bt3">
-  		<a class="cancel_encounter" href="/encounters/show/<%= @encounter.id %>">Cancel and Return</a>
+		<%= link_to "Cancel and Return", encounter_path(@encounter), :class => "cancel_encounter" %>
   	</span>
 </fieldset>
 
