@@ -143,9 +143,14 @@ class ResourcesController < ApplicationController
   
   def up_vote
   @resource = Resource.find(params[:id])
-  	if (!ResourceVote.exists?({:resource_id => params[:id], :created_by => @user.id, :vote => 1})) then
-		#if (ResourceVote.find(:conditions => {:resource_id => params[:id], :created_by => @user.id, :vote => -1})) then ResourceVote.find(:conditions => {:resource_id => params[:id], :created_by => @user.id, :vote => -1}).destroy
-  		#end		#@resource = Resource.find(params[:id])
+  	#if (ResourceVote.exists?({:resource_id => params[:id], :created_by => @user.id, :vote => -1})) then
+  		@orvs = ResourceVote.find_all_by_resource_id_and_created_by_and_vote(params[:id], @user.id, -1)
+  		for orv in @orvs do
+  			ResourceVote.delete(orv.id)
+  		end
+  	#end
+  	if (!ResourceVote.exists?({:resource_id => params[:id], :created_by => @user.id, :vote => 1})) then		
+  		#@resource = Resource.find(params[:id])
 		@resource.score += 1
 		@resource.save()
 		@vote = ResourceVote.new
@@ -162,9 +167,13 @@ class ResourcesController < ApplicationController
   
   def down_vote
   	@resource = Resource.find(params[:id])
+  	#if (ResourceVote.exists?({:resource_id => params[:id], :created_by => @user.id, :vote => 1})) then
+  		@orvs = ResourceVote.find_all_by_resource_id_and_created_by_and_vote(params[:id], @user.id, 1)
+  		for orv in @orvs do
+  			ResourceVote.delete(orv.id)
+  		end
+  	#end
   	if (!ResourceVote.exists?(:resource_id => params[:id], :created_by => @user.id, :vote => -1)) then
-  		#if (ResourceVote.find(:conditions => {:resource_id => params[:id], :created_by => @user.id, :vote => 1})) then ResourceVote.find(:conditions => {:resource_id => params[:id], :created_by => @user.id, :vote => 1}).destroy
-  		#end
 		#@resource = Resource.find(params[:id])
 		@resource.score += -1
 		@resource.save()
