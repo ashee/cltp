@@ -45,8 +45,8 @@
     	<%= f.text_field :patient_id, :size=>15, :class=>'ui-widget ui-widget-content outline1 required', :tabindex=>33  %>
 	</p>
 	<p>
-	    <%= f.label :age %><br />
-    	<%= f.text_field :age, :size=>5, :class=>'ui-widget ui-widget-content outline1 required', :tabindex=>40  %>
+	    <%= f.label(:dob, "Date of Birth") %><br />
+    	<%= f.text_field :dob, :size=>10, :value => Time.now.strftime("%m/%d/%Y"), :class => 'datepicker ui-widget ui-widget-content outline1 required', :tabindex=>40  %>
 	</p>
 	<p>
     	<%= f.label :gender %><br />
@@ -223,7 +223,7 @@ $(function() {
 	
 	$('#encounter_id').change(function() {
 		$.ajax({
-			url: '<%= url_for :controller => "encounters", :action => "get_clerkships_by_care_setting" %>/' + $(this).val(),
+			url: '/encounters/get_clerkships_by_care_setting/'+$(this).val(),
 			dataType: 'script',
 			success: function(data) {
 				$('#clinics').html(data);
