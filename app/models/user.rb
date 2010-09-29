@@ -9,18 +9,18 @@ class User < ActiveRecord::Base
   end
   
   def academic_year
-    #todo: remove hardcode below
-    "Academic Year: 2010-2011"
+    @current_rotation = user_rotations.find(:last, :conditions => ['user_id = ? AND start_date <= now() AND end_date >= now()', self.id])
+    @current_rotation.academic_year
   end
   
   def current_period
-    #todo: remove hardcode below
-    "Period: 1 (May 1-Jun 30)"
+    @current_rotation = user_rotations.find(:last, :conditions => ['user_id = ? AND start_date <= now() AND end_date >= now()', self.id])
+    @current_rotation.period
   end
   
   def current_clerkship
-    #todo: remove hardcode below
-    "Pediatrics"
+    @current_rotation = user_rotations.find(:last, :conditions => ['user_id = ? AND start_date <= now() AND end_date >= now()', self.id])
+    @current_rotation.clerkship.name
   end
   
   def role_names

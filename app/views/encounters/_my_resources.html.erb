@@ -72,74 +72,47 @@
 <script>
 $(function() {
 
-$("#add_resource_form").bind('submit', function() {
-	$(this).ajaxSubmit({
-		target: '#error'
+	$("#add_resource_form").bind('submit', function() {
+		$(this).ajaxSubmit({
+			target: '#error'
+		});
+		window.location.reload();
+		return false; 
 	});
-	return false; 
-});
-
-$("#add_resource_form").dialog({
-	title: 'Add a Resource',
-	autoOpen: false,
-	height: 400,
-	width: 550,
-	modal: true,
-	buttons: {
-		'Save Resource': function() {
-			// send ajax request to save
-			// $.post("/resources/create", $("#add_resource_form").serialize(), function(data,status) {
-			// 	alert(data);
-			// });
-			$(this).submit();
-			$(this).dialog('close');
-		},
-		'Cancel': function() {
-			$(this).dialog('close');
+	
+	$("#add_resource_form").dialog({
+		title: 'Add a Resource',
+		autoOpen: false,
+		height: 400,
+		width: 550,
+		modal: true,
+		buttons: {
+			'Save Resource': function() {
+				// send ajax request to save
+				// $.post("/resources/create", $("#add_resource_form").serialize(), function(data,status) {
+				// 	alert(data);
+				// });
+				$(this).submit();
+				$(this).dialog('close');
+				window.location.reload();
+			},
+			'Cancel': function() {
+				$(this).dialog('close');
+			}
 		}
-	}
-});
-$('#add_artifact')
-	.click(function() {
-		$('#add_resource_form').dialog('open');
-});
-$('#artifact_description').autoResize();
-$('.hide').hide();
-$('.from').change(function(e) {
+	});
+	
+	$('#add_artifact')
+		.click(function() {
+			$('#add_resource_form').dialog('open');
+	});
+	
+	$('#artifact_description').autoResize();
 	$('.hide').hide();
-	$('#from_'+$(this).val()).toggle();
-});
-$('.add_resource').button();
-$('.show_resource_details').button()
-.click(function(e) {
-	e.preventDefault();
-	var url = this.href;
-	var restitle = this.title;
-	var dialog = $('<div style="display:hidden"></div>').appendTo('body');
-	dialog.load(
-		url, 
-		{},
-		function (responseText, textStatus, XMLHttpRequest) {
-			dialog.dialog({
-			title: restitle,
-   			modal: true,
-   			height: 600,
-   			width: '50%'
-			});
-		}
-	);
-})
-.next()
-	.button( {
-		text: false,
-		icons: {
-			primary: "ui-icon-triangle-1-s"
-		}
-	})
-	.click( function() {
-		alert( "Could display a menu to select an action" );
-	})
-.parent()
-	.buttonset();
+	$('.from').change(function(e) {
+		$('.hide').hide();
+		$('#from_'+$(this).val()).toggle();
+	});
+	$('.add_resource').button();
 });
 </script>
