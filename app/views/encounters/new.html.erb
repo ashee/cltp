@@ -278,9 +278,7 @@ $(function() {
 		
   	$("#encounter_primary_problem").autocomplete({
 			source: availableProblems,
-			minLength: 0,
-			change: function(event, ui) {
-			}
+			minLength: 0
 	});
 
 	$("#encounter_primary_problem_drop").attr("tabIndex", -1)
@@ -321,11 +319,8 @@ $(function() {
 			},
 			select: function(event, ui) {
 				var terms = split( this.value );
-				// remove the current input
 				terms.pop();
-				// add the selected item
 				terms.push( ui.item.value );
-				// add placeholder to get the comma-and-space at the end
 				terms.push("");
 				this.value = terms.join(", ");
 				return false;
@@ -355,8 +350,6 @@ $(function() {
 				});
 		$('textarea#encounter_procedures_observed').autoResize();
 		$('textarea#encounter_notes').autoResize();
-		//$('.submit_encounter').button();
-		//$('.cancel_encounter').button();
 		$('.rightbar_list > li:nth-child(even)').addClass('even');
 		$('.submit_encounter').click(function() {
 			$('#new_encounter').submit();
