@@ -65,29 +65,7 @@ class EncountersController < ApplicationController
       format.js {render :layout => false}
     end
   end
-  
-  # GET /encounters/writeup
-  # GET /encounters/writeup.xml
-  def writeup
-    @encounter = Encounter.find(params[:id])
-
-    respond_to do |format|
-      format.html # writeup.html.erb
-      format.xml  { render :xml => @encounter }
-    end
-  end
-  
-    # GET /encounters/writeup_feedback
-  # GET /encounters/writeup_feedback.xml
-  def writeup_feedback
-    @encounter = Encounter.find(params[:id])
-
-    respond_to do |format|
-      format.html # writeup.html.erb
-      format.xml  { render :xml => @encounter }
-    end
-  end
-  
+    
   # GET /encounters/writeup
   # GET /encounters/writeup.xml
   def resource_details
@@ -110,6 +88,12 @@ class EncountersController < ApplicationController
 	  @dxcs = DiagnosisCategory.find_all_by_clerkship_id(@clerkship.id)
     @dxs = Diagnosis.find_all_by_clerkship_id(@clerkship.id)
     @procedures = Procedure.find_all_by_clerkship_id([@clerkship.id, -1]) 
+    
+    @dxbycats = Diagnosis.dx_by_categories(@clerkship.id)
+    @dx_names = @dxbycats.map { |dxc| "'#{dxc.category_name} > #{dxc.name}'"}.join(",")
+    @dx_hash = @dxbycats.map { |dxc| "'#{dxc.category_name} > #{dxc.name}' : #{dxc.id}"}.join(",")
+    @proc_names = @procedures.collect { |proc| "'#{proc.name}'" }.join(",")
+    @proc_hash = @procedures.collect { |proc| "'#{proc.name}' : #{proc.id}" }.join(",")
     
   	respond_to do |format|
       	format.html # edit.html.erb
