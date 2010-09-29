@@ -11,7 +11,7 @@
     	<a class="submit_encounter" href="#">Save</a>
   	</span>
   	<span class="ui-corner-all bt3">
-  		<a class="cancel_encounter" href="/encounters/">Cancel and Return</a>
+		<%= link_to "Cancel and Return", encounters_path %>
   	</span>
 </fieldset>
 
@@ -103,8 +103,8 @@
     	<a class="submit_encounter" href="#">Save</a>
   	</span>
   	<span class="ui-corner-all bt3">
-  		<a class="cancel_encounter" href="/encounters/">Cancel and Return</a>
-  	</span>
+ 		<%= link_to "Cancel and Return", encounters_path %>
+ 	</span>
 </fieldset>
 
 <% end %>
