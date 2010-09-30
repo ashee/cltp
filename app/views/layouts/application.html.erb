@@ -39,9 +39,9 @@
 			<div id="hd" class="bg1">
 				<ul id="userInfo">
 					<li class="b2"><%= @user.fullname %> (<%= @user.primary_role %>)</li>
-					<li class="b2"><%= @user.academic_year %></li>
-					<li class="b2"><%= @user.current_period %></li>
-					<li class="b2">Current Clerkship: <%= @user.current_clerkship %></li>
+					<li class="b2">Academic Year: <%= @user.academic_year %></li>
+					<li class="b2">Period: <%= @user.current_period %></li>
+					<li class="b2">Clerkship: <%= @user.current_clerkship %></li>
 					<li class="b2"><%= DateTime.now.strftime("%m/%d/%Y %I:%M%p") %></li>
 				</ul>
 			</div>

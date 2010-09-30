@@ -3,12 +3,16 @@ class ReportsController < ApplicationController
   end
   
   def encounters_by_care_settings
-    @reportlinearray = Reports.encounters_by_care_settings
-    ActiveRecord::Base.logger.debug "@reportlinearray: #{@reportlinearray}"  
+  	@reportlinearray = Reports.encounters_by_care_settings
+    ActiveRecord::Base.logger.debug "@reportlinearray: #{@reportlinearray}"
   end
 
   def dx_by_students
-     @reportarray = Reports.dx_by_students
+ 	  @reportarray = Reports.dx_by_students
+  end
+
+  def student_individual_dx_select
+ 	  @reportarray = Reports.student_individual_dx
   end
  
   def hnp_observed_vs_performed

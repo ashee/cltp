@@ -77,25 +77,37 @@ class Reports
   
     sqlResult = ActiveRecord::Base.connection.execute sql     
 
+    # Calling ActiveRecord::Base.connection.execute(sql) in order to get the fields of each record returned
+    # in the correct order.  Using the select_all method returns a hash of the rows but they are not ordered 
+    # correctly
+
+    sqlResult = ActiveRecord::Base.connection.execute sql     
+
     # this returns a Mysql::Result object.
     # first check whether something was returned
     if sqlResult != nil
       # first extract the field names
-      fieldObjectArray = sqlResult.fields
-    
+      fieldObjectArray = sqlResult.fetch_fields()
+
       fieldNames = Array.new
       fieldObjectArray.each do |aField|
           fieldNames << aField.name
-        end               
-  
+      end               
+
       # now extract the rows of data
-     rows = Array.new
-     sqlResult.each do |row|
+      rows = Array.new
+      sqlResult.each do |row|
+        rows << row
+      end               
+
+      # now extract the rows of data
+      rows = Array.new
+      sqlResult.each do |row|
         rows << row
       end               
       sqlResult.free;
     end
-  
+ 
     fieldNamesAndDataArray = Array.new
     fieldNamesAndDataArray << fieldNames << rows
     return fieldNamesAndDataArray

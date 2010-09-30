@@ -36,9 +36,9 @@
 	    <span id="patient_id" name="patient_id"><%=h @encounter.patient_id %></span>
 	</p>
 	<p>
-	    <%= f.label :age %>
+	    <%= f.label(:dob, "Date of Birth") %>
 	    <br />
-	    <span id="age" name="age"><%=h @encounter.age %></span>
+	    <span id="dob" name="dob"><%=h @encounter.dob.strftime("%B %d, %Y") %></span>
 	</p>
 	<p>
     	<%= f.label :gender %><br />

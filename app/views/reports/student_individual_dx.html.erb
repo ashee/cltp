@@ -1,7 +1,5 @@
 <%= render "toolbar" %>
 
-
-
 <div class="box1" style="margin: 15px;">
 <h2>	
 	Select a student: <%= select_tag "students", options_from_collection_for_select(@students, "id", "fullname") %>
