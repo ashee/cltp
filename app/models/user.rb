@@ -10,17 +10,17 @@ class User < ActiveRecord::Base
   
   def academic_year
     @current_rotation = user_rotations.find(:last, :conditions => ['user_id = ? AND start_date <= now() AND end_date >= now()', self.id])
-    @current_rotation.academic_year
+    @current_rotation.nil? ? "" : @current_rotation.academic_year
   end
   
   def current_period
     @current_rotation = user_rotations.find(:last, :conditions => ['user_id = ? AND start_date <= now() AND end_date >= now()', self.id])
-    @current_rotation.period
+    @current_rotation.nil? ? "" : @current_rotation.period
   end
   
   def current_clerkship
     @current_rotation = user_rotations.find(:last, :conditions => ['user_id = ? AND start_date <= now() AND end_date >= now()', self.id])
-    @current_rotation.clerkship.name
+    @current_rotation.nil? ? "" : @current_rotation.clerkship.name
   end
   
   def role_names
