@@ -1,7 +1,28 @@
-<ul class="reports_toolbar">
-	<li>Available reports:</li>
-	<li><%= link_to "Encounters by Care Setting", {:controller => "reports", :action => "encounters_by_care_settings"}, :class => "t4" %></li>
-	<li><%= link_to "Diagnosis Categories per Student", {:controller => "reports", :action => "dx_by_students"}, :class => "t4" %></li>
-	<li><%= link_to "H & P Observed vs Performed Per Student", {:controller => "reports", :action => "hnp_observed_vs_performed"}, :class => "t4" %></li>
-	<li><%= link_to "Diagnoses per Student", {:controller => "reports", :action => "student_individual_dx_select"}, :class => "t4" %></li>
-</ul>
+<table>
+	<tr>
+		<td>
+			<h3>Available reports (individual):</h3>
+		</td>
+		<td>
+			<ul class="reports_toolbar">
+			<li><%= link_to "Encounters by Care Setting", {:controller => "reports", :action => "encounters_by_care_settings"}, :class => "t4" %></li>
+			<li><%= link_to "Diagnosis Categories per Student", {:controller => "reports", :action => "dx_by_students"}, :class => "t4" %></li>
+			<li><%= link_to "H & P Observed vs Performed Per Student", {:controller => "reports", :action => "hnp_observed_vs_performed"}, :class => "t4" %></li>
+			<li><%= link_to "Diagnoses per Student", {:controller => "reports", :action => "student_individual_dx_select"}, :class => "t4" %></li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h3>Available reports (by site):</h3>
+		</td>
+		<td>
+			<ul class="reports_toolbar">
+			<li><%= link_to "Encounters by Care Setting", {:controller => "reports", :action => "encounters_by_care_settings"}, :class => "t4" %></li>
+			<li><%= link_to "Diagnosis Categories per Student", {:controller => "reports", :action => "dx_by_students"}, :class => "t4" %></li>
+			<li><%= link_to "H & P Observed vs Performed Per Student", {:controller => "reports", :action => "hnp_observed_vs_performed"}, :class => "t4" %></li>
+			<li><%= link_to "Diagnoses per Student", {:controller => "reports", :action => "student_individual_dx_select"}, :class => "t4" %></li>
+			</ul>
+		</td>
+	</tr>
+</table>

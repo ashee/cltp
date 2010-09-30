@@ -11,10 +11,6 @@ class ReportsController < ApplicationController
  	  @reportarray = Reports.dx_by_students
   end
 
-  def student_individual_dx_select
- 	  @reportarray = Reports.student_individual_dx
-  end
- 
   def hnp_observed_vs_performed
     @reportlinearray = Reports.hnp_observed_vs_performed
   end
@@ -33,8 +29,6 @@ class ReportsController < ApplicationController
     student_id = params[:student_id]
     @student = User.find_by_id student_id
     @items = Reports.student_individual_dx student_id
-    ActiveRecord::Base.logger.debug "@student: #{@student}"
-    ActiveRecord::Base.logger.debug "@student.fullname: #{@student.fullname}"
     render :layout => false
   end
 
