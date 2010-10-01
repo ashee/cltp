@@ -69,7 +69,6 @@ class Reports
    #-------------------------------------------    
     def self.dx_by_students
     dxcats = DiagnosisCategory.all
-    ActiveRecord::Base.logger.debug "dxcats: #{dxcats}"
 
     template = %Q{sum(if(edx.dx_id=%s,1,0)) as '%s'}
 
@@ -85,7 +84,7 @@ class Reports
           #{partialSqlStatement}
         from encounters e 
         join users u on e.created_by = u.id
-        join encounter_dx edx on e.created_by = u.id
+        join encounter_dx edx on edx.encounter_id = e.id
         where e.clerkship_id = 1
         group by e.created_by;
     EOF
@@ -93,13 +92,6 @@ class Reports
     # Calling ActiveRecord::Base.connection.execute(sql) in order to get the fields of each record returned
     # in the correct order.  Using the select_all method returns a hash of the rows but they are not ordered 
     # correctly
-  
-    sqlResult = ActiveRecord::Base.connection.execute sql     
-
-    # Calling ActiveRecord::Base.connection.execute(sql) in order to get the fields of each record returned
-    # in the correct order.  Using the select_all method returns a hash of the rows but they are not ordered 
-    # correctly
-
     sqlResult = ActiveRecord::Base.connection.execute sql     
 
     # this returns a Mysql::Result object.
@@ -111,13 +103,7 @@ class Reports
       fieldNames = Array.new
       fieldObjectArray.each do |aField|
           fieldNames << aField.name
-      end               
-
-      # now extract the rows of data
-      rows = Array.new
-      sqlResult.each do |row|
-        rows << row
-      end               
+      end                           
 
       # now extract the rows of data
       rows = Array.new
