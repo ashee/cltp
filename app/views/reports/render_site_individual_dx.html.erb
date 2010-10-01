@@ -1,0 +1,66 @@
+<h1 class="t3" style="margin-left: 30px;">Individual Diagnoses Selected by Site</h1>
+
+<table id="encList">
+		<thead>
+			<tr>
+				<th class="t5 bg2">Diagnoses Selected by  <%=h @site.displayname %></th>
+				<th class="t5 bg2">Count</th>
+			</tr>
+		</thead>
+		<tbody>
+		    <% for item in @items do 
+			 	cls_rest = cycle("bg5","bg4", :name => 'rest_cols')
+			%>
+			<tr>
+				<td class="b1 <%= cls_rest %>"> <%= item["dxname"] %> </td>
+				<td class="b1 <%= cls_rest %>"> <%= item["cnt"] %> </td>
+			</tr>
+			<% end %>
+		</tbody>
+</table>
+
+<script>
+var oTable;
+var asInitVals = new Array();
+		//"sDom": 'T<"clear">lfrtip',
+$(function() {
+	TableToolsInit.sSwfPath = "<%= javascript_path 'dataTables/media/swf/ZeroClipboard.swf' %>";
+	oTable = $('#encList').dataTable( {
+		"oLanguage": {
+			"sSearch": "Search all columns:"
+		},
+		"sDom": 'T<"clear"><"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"if>rt<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"lp>',
+		"bJQueryUI": true,
+		"aaSorting": [[1,'desc']],
+		"aoColumns": [{ "bSortable": false }, null],
+		"iDisplayLength": 10,
+		"sPaginationType" : "full_numbers"
+	} );
+	
+	$("tfoot input").keyup( function () {
+		/* Filter on the column (the index) of this element */
+		oTable.fnFilter( this.value, $("tfoot input").index(this) );
+	} );
+
+	$("tfoot input").each( function (i) {
+		asInitVals[i] = this.value;
+	} );
+	
+	$("tfoot input").focus( function () {
+		if ( this.className == "search_init" )
+		{
+			this.className = "";
+			this.value = "";
+		}
+	} );
+	
+	$("tfoot input").blur( function (i) {
+		if ( this.value == "" )
+		{
+			this.className = "search_init";
+			this.value = asInitVals[$("tfoot input").index(this)];
+		}
+	} );
+
+} );
+</script>
