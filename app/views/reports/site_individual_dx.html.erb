@@ -1,0 +1,24 @@
+<%= render "toolbar" %>
+
+<div class="box1" style="margin: 15px;">
+<h2>	
+	Select a site: <%= select_tag "sites", options_from_collection_for_select(@sites, "id", "displayname") %>
+	<a href="#" id="get_report_btn">Get Report</a>
+</h2>	
+</div>
+
+<div id="result" class="box1" style="margin: 15px;">
+<h2>Select Site name from menu above</h2>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	$(function() {
+		$("#get_report_btn").click(function(e,o) {
+			var site_id = $("#sites").val();
+			<%url = url_for :controller => "reports", :action => 'render_site_individual_dx' %>
+			$.get('<%= url %>', {site_id: site_id}, function(data,status) {
+				$("#result").empty().append(data);
+			});
+		});
+	});
+</script>
