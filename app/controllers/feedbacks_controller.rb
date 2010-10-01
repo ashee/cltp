@@ -2,6 +2,11 @@ class FeedbacksController < ApplicationController
     # GET /feedbacks
     # GET /feedbacks.xml
     def index
+      if @user.primary_role == "Student"
+        render :file => "public/401.html", :status => :unauthorized 
+        return
+      end
+
       @feedbacks = Feedback.find :all
       respond_to do |format|
         format.html # index.html.erb
@@ -32,6 +37,11 @@ class FeedbacksController < ApplicationController
 
     # GET /feedbacks/1/edit
     def edit
+      if @user.primary_role == "Student"
+        render :file => "public/401.html", :status => :unauthorized 
+        return
+      end
+
       @feedback = Feedback.find(params[:id])
     end
 
@@ -57,6 +67,11 @@ class FeedbacksController < ApplicationController
     # PUT /feedbacks/1
     # PUT /feedbacks/1.xml
     def update
+      if @user.primary_role == "Student"
+        render :file => "public/401.html", :status => :unauthorized 
+        return
+      end
+
       @feedback = Feedback.find(params[:id])
 
       respond_to do |format|
@@ -74,6 +89,11 @@ class FeedbacksController < ApplicationController
     # DELETE /feedbacks/1
     # DELETE /feedbacks/1.xml
     def destroy
+      if @user.primary_role == "Student"
+        render :file => "public/401.html", :status => :unauthorized 
+        return
+      end
+
       @feedback = Feedback.find(params[:id])
       @feedback.destroy
 

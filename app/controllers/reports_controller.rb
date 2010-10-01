@@ -1,4 +1,6 @@
 class ReportsController < ApplicationController
+  before_filter :access_control
+  
   def index
   end
   
@@ -30,6 +32,14 @@ class ReportsController < ApplicationController
     @student = User.find_by_id student_id
     @items = Reports.student_individual_dx student_id
     render :layout => false
+  end
+  
+  def access_control
+    if @user.primary_role == "Student"
+      render :file => "public/401.html", :status => :unauthorized 
+      return
+    end
+    
   end
 
 end

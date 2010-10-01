@@ -20,6 +20,13 @@ class EncountersController < ApplicationController
   # GET /encounters/1.xml
   def show
    	@encounter = Encounter.find(params[:id])
+    
+    # allow student to view only their own encounters
+    if (@user.primary_role == "Student") && (@encounter.created_by != @user.id)
+      render :file => "public/401.html", :status => :unauthorized 
+      return
+    end
+
 	  @encounterDiagnoses = @encounter.diagnoses
 	  @encounterProcedures = @encounter.procedures
     @resources = Resource.find_by_encounter(@encounter.id)
@@ -34,6 +41,11 @@ class EncountersController < ApplicationController
   # GET /encounters/new
   # GET /encounters/new.xml
   def new	
+    if @user.primary_role != "Student"
+      render :file => "public/401.html", :status => :unauthorized 
+      return
+    end
+    
   	@clerkship = Clerkship.find_by_name('Pediatrics')    
 
 	  @encounter = Encounter.new
@@ -79,6 +91,11 @@ class EncountersController < ApplicationController
 
   # GET /encounters/edit/1
   def edit
+    if @user.primary_role != "Student"
+      render :file => "public/401.html", :status => :unauthorized 
+      return
+    end
+    
     @encounter = Encounter.find(params[:id])
     @encounterDiagnoses = @encounter.diagnoses
 	  @encounterProcedures = @encounter.procedures
@@ -104,6 +121,11 @@ class EncountersController < ApplicationController
   # POST /encounters
   # POST /encounters.xml
   def create
+    if @user.primary_role != "Student"
+      render :file => "public/401.html", :status => :unauthorized 
+      return
+    end
+    
     hx = hnp_flag(params[:hx])
     px = hnp_flag(params[:px])
     
@@ -175,6 +197,11 @@ class EncountersController < ApplicationController
   # POST /update
   # POST /update.xml
   def update
+    if @user.primary_role != "Student"
+      render :file => "public/401.html", :status => :unauthorized 
+      return
+    end
+    
     hx = hnp_flag(params[:hx])
     px = hnp_flag(params[:px])
 
