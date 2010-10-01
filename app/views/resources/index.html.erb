@@ -98,7 +98,7 @@
 	</table>
 	</div>
 	
-	<% form_tag('/resources/create', :multipart => true, :id => 'add_resource_form', :class => 'form') do %>
+	<% form_tag(url_for(:controller => 'resources', :action => 'create'), :multipart => true, :id => 'add_resource_form', :class => 'form') do %>
 <table>
 <tr>
 	<th><label>From:</label></th>
@@ -170,6 +170,7 @@ $("#add_resource_form").dialog({
 		'Save Resource': function() {
 			$(this).submit();
 			$(this).dialog('close');
+			window.location.reload();
 		},
 		'Cancel': function() {
 			$(this).dialog('close');
