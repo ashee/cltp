@@ -29,6 +29,11 @@ private
       render :file => "public/401.html", :status => :unauthorized 
       return
     end
+    
+    if @user.primary_role != "Student" && request.env['PATH_INFO'] == "/"
+      redirect_to :controller => "reports", :action => "index"
+    end
+    
   end
   
 end

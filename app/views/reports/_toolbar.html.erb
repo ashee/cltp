@@ -1,23 +1,33 @@
+<h3 class="t3">Available reports</h3>
 <table>
 	<tr>
 		<td>
-			<h3>Available reports</h3>
+			<h3>By Student:</h3>
 		</td>
 		<td>
-			<h4>Select Report Type ('by individual' or 'by Site'): <%= select_tag "reportType", options_for_select(["Individual", "By Site"]) %>
-			<!-- <a href="#" id="get_report_btn">Get Report</a> -->
-			<p></p>
-			</h4>
+			<ul class="reports_toolbar">
+			<li><%= link_to "Encounters by Care Setting", {:controller => "reports", :action => "encounters_by_care_settings"}, :class => "t4" %></li>
+			<li><%= link_to "Encounters by Diagnosis Categories", {:controller => "reports", :action => "dx_by_students"}, :class => "t4" %></li>
+			<li><%= link_to "H & P Observed vs Performed", {:controller => "reports", :action => "hnp_observed_vs_performed"}, :class => "t4" %></li>
+			<li><%= link_to "Diagnoses", {:controller => "reports", :action => "student_individual_dx"}, :class => "t4" %></li>
+			</ul>
 		</td>
 	</tr>
 	<tr>
-		<td  colspan="2">
+		<td>
+			<h3>By Site:</h3>
+		</td>
+		<td>
 			<ul class="reports_toolbar">
-			<li><%= link_to "Encounters by Care Setting", {:controller => "reports", :action => "encounters_by_care_settings"}, :class => "t4" %></li>
-			<li><%= link_to "Diagnosis Categories per Student", {:controller => "reports", :action => "dx_by_students"}, :class => "t4" %></li>
-			<li><%= link_to "H & P Observed vs Performed Per Student", {:controller => "reports", :action => "hnp_observed_vs_performed"}, :class => "t4" %></li>
-			<li><%= link_to "Diagnoses per Student", {:controller => "reports", :action => "student_individual_dx"}, :class => "t4" %></li>
+			<li><%= link_to "Encounters by Care Setting", {:controller => "reports", :action => "site_encounters_by_care_settings"}, :class => "t4" %></li>
+			<li><%= link_to "Encounters by Diagnosis Categories", {:controller => "reports", :action => "dx_by_sites"}, :class => "t4" %></li>
+			<li><%= link_to "H & P Observed vs Performed", {:controller => "reports", :action => "hnp_observed_vs_performed"}, :class => "t4" %></li>
+			<li><%= link_to "Diagnoses", {:controller => "reports", :action => "site_individual_dx"}, :class => "t4" %></li>
 			</ul>
 		</td>
 	</tr>
 </table>
+
+<style type="text/css">
+	div.box1 h1 { padding: 8px;}
+</style>

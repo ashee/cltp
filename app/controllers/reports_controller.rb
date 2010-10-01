@@ -1,4 +1,6 @@
 class ReportsController < ApplicationController
+  before_filter :access_control
+  
   def index
   end
   
@@ -6,9 +8,17 @@ class ReportsController < ApplicationController
   	@reportlinearray = Reports.encounters_by_care_settings
     ActiveRecord::Base.logger.debug "@reportlinearray: #{@reportlinearray}"
   end
+  
+    def site_encounters_by_care_settings
+  	@reportlinearray = Reports.site_encounters_by_care_settings
+  end
 
   def dx_by_students
  	  @reportarray = Reports.dx_by_students
+  end
+  
+    def dx_by_sites
+ 	  @reportarray = Reports.dx_by_sites
   end
 
   def hnp_observed_vs_performed
@@ -31,5 +41,22 @@ class ReportsController < ApplicationController
     @items = Reports.student_individual_dx student_id
     render :layout => false
   end
+  
+  def site_individual_dx
+    @sites = Clinic.all
+  end
 
+  def render_site_individual_dx
+    site_id = params[:site_id]
+    @site = Clinic.find_by_id site_id
+    @items = Reports.site_individual_dx site_id
+    render :layout => false
+  end
+
+  def access_control
+    if @user.primary_role == "Student"
+      render :file => "public/401.html", :status => :unauthorized 
+      return
+    end
+  end
 end

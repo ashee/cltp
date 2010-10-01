@@ -4,12 +4,14 @@
 
 <% form_for(@encounter, :html => { :class  => "encounter"} ) do |f| %>
   <%= f.error_messages %>
-  
+
+<% if @user.primary_role == "Student" %>  
 <div style="margin-bottom: 10px; float: right;">
 <span class="ui-corner-all bg3" style="margin: 15px; padding: 5px;">
 	<%= link_to image_tag("edit.png") + " Edit this Encounter", edit_encounter_path(@encounter), :class => "bt1", :style => "vertical-align:middle;" %>
 </span>
 </div>
+<% end %>
 
 <div style="clear:both"></div>
 
