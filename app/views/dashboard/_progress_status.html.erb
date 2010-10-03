@@ -80,7 +80,7 @@
 	
 	<div class="box1" style="margin: 15px;">
 	<table style="margin: 0px 30px 30px 30px;">
-	<h1 class="t3" style="margin-left: 30px;">Pediatrics Diagnoses: 12</h1>
+	<h1 class="t3" style="margin-left: 30px;">Pediatrics Diagnoses: <%= @problems.count %></h1>
 	<thead>
 		<tr>
 			<th class="t5 bg2">Problems</th>
@@ -88,36 +88,22 @@
 		</tr>
 	</thead>
 	<tbody>
+	    <% for problem in @problems do 
+		 	cls_rest = cycle("bg5","bg4", :name => 'rest_cols')
+		 	cls_col_1 = cycle("bg8","bg7", :name => 'first_col')
+		%>
 		<tr>
-			<td class="b1 bg4">Diabetes</td>
-			<td class="b1 bg4">1</td>
+			<td class="b1 <%= cls_rest %>"><%= problem["name"] %></td>
+			<td class="b1 <%= cls_rest %>"><%= problem["count"] %></td>
 		</tr>
-		<tr>
-			<td class="b1 bg5">Chest Pain</td>
-			<td class="b1 bg5">6</td>
-		</tr>
-		<tr>
-			<td class="b1 bg4">Anxiety</td>
-			<td class="b1 bg4">1</td>
-		</tr>
-		<tr>
-			<td class="b1 bg5">Chronic Medical Problem</td>
-			<td class="b1 bg5">3</td>
-		</tr>
-		<tr>
-			<td class="b1 bg4">Growth Problem</td>
-			<td class="b1 bg4">1</td>
-		</tr>
-		<tr>
-			<td class="t4 bg5">Total</td>
-			<td class="t4 bg5">12</td>
-		</tr>
+		<% end %>
+		
 		</tbody>
 	</table>
 	</div>
 	<div class="box1" style="margin: 15px;">
 	<table style="margin: 0px 30px 30px 30px;">
-	<h1 class="t3" style="margin-left: 30px;">Pediatrics Procedures - 12</h1>
+	<h1 class="t3" style="margin-left: 30px;">Pediatrics Procedures: <%= @procedures.count %></h1>
 	<thead>
 		<tr>
 			<th class="t5 bg2">Procedure</th>
@@ -125,30 +111,16 @@
 		</tr>
 	</thead>
 	<tbody>
+	    <% for procedure in @procedures do 
+		 	cls_rest = cycle("bg5","bg4", :name => 'rest_cols')
+		 	cls_col_1 = cycle("bg8","bg7", :name => 'first_col')
+		%>
 		<tr>
-			<td class="b1 bg4">Lumbar Puncture</td>
-			<td class="b1 bg4">1</td>
+			<td class="b1 <%= cls_rest %>"><%= procedure["name"] %></td>
+			<td class="b1 <%= cls_rest %>"><%= procedure["count"] %></td>
 		</tr>
-		<tr>
-			<td class="b1 bg5">Suturing</td>
-			<td class="b1 bg5">6</td>
-		</tr>
-		<tr>
-			<td class="b1 bg4">Warts</td>
-			<td class="b1 bg4">1</td>
-		</tr>
-		<tr>
-			<td class="b1 bg5">Circumcision</td>
-			<td class="b1 bg5">3</td>
-		</tr>
-		<tr>
-			<td class="b1 bg4">Other</td>
-			<td class="b1 bg4">1</td>
-		</tr>
-		<tr>
-			<td class="t4 bg5">Total</td>
-			<td class="t4 bg5">12</td>
-		</tr>
+		<% end %>
+
 		</tbody>
 	</table>
 	</div>

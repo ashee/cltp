@@ -24,6 +24,42 @@
 
 class Reports
   
+  
+  #--------------------------------------------
+   # Student Encounter Diagnoses (problems) totals 
+   # Count of Diagnoses/problems a student has seen
+   # This is displayed in the dashboard.
+   # This routine is called from the dashboard_controller
+   #--------------------------------------------
+   def self.student_encounter_diagnoses(student_id)
+     sql = <<-EOF
+        select  edx.dx_id, count(*) as count, d.name as name
+        from encounter_dx edx
+        join dx d on edx.dx_id = d.id
+        where edx.created_by = #{student_id}
+        group by d.id
+        EOF
+     ActiveRecord::Base.connection.select_all sql
+   end
+
+  #--------------------------------------------
+    # Student Encounter Procedures totals 
+    # Count of Encounter Procedures a student has logged
+    # This is displayed in the dashboard.
+    # This routine is called from the dashboard_controller
+    #--------------------------------------------
+    def self.student_encounter_procedures(student_id)
+      sql = <<-EOF
+         select  ep.encounter_id, count(*) as count, p.name as name
+         from encounter_procedures ep
+         join procedures p on ep.encounter_id = p.id
+         where ep.created_by = #{student_id}
+         group by p.id
+         EOF
+      ActiveRecord::Base.connection.select_all sql
+    end
+
+        
   #--------------------------------------------
   # Encounters by Care Setting 
   # Numbers of Patients each student has seen on Inpatient, Outpatient and Newborn Nursery
@@ -185,6 +221,27 @@ class Reports
     ret = ActiveRecord::Base.connection.select_all sql  
     return ret
   end
+ 
+  #-------------------------------------------
+   # Individual diagnoses that each student has performed
+   #-------------------------------------------    
+    def self.site_hnp_observed_vs_performed
+     sql = <<-EOF
+     select 
+          c.care_setting as "CareSetting", c.clinic_name as "ClinicName", c.location as "Location",
+         sum(if(e.hx='P' or e.hx='B',1,0)) as 'hxPerformed',
+         sum(if(e.hx='O' or e.hx='B',1,0)) as 'hxObserved',
+         sum(if(e.px='P' or e.px='B',1,0)) as 'pxPerformed',
+         sum(if(e.px='O' or e.px='B',1,0)) as 'pxObserved'
+         from encounters e 
+         join clinics c on c.id = e.clinic_id
+        where e.clerkship_id = 1
+        group by c.location;
+      EOF
+
+     ret = ActiveRecord::Base.connection.select_all sql  
+     return ret
+   end
   
   #-------------------------------------------
   # Individual diagnoses that each student has performed

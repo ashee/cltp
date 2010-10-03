@@ -12,7 +12,18 @@ class DashboardController < ApplicationController
      @hx_required_total += s.hx_required
      @px_required_total += s.px_required
    end
+
+   # get data for the problems table
+   @problems = Reports.student_encounter_diagnoses @user.id
+   ActiveRecord::Base.logger.debug "@problems.count: #{@problems.count}"
+   ActiveRecord::Base.logger.debug "@problems: #{@problems}"
    
+   # get data for the procedures table
+   @procedures = Reports.student_encounter_procedures @user.id
+   ActiveRecord::Base.logger.debug "@procedures.count: #{@procedures.count}"
+   ActiveRecord::Base.logger.debug "@procedures: #{@procedures}"
+
+
    respond_to do |format|
      format.html # index.html.erb
      format.xml  { render :xml => @encounters }

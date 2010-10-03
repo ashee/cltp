@@ -6,7 +6,6 @@ class ReportsController < ApplicationController
   
   def encounters_by_care_settings
   	@reportlinearray = Reports.encounters_by_care_settings
-    ActiveRecord::Base.logger.debug "@reportlinearray: #{@reportlinearray}"
   end
   
     def site_encounters_by_care_settings
@@ -24,6 +23,11 @@ class ReportsController < ApplicationController
   def hnp_observed_vs_performed
     @reportlinearray = Reports.hnp_observed_vs_performed
   end
+
+  def site_hnp_observed_vs_performed
+    @reportlinearray = Reports.site_hnp_observed_vs_performed
+  end
+
 
   def dx_observed_vs_performed
   end
