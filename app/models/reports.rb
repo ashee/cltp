@@ -52,7 +52,7 @@ class Reports
       sql = <<-EOF
          select  ep.encounter_id, count(*) as count, p.name as name
          from encounter_procedures ep
-         join procedures p on ep.encounter_id = p.id
+         join procedures p on ep.procedure_id = p.id
          where ep.created_by = #{student_id}
          group by p.id
          EOF
