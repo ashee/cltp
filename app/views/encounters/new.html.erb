@@ -25,7 +25,7 @@
 <fieldset class="outline2 bg5">
   	<p>
     	<%= f.label :encounter_date %><br />
-    	<%= f.text_field :encounter_date, :size=>10, :value => Time.now.strftime("%m/%d/%Y"), :class => 'datepicker ui-widget ui-widget-content outline1', :tabindex=>1 %>
+    	<%= f.text_field :encounter_date, :size=>10, :value => Time.now.strftime("%m/%d/%Y"), :class => 'datepicker ui-widget ui-widget-content outline1 required date', :tabindex=>1 %>
   	</p>
 	<p>
 		<%= f.label :care_setting %><br />
@@ -46,7 +46,7 @@
 	</p>
 	<p>
 	    <%= f.label(:dob, "Date of Birth") %><br />
-    	<%= f.text_field :dob, :size=>10, :value => Time.now.strftime("%m/%d/%Y"), :class => 'datepicker ui-widget ui-widget-content outline1 required', :tabindex=>40  %>
+    	<%= f.text_field :dob, :size=>10, :value => Time.now.strftime("%m/%d/%Y"), :class => 'datepicker ui-widget ui-widget-content outline1 required date', :tabindex=>40  %>
 	</p>
 	<p>
     	<%= f.label :gender %><br />
@@ -69,24 +69,24 @@
 	<div style="clear:both"></div>
 	
 	<p>
-    	<%= f.label :primary_problem %><br />
-		<input type="text" tabindex="70" size="50" name="primary_problem" id="encounter_primary_problem" class="ui-widget ui-widget-content required outline1">
+    	<%= f.label :primary_problem %><span>(Type in text to filter or select the arrow to see all)</span><br />
+		<input type="text" tabindex="70" size="50" name="primary_problem" id="encounter_primary_problem" class="ui-widget ui-widget-content required outline1" placeholder="Type in text to filter or select the arrow to see all">
 		<button id="encounter_primary_problem_drop" class="drop_button"></button>
 	</p>
 	
 	<div style="clear:both"></div>
 	
 	<p>
-	   	<%= f.label :secondary_problems %><br />
-	  	<textarea tabindex="100" rows="1" name="secondary_problems" id="encounter_secondary_problems" cols="50" class="ui-widget ui-widget-content outline1"></textarea>
+	   	<%= f.label :secondary_problems %><span>(Type in text to filter or select the arrow to see all)</span><br />
+	  	<textarea tabindex="100" rows="1" name="secondary_problems" id="encounter_secondary_problems" cols="50" class="ui-widget ui-widget-content outline1" placeholder="Type in text to filter or select the arrow to see all"></textarea>
 	  	<button id="encounter_secondary_problems_drop" class="drop_button"></button>
 	</p>
 	
 	<div style="clear:both"></div>
 	
 	<p>
-		<%= f.label :procedures_observed %><br />
-		<textarea tabindex="120" rows="1" name="procedures_observed]" id="encounter_procedures_observed" cols="50" class="ui-widget ui-widget-content outline1"></textarea>
+		<%= f.label :procedures_observed %><span>(Type in text to filter or select the arrow to see all)</span><br />
+		<textarea tabindex="120" rows="1" name="procedures_observed]" id="encounter_procedures_observed" cols="50" class="ui-widget ui-widget-content outline1" placeholder="Type in text to filter or select the arrow to see all"></textarea>
 		<button id="encounter_procedures_observed_drop" class="drop_button"></button>
 	</p>
 </fieldset>
@@ -205,7 +205,16 @@ $(function() {
 	
 	
 	jQuery.validator.messages.required = "";
-	$("#new_encounter").validate({
+	$("#new_encounter").validate(
+		{
+  			rules: {
+    			field: {
+      				required: true,
+      				date: true
+    			}
+  			}
+		},
+		{
 		invalidHandler: function(e, validator) {
 					var errors = validator.numberOfInvalids();
 					if (errors) {
@@ -354,6 +363,7 @@ $(function() {
 		$('.submit_encounter').click(function() {
 			$('#new_encounter').submit();
 		});
-		$('#encounter_clinic_id').hide();
+		$('#encounter_clinic_id').attr('disabled', true);
+
 	});
 </script>
