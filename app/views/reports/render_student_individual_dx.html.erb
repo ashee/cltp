@@ -2,7 +2,8 @@
 <table id="encList" style="margin-left: 30px;" >
 		<thead>
 			<tr>
-				<th class="t5 bg2">Diagnoses Selected by<br/> <%=h @student.fullname %></th>
+				<th>Diagnoses Selected by<br/> <%= @student.fullname %></th>
+				<th>Count</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -11,6 +12,7 @@
 			%>
 			<tr>
 				<td class="b1 <%= cls_rest %>"> <%= item["dxname"] %> </td>
+				<td class="b1 <%= cls_rest %>"> <%= item["cnt"] %> </td>
 			</tr>
 			<% end %>
 		</tbody>
@@ -29,7 +31,7 @@ $(function() {
 		"sDom": 'T<"clear"><"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"if>rt<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"lp>',
 		"bJQueryUI": true,
 		"aaSorting": [[1,'desc']],
-		"aoColumns": [{ "bSortable": false }],
+		"aoColumns": [{ "bSortable": false }, null],
 		"iDisplayLength": 10,
 		"sPaginationType" : "full_numbers"
 	} );
