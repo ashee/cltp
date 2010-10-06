@@ -65,7 +65,8 @@
 				tag_text = Diagnosis.find(tag_id).name 
 				category_text = DiagnosisCategory.find(Diagnosis.find(tag_id).category_id).name
 			end
-			if (tag == 'encounters') then tag_text = '<a href="/encounters/show/'+tag_id.to_s()+'">Encounter</a>' end
+			#if (tag == 'encounters') then tag_text = '<a href="/encounters/show/'+tag_id.to_s()+'">Encounter</a>' end
+			if (tag == 'encounters') then tag_text = link_to "Encounter", encounter_path(tag_id) end
 			if (tag == 'procedures') then tag_text = Procedure.find(tag_id).name end
 			ri = resource.resource_instances.last;
 	%>
@@ -99,13 +100,19 @@
 	</div>
 	
 	<% form_tag(url_for(:controller => 'resources', :action => 'create'), :multipart => true, :id => 'add_resource_form', :class => 'form') do %>
+	
+<div class="error" style="display:none;">
+ 	<%= image_tag("warning.gif") %>
+  	<span></span>.<br clear="all" />
+</div>
+
 <table>
 <tr>
 	<th><label>From:</label></th>
 	<td>
-		<input type="radio" id="resource[filelocation]" name="resource[filelocation]" class="from" value="local" /> Your Computer 
+		<input type="radio" id="resource[filelocation]" name="resource[filelocation]" class="from required" value="local" /> Your Computer 
 		<br> 
-		<input type="radio" id="resource[filelocation]" name="resource[filelocation]" class="from" value="remote" /> Internet link
+		<input type="radio" id="resource[filelocation]" name="resource[filelocation]" class="from required" value="remote" /> Internet link
 	</td>
 </tr>
 <tr class="hide" id="from_local">
@@ -118,7 +125,7 @@
 </tr>
 <tr>
 	<th>Title</th>
-	<td><input type="text" name="resource_instance[title]" id="resource_instance[title]" validation="required" size="31" /></td>
+	<td><input type="text" name="resource_instance[title]" id="resource_instance[title]" class="required" size="31" /></td>
 </tr>
 <tr>
 	<th>Description</th>
@@ -146,7 +153,6 @@
 </tr>
 </table>
 
-<div class="error"></div>
 <%end%>
 </div>
 
@@ -168,9 +174,10 @@ $("#add_resource_form").dialog({
 	modal: true,
 	buttons: {
 		'Save Resource': function() {
-			$(this).submit();
-			$(this).dialog('close');
-			window.location.reload();
+			if ($(this).submit()) {
+				$(this).dialog('close');
+				window.location.reload();
+			}
 		},
 		'Cancel': function() {
 			$(this).dialog('close');
@@ -180,6 +187,22 @@ $("#add_resource_form").dialog({
 $('#add_artifact')
 	.click(function() {
 		$('#add_resource_form').dialog('open');
+		jQuery.validator.messages.required = "";
+$("#add_resource_form").validate({
+		invalidHandler: function(e, validator) {
+					var errors = validator.numberOfInvalids();
+					if (errors) {
+						var message = errors == 1
+							? 'You missed 1 field. It has been highlighted below'
+							: 'You missed ' + errors + ' fields.  They have been highlighted below';
+						$("div.error span").html(message);
+						$("div.error").show();
+					} else {
+						$("div.error").hide();
+					}
+				},
+				onkeyup: false
+});
 });
 $('#artifact_description').autoResize();
 $('.hide').hide();

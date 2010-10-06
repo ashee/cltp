@@ -38,6 +38,7 @@ class Reports
         join dx d on edx.dx_id = d.id
         where edx.created_by = #{student_id}
         group by d.id
+        order by count desc, name asc
         EOF
      ActiveRecord::Base.connection.select_all sql
    end
@@ -55,6 +56,7 @@ class Reports
          join procedures p on ep.procedure_id = p.id
          where ep.created_by = #{student_id}
          group by p.id
+         order by count desc, name asc
          EOF
       ActiveRecord::Base.connection.select_all sql
     end
@@ -252,19 +254,15 @@ class Reports
     # Need to populate the popup menu with all the users.
        
     sql = <<-EOF
-      select distinct edx.dx_id, diagnoses.name as 'dxname'
+      select edx.dx_id,  count(edx.dx_id) as 'cnt', diagnoses.name as 'dxname'
       from encounter_dx edx
       join dx diagnoses on edx.dx_id = diagnoses.id
       where edx.created_by = #{student_id}
+      group by edx.dx_id
       order by diagnoses.id
     EOF
 
-    ActiveRecord::Base.logger.debug "sql: #{sql}"
-
-    sqlResult = ActiveRecord::Base.connection.select_all sql 
-    
-    ActiveRecord::Base.logger.debug "sqlResult: #{sqlResult}"
-    
+    sqlResult = ActiveRecord::Base.connection.select_all sql     
     sqlResult
         
  end
