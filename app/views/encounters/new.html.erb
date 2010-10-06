@@ -25,7 +25,7 @@
 <fieldset class="outline2 bg5">
   	<p>
     	<%= f.label :encounter_date %><br />
-    	<%= f.text_field :encounter_date, :size=>10, :value => Time.now.strftime("%m/%d/%Y"), :class => 'datepicker ui-widget ui-widget-content outline1', :tabindex=>1 %>
+    	<%= f.text_field :encounter_date, :size=>10, :value => Time.now.strftime("%m/%d/%Y"), :class => 'datepicker ui-widget ui-widget-content outline1 required', :tabindex=>1 %>
   	</p>
 	<p>
 		<%= f.label :care_setting %><br />

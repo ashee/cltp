@@ -672,3 +672,9 @@ ul.reports_toolbar li a {
 		height: 300px;
 	}
 
+/*.ui-datepicker-calendar tbody tr td a.ui-state-default,*/
+.ui-datepicker-calendar tbody tr td a.ui-state-highlight,
+.ui-datepicker-calendar tbody tr td a.ui-state-hover 
+{
+	color: #444444 !important;	
+}
