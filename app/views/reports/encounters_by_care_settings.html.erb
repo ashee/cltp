@@ -6,12 +6,13 @@
 <table id="encList">
 <thead>
 	<tr>
-		<th class="t5 bg2" colspan="2">Student</th>
+		<th class="t5 bg2" colspan="3">Student</th>
 		<th class="t5 bg2" colspan="3">Encounters</th>
 	</tr>
 	<tr>
 		<th class="t4 bg4">FirstName</th>
 		<th class="t4 bg4">LastName</th>
+		<th class="t4 bg4">Email</th>
 		<th class="t4 bg4">In-Patient</th>
 		<th class="t4 bg4">Out-Patient</th>
 		<th class="t4 bg4">Newborn</th>
@@ -23,8 +24,13 @@
 	 	cls_col_1 = cycle("bg8","bg7", :name => 'first_col')
 	%>
 	<tr>
-		<td class="b1 <%= cls_col_1 %>">	<%= reportline["Firstname"] %> </td>
-		<td class="b1 <%= cls_col_1 %>">	<%= reportline["Lastname"] %> </td>
+		<td class="b1 <%= cls_col_1 %>">	<%= reportline["FirstName"] %> </td>
+		<td class="b1 <%= cls_col_1 %>">	<%= reportline["LastName"] %> </td>
+		<td class="b1 <%= cls_col_1 %>">	<%= if reportline["UserName"].include? '@' then 
+													reportline["UserName"]
+												else 		
+													reportline["UserName"] + "@umich.edu" 
+												end %> </td>
 		<td class="b1 <%= cls_rest %>">		<%= reportline["Inpatient"] %> </td>
 		<td class="b1 <%= cls_rest %>">		<%= reportline["Outpatient"] %> </td>
 		<td class="b1 <%= cls_rest %>">		<%= reportline["Newborn"] %> </td>
@@ -47,8 +53,8 @@ $(function() {
 		},
 		"sDom": 'T<"clear"><"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"if>rt<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"lp>',
 		"bJQueryUI": true,
-		"aaSorting": [[3,'desc']],
-		"aoColumns": [{ "bSortable": false },null,null,null,null],
+		"aaSorting": [[1,'asc']],
+		"aoColumns": [{ "bSortable": false },null,null,null,null,null],
 		"iDisplayLength": 10,
 		"sPaginationType" : "full_numbers"
 	} );

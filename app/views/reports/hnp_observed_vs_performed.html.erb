@@ -1,17 +1,18 @@
 <%= render "toolbar" %>
 
 <div class="box1" style="margin: 15px;">
+	<h1 class="t3">Diagnoses Observed vs Performed Per Student</h1>
 <table id="encList">
-<h1 class="t3">Diagnoses Observed vs Performed Per Student</h1>
 <thead>
 	<tr>
-		<th class="t5 bg2" colspan="2">Student</th>
+		<th class="t5 bg2" colspan="3">Student</th>
 		<th class="t5 bg2" colspan="2">hx</th>
 		<th class="t5 bg2" colspan="2">px</th>
 	</tr>
 	<tr>
 		<th class="t4 bg4">First Name</th>
 		<th class="t4 bg4">Last Name</th>
+		<th class="t4 bg4">Email</th>
 		<th class="t4 bg4">Observed</th>
 		<th class="t4 bg4">Performed</th>
 		<th class="t4 bg4">Observed</th>
@@ -27,6 +28,11 @@
 	<tr>
 		<td class="b1 <%= cls_col_1 %>">	<%= reportline["FirstName"] %> </td>
 		<td class="b1 <%= cls_col_1 %>">	<%= reportline["LastName"] %> </td>
+		<td class="b1 <%= cls_col_1 %>">	<%= if reportline["UserName"].include? '@' then 
+													reportline["UserName"]
+												else 		
+													reportline["UserName"] + "@umich.edu" 
+												end %> </td>
 		<td class="b1 <%= cls_rest %>">		<%= reportline["hxObserved"] %> </td>
 		<td class="b1 <%= cls_rest %>">		<%= reportline["hxPerformed"] %> </td>
 		<td class="b1 <%= cls_rest %>">		<%= reportline["pxObserved"] %> </td>
@@ -51,8 +57,8 @@ $(function() {
 		},
 		"sDom": 'T<"clear"><"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"if>rt<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"lp>',
 		"bJQueryUI": true,
-		"aaSorting": [[3,'desc']],
-		"aoColumns": [{ "bSortable": false },null,null,null,null,null],
+		"aaSorting": [[1,'asc']],
+		"aoColumns": [{ "bSortable": false },null,null,null,null,null,null],
 		"iDisplayLength": 10,
 		"sPaginationType" : "full_numbers"
 	} );

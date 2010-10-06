@@ -66,13 +66,11 @@ class Reports
   #--------------------------------------------
   def self.encounters_by_care_settings
     sql = <<-EOF
-      select u.username as 'Username',
+      select u.username as 'UserName', u.firstname as 'FirstName', u.lastname as 'LastName',
         sum(if(c.care_setting='OP',1,0)) as 'Outpatient',
         sum(if(c.care_setting='IP',1,0)) as 'Inpatient',
-        sum(if(c.care_setting='NB',1,0)) as 'Newborn',
-             u.firstname as 'Firstname', 
-             u.lastname as 'Lastname'
-      from encounters e join clinics c on e.clinic_id = c.id
+        sum(if(c.care_setting='NB',1,0)) as 'Newborn'
+       from encounters e join clinics c on e.clinic_id = c.id
       join users u on e.created_by = u.id
       where e.clerkship_id = 1
       group by e.created_by;
@@ -117,8 +115,9 @@ class Reports
     
     sql = <<-EOF
       select 
-          u.firstname as 'Firstname', 
-          u.lastname as 'Lastname',
+          u.firstname as 'FirstName', 
+          u.lastname as 'LastName',
+          u.username as 'UserName',
           #{partialSqlStatement}
         from encounters e 
         join users u on e.created_by = u.id
@@ -210,6 +209,7 @@ class Reports
     select 
        u.firstname as 'FirstName',
        u.lastname as 'LastName',
+       u.username as 'UserName',
         sum(if(e.hx='P' or e.hx='B',1,0)) as 'hxPerformed',
         sum(if(e.hx='O' or e.hx='B',1,0)) as 'hxObserved',
         sum(if(e.px='P' or e.px='B',1,0)) as 'pxPerformed',
