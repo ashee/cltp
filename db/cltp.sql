@@ -134,8 +134,8 @@ CREATE TABLE `care_settings` (
 
 INSERT INTO `care_settings` VALUES(1, 'OP', 'Outpatient');
 INSERT INTO `care_settings` VALUES(2, 'IP', 'Inpatient');
-INSERT INTO `care_settings` VALUES(3, 'ER', 'Emergency');
-INSERT INTO `care_settings` VALUES(4, 'NB', 'Newborn');
+INSERT INTO `care_settings` VALUES(3, 'NB', 'Newborn');
+-- INSERT INTO `care_settings` VALUES(4, 'ER', 'Emergency');
 
 -- --------------------------------------------------------
 
@@ -214,13 +214,13 @@ INSERT INTO `clinics` VALUES(26, 'OP', 'Specialty', 'Rheumatology', 'RHE', 'TC F
 INSERT INTO `clinics` VALUES(27, 'OP', 'Specialty', 'Sleep Clinic', 'SLP', 'TC First Floor Area D-green staff room', '734-936-4179', 'Dr. Hoban');
 INSERT INTO `clinics` VALUES(28, 'OP', 'Specialty', 'Seminar', 'SEM', 'Ford Auditorium', '734-647-4740', 'Sara Weir  - (Weekly M3 Seminar)');
 INSERT INTO `clinics` VALUES(29, 'OP', 'Specialty', 'Hematology/Oncology', 'Heme/Onc', 'Mott 7 West', '734-764-6170', 'Attending on Heme/Onc');
-INSERT INTO `clinics` VALUES(30, 'NB', 'Newborn', 'Newborn', 'NB', 'University Nursery F4760', '734-764-8134', 'Attending on Newborn');
-INSERT INTO `clinics` VALUES(31, 'IP', 'Inpatient', 'Inpatient', 'Gold', 'Mott 5 East & 5 West', '734-763-4387 (E)\r734-764-7102 (W)', 'Senior Resident for Gold or Silver');
-INSERT INTO `clinics` VALUES(32, 'IP', 'Inpatient', 'Inpatient', 'Maize', 'Mott 6 West', '734-764-7112', 'Senior Resident for Maize');
-INSERT INTO `clinics` VALUES(33, 'IP', 'Inpatient', 'Inpatient', 'Blue', 'Mott 6 West', '734-764-7112', 'Senior Resident for Blue');
-INSERT INTO `clinics` VALUES(34, 'IP', 'Inpatient', 'Inpatient', 'Silver', 'Mott 5 East & 5 West', '734-763-4387 (E)\r734-764-7102 (W)', 'Senior Resident for Gold or Silver');
-INSERT INTO `clinics` VALUES(35, 'IP', 'Inpatient', 'Inpatient', 'Plaid', 'TBD', 'TBD', 'TBD');
-INSERT INTO `clinics` VALUES(36, 'ER', 'Emergency', 'Peds Emergency', 'ER', 'UH B1 A236', '734-763-1271', 'Dr. Sikavitsas');
+INSERT INTO `clinics` VALUES(30, 'OP', 'Emergency', 'Peds Emergency', 'ER', 'UH B1 A236', '734-763-1271', 'Dr. Sikavitsas');
+INSERT INTO `clinics` VALUES(31, 'NB', 'Newborn', 'Newborn', 'NB', 'University Nursery F4760', '734-764-8134', 'Attending on Newborn');
+INSERT INTO `clinics` VALUES(32, 'IP', 'Inpatient', 'Inpatient', 'Gold', 'Mott 5 East & 5 West', '734-763-4387 (E)\r734-764-7102 (W)', 'Senior Resident for Gold or Silver');
+INSERT INTO `clinics` VALUES(33, 'IP', 'Inpatient', 'Inpatient', 'Maize', 'Mott 6 West', '734-764-7112', 'Senior Resident for Maize');
+INSERT INTO `clinics` VALUES(34, 'IP', 'Inpatient', 'Inpatient', 'Blue', 'Mott 6 West', '734-764-7112', 'Senior Resident for Blue');
+INSERT INTO `clinics` VALUES(35, 'IP', 'Inpatient', 'Inpatient', 'Silver', 'Mott 5 East & 5 West', '734-763-4387 (E)\r734-764-7102 (W)', 'Senior Resident for Gold or Silver');
+INSERT INTO `clinics` VALUES(36, 'IP', 'Inpatient', 'Inpatient', 'Plaid', 'TBD', 'TBD', 'TBD');
 
 -- --------------------------------------------------------
 
@@ -651,10 +651,10 @@ CREATE TABLE `compliance_requirements` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
-INSERT INTO `compliance_requirements` VALUES (NULL, 1, 1, 10, 10);
-INSERT INTO `compliance_requirements` VALUES (NULL, 1, 2, 5, 5);
-INSERT INTO `compliance_requirements` VALUES (NULL, 1, 3, 3, 3);
-INSERT INTO `compliance_requirements` VALUES (NULL, 1, 4, 4, 4);
+INSERT INTO `compliance_requirements` VALUES (NULL, 1, 1, 30, 30);
+INSERT INTO `compliance_requirements` VALUES (NULL, 1, 2, 6, 6);
+-- INSERT INTO `compliance_requirements` VALUES (NULL, 1, 3, 3, 3); -- ER is rolled into OP
+INSERT INTO `compliance_requirements` VALUES (NULL, 1, 3, 4, 4);
 
 -- --------------------------------------------------------
 
