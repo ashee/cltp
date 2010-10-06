@@ -19,6 +19,9 @@
   <tr>
     <th></th>
     <th>Clerkship</th>
+<% if @user.primary_role != "Student" %>
+    <th>Student</th>
+<% end %>
     <th>Date</th>
     <th>Clinic</th>
     <th>Gender</th>
@@ -32,6 +35,9 @@
   <tr class='<%= cls %>' valign="top" align="left">
     <td><%= link_to "View", encounter_path(encounter) %></td>
     <td><%=h encounter.clerkship.name %></td>
+	<% if @user.primary_role != "Student" %>
+    <td><%=h encounter.creator.fullname %></td>
+	<% end %>
     <td><%=h encounter.created_at.strftime '%m/%d/%Y' %></td>
     <td><%=h encounter.clinic.displayname %></td>
 	<td><%=h encounter.gender %></td>
@@ -70,6 +76,9 @@
 	<tr>
 		<th><input type="text" name="search_1" value="Search this" class="search_init" style="display:none;" /></th>
 		<th><input type="text" name="search_clerkship" value="Search this" class="search_init" /></th>
+		<% if @user.primary_role != "Student" %>
+		<th><input type="text" name="search_student" value="Search this" class="search_init" /></th>
+		<% end %>
 		<th><input type="text" name="search_date" value="Search this" class="search_init" /></th>
 		<th><input type="text" name="search_clinic" value="Search this" class="search_init" /></th>
 		<th><input type="text" name="search_gender" value="Search this" class="search_init" /></th>
@@ -94,7 +103,11 @@ $(function() {
 		"sDom": 'T<"clear"><"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"if>rt<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"lp>',
 		"bJQueryUI": true,
 		"aaSorting": [[3,'desc']],
-		"aoColumns": [{ "bSortable": false },null,null,null,null,null,null,null],
+		"aoColumns": [{ "bSortable": false },
+		<% if @user.primary_role != "Student" %>
+		null,
+		<% end %>
+		null,null,null,null,null,null,null],
 		"iDisplayLength": 10,
 		"sPaginationType" : "full_numbers"
 	} );

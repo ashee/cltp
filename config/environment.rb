@@ -40,6 +40,6 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de
   
   # cltp custom config's
-  UPLOAD_DIR = 'public/uploads'
+  UPLOAD_DIR = 'uploads'
   GA_KEY = 'UA-XXXXXXX-X' # change this to your own GA key
 end

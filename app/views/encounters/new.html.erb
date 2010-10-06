@@ -232,7 +232,8 @@ $(function() {
 	
 	$('#encounter_id').change(function() {
 		$.ajax({
-			url: '/encounters/get_clerkships_by_care_setting/'+$(this).val(),
+			<%url=url_for(:controller => 'encounters', :action => 'get_clerkships_by_care_setting')%>
+			url: '<%= url %>/'+$(this).val(),
 			dataType: 'script',
 			success: function(data) {
 				$('#clinics').html(data);

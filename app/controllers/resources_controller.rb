@@ -49,29 +49,25 @@ class ResourcesController < ApplicationController
   # POST /resources
   # POST /resources.xml
   def create
-    # Resource: sha1, filelocation, url, score
-    # ResourceInstance: resource_id, tag, tag_id, title, description, filename_orig, privacy (P|F|A)
-=begin
-    truncate table resource_instances;
-    truncate table resources;
-=end
-    
     r = Resource.new(params[:resource])
     ri = ResourceInstance.new(params[:resource_instance])
     ri.tag,ri.tag_id = ri.tag.split('_')
     ri.creator = @user
     ri.updater = @user
     
-	if (r.filelocation == 'local')
-		tempfile = ri.filename_orig
-		ri.filename_orig = tempfile.original_path
-		# compute requested resource sha1 (to see if it exists in the database already)
-		rsha1 = sha1(tempfile) 
-		ext = tempfile
-		r.url = 'uploads/' + rsha1 + '.' + ri.filename_orig.split('.').last
-	else 
-		rsha1 = sha1(StringIO.new(r.url))
-	end
+  	if (r.filelocation == 'local')
+  		tempfile = ri.filename_orig
+  		ri.filename_orig = tempfile.original_path
+  		
+  		# compute requested resource sha1 (to see if it exists in the database already)
+  		rsha1 = sha1(tempfile) 
+  		ext = tempfile
+      
+   		ext = ri.filename_orig.split('.').last
+  		r.url = "/#{UPLOAD_DIR}/#{rsha1}.#{ext}"
+  	else 
+  		rsha1 = sha1(StringIO.new(r.url))
+  	end
 	
     # lookup resource by sha1
     r2 = Resource.find_by_sha1 rsha1
@@ -79,7 +75,9 @@ class ResourcesController < ApplicationController
       # Resource not in database
       
       # move uploaded file to 'uploads' folder
-      FileUtils.mv tempfile.path, File.join(UPLOAD_DIR, rsha1+'.'+ri.filename_orig.split('.').last) if r.filelocation == 'local'
+      ext = ri.filename_orig.split('.').last
+      dest = Rails.root.join "public", UPLOAD_DIR, "#{rsha1}.#{ext}"
+      FileUtils.mv tempfile.path, dest if r.filelocation
       
       # save resource_instance and its parent resource in database
       ri.resource = r
@@ -94,22 +92,6 @@ class ResourcesController < ApplicationController
     end
     
     render :text => "ok"
-
-    # @resource = Resource.new(params[:resource])
-    # @ri = ResourceInstance.new
-    
-    # @resource = Resource.new(params[:resource])
-    # 
-    # respond_to do |format|
-    #   if @resource.save
-    #     flash[:notice] = 'Resource was successfully created.'
-    #     format.html { redirect_to(@resource) }
-    #     format.xml  { render :xml => @resource, :status => :created, :location => @resource }
-    #   else
-    #     format.html { render :action => "new" }
-    #     format.xml  { render :xml => @resource.errors, :status => :unprocessable_entity }
-    #   end
-    # end
   end
 
   # PUT /resources/1
