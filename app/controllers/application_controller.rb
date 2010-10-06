@@ -17,7 +17,7 @@ private
     
     # hardcode username for local dev environment where cosign is unavailable
     # comment out the line below in cosign environments and production
-    username = 'amitava'
+    username ||= 'amitava'
     
     if username.nil? || username.empty?
       render :file => "public/401.html", :status => :unauthorized

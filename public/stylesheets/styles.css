@@ -156,8 +156,16 @@ form.encounter label {
   	vertical-align: top;
   	font-weight: bolder;
   	margin-bottom: 2px;
-  	margin-right: 24px;
+  	margin-right: 16px;
   	color: #203460;
+}
+form.encounter label + span {
+	display: inline-block;
+  	line-height: 1.8;
+  	vertical-align: bottom;
+  	font-weight: normal;
+  	margin-bottom: 7px;
+  	font-size: 10px;
 }
 form.encounter fieldset p {
 	float: left;	
@@ -672,3 +680,9 @@ ul.reports_toolbar li a {
 		height: 300px;
 	}
 
+/*.ui-datepicker-calendar tbody tr td a.ui-state-default,*/
+.ui-datepicker-calendar tbody tr td a.ui-state-highlight,
+.ui-datepicker-calendar tbody tr td a.ui-state-hover 
+{
+	color: #444444 !important;	
+}
