@@ -67,9 +67,9 @@ class Reports
   def self.encounters_by_care_settings
     sql = <<-EOF
       select u.username as 'Username',
-      sum(if(c.care_setting='OP' or c.care_setting='ER',1,0)) as 'Outpatient',
-            sum(if(c.care_setting='IP',1,0)) as 'Inpatient',
-             sum(if(c.care_setting='NB',1,0)) as 'Newborn',
+        sum(if(c.care_setting='OP',1,0)) as 'Outpatient',
+        sum(if(c.care_setting='IP',1,0)) as 'Inpatient',
+        sum(if(c.care_setting='NB',1,0)) as 'Newborn',
              u.firstname as 'Firstname', 
              u.lastname as 'Lastname'
       from encounters e join clinics c on e.clinic_id = c.id
@@ -88,10 +88,12 @@ class Reports
   def self.site_encounters_by_care_settings
     sql = <<-EOF
       select 
-      sum(if(c.care_setting='OP' or c.care_setting='ER',1,0)) as 'Outpatient',
-            sum(if(c.care_setting='IP',1,0)) as 'Inpatient',
-             sum(if(c.care_setting='NB',1,0)) as 'Newborn',
-             c.clinic_name, c.care_setting , c.location
+        sum(if(c.care_setting='OP',1,0)) as 'Outpatient',
+        sum(if(c.care_setting='IP',1,0)) as 'Inpatient',
+        sum(if(c.care_setting='NB',1,0)) as 'Newborn',
+             c.clinic_name, 
+             c.care_setting, 
+             c.location
       from encounters e join clinics c on e.clinic_id = c.id
       where e.clerkship_id = 1
       group by c.location;
