@@ -52,7 +52,7 @@ class Reports
       sql = <<-EOF
          select  ep.encounter_id, count(*) as count, p.name as name
          from encounter_procedures ep
-         join procedures p on ep.encounter_id = p.id
+         join procedures p on ep.procedure_id = p.id
          where ep.created_by = #{student_id}
          group by p.id
          EOF
@@ -66,13 +66,11 @@ class Reports
   #--------------------------------------------
   def self.encounters_by_care_settings
     sql = <<-EOF
-      select u.username as 'Username',
-      sum(if(c.care_setting='OP' or c.care_setting='ER',1,0)) as 'Outpatient',
-            sum(if(c.care_setting='IP',1,0)) as 'Inpatient',
-             sum(if(c.care_setting='NB',1,0)) as 'Newborn',
-             u.firstname as 'Firstname', 
-             u.lastname as 'Lastname'
-      from encounters e join clinics c on e.clinic_id = c.id
+      select u.username as 'UserName', u.firstname as 'FirstName', u.lastname as 'LastName',
+        sum(if(c.care_setting='OP',1,0)) as 'Outpatient',
+        sum(if(c.care_setting='IP',1,0)) as 'Inpatient',
+        sum(if(c.care_setting='NB',1,0)) as 'Newborn'
+       from encounters e join clinics c on e.clinic_id = c.id
       join users u on e.created_by = u.id
       where e.clerkship_id = 1
       group by e.created_by;
@@ -88,10 +86,12 @@ class Reports
   def self.site_encounters_by_care_settings
     sql = <<-EOF
       select 
-      sum(if(c.care_setting='OP' or c.care_setting='ER',1,0)) as 'Outpatient',
-            sum(if(c.care_setting='IP',1,0)) as 'Inpatient',
-             sum(if(c.care_setting='NB',1,0)) as 'Newborn',
-             c.clinic_name, c.care_setting , c.location
+        sum(if(c.care_setting='OP',1,0)) as 'Outpatient',
+        sum(if(c.care_setting='IP',1,0)) as 'Inpatient',
+        sum(if(c.care_setting='NB',1,0)) as 'Newborn',
+             c.clinic_name, 
+             c.care_setting, 
+             c.location
       from encounters e join clinics c on e.clinic_id = c.id
       where e.clerkship_id = 1
       group by c.location;
@@ -115,8 +115,9 @@ class Reports
     
     sql = <<-EOF
       select 
-          u.firstname as 'Firstname', 
-          u.lastname as 'Lastname',
+          u.firstname as 'FirstName', 
+          u.lastname as 'LastName',
+          u.username as 'UserName',
           #{partialSqlStatement}
         from encounters e 
         join users u on e.created_by = u.id
@@ -208,6 +209,7 @@ class Reports
     select 
        u.firstname as 'FirstName',
        u.lastname as 'LastName',
+       u.username as 'UserName',
         sum(if(e.hx='P' or e.hx='B',1,0)) as 'hxPerformed',
         sum(if(e.hx='O' or e.hx='B',1,0)) as 'hxObserved',
         sum(if(e.px='P' or e.px='B',1,0)) as 'pxPerformed',
