@@ -38,6 +38,7 @@ class Reports
         join dx d on edx.dx_id = d.id
         where edx.created_by = #{student_id}
         group by d.id
+        order by count desc, name asc
         EOF
      ActiveRecord::Base.connection.select_all sql
    end
@@ -55,6 +56,7 @@ class Reports
          join procedures p on ep.encounter_id = p.id
          where ep.created_by = #{student_id}
          group by p.id
+         order by count desc, name asc
          EOF
       ActiveRecord::Base.connection.select_all sql
     end
