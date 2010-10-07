@@ -21,12 +21,12 @@
 		 	cls_col_1 = cycle("bg8","bg7", :name => 'first_col')
 		%>
 		<tr>
-			<td class="b1 <%= cls_col_1 %>">	<%= reportline["CareSetting"] %> </td>
-			<td class="b1 <%= cls_col_1 %>">	<%= reportline["ClinicName"] %> </td>
-			<td class="b1 <%= cls_col_1 %>">	<%= reportline["Code"] %> </td>
-			<td class="b1 <%= cls_col_1 %>"> <%= reportline["Location"] %> </td>
-			<td class="b1 <%= cls_col_1 %>"> <%= reportline["Phone"] %> </td>
-			<td class="b1 <%= cls_col_1 %>"> <%= reportline["Contact"] %> </td>
+			<td class="b1 <%= cls_rest %>"> <%= CareSetting.find_by_code(reportline.care_setting).name %> </td>
+			<td class="b1 <%= cls_rest %>"> <%= reportline.clinic_name %> </td>
+			<td class="b1 <%= cls_rest %>"> <%= reportline.code %> </td>
+			<td class="b1 <%= cls_rest %>"> <%= reportline.location %> </td>
+			<td class="b1 <%= cls_rest %>"> <%= reportline.phone %> </td>
+			<td class="b1 <%= cls_rest %>"> <%= reportline.contact %> </td>
 		</tr>
 		<% end %>
 

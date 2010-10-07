@@ -58,7 +58,11 @@ class ReportsController < ApplicationController
   end
 
   def clinic_table
-    @reportlinearray = Reports.clinic_table
+    @reportlinearray = Clinic.all
+  end
+
+  def student_table
+    @reportlinearray = User.students
   end
 
 

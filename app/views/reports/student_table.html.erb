@@ -1,22 +1,36 @@
-<h1 class="t3">Individual Diagnoses Selected by Site</h1>
-<table id="encList" style="margin-left: 30px;">
-		<thead>
-			<tr>
-				<th>Diagnoses Selected by  <%= @site.displayname %></th>
-				<th>Count</th>
-			</tr>
-		</thead>
-		<tbody>
-		    <% for item in @items do 
-			 	cls_rest = cycle("bg5","bg4", :name => 'rest_cols')
-			%>
-			<tr>
-				<td class="b1 <%= cls_rest %>"> <%= item["dxname"] %> </td>
-				<td class="b1 <%= cls_rest %>"> <%= item["cnt"] %> </td>
-			</tr>
-			<% end %>
-		</tbody>
+<%= render "toolbar" %>
+
+<div class="box1" style="margin: 15px;">
+<h1 class="t3">	Students Table</h1>
+
+<table  id="encList" class="display">
+	<thead>
+		<tr>
+			<th class="t4 bg4">Username</th>
+			<th class="t4 bg4">First Name</th>
+			<th class="t4 bg4">Last Name</th>
+			<th class="t4 bg4">Email</th>
+			<th class="t4 bg4">Last Login</th>
+		</tr>
+	</thead>
+	<tbody>
+	    <% for reportline in @reportlinearray do 
+		 	cls_rest = cycle("bg5","bg4", :name => 'rest_cols')
+		 	cls_col_1 = cycle("bg8","bg7", :name => 'first_col')
+		%>
+		<tr>
+			<td class="b1 <%= cls_rest %>"> <%= reportline.username %> </td>
+			<td class="b1 <%= cls_rest %>"> <%= reportline.firstname %> </td>
+			<td class="b1 <%= cls_rest %>"> <%= reportline.lastname %> </td>
+			<td class="b1 <%= cls_rest %>"> <%= reportline.email %> </td>
+			<td class="b1 <%= cls_rest %>"> <%= reportline.last_login %> </td>
+		</tr>
+		<% end %>
+
+	</tbody>
+
 </table>
+</div>
 
 <script>
 var oTable;
@@ -30,8 +44,9 @@ $(function() {
 		},
 		"sDom": 'T<"clear"><"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"if>rt<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"lp>',
 		"bJQueryUI": true,
-		"aaSorting": [[2,'desc']],
-		"aoColumns": [{ "bSortable": false }, null],
+		"bPaginate": true,
+		"aaSorting": [[3,"asc"]],
+		"aoColumns": [null,null,null,null,null],
 		"iDisplayLength": 10,
 		"sPaginationType" : "full_numbers"
 	} );

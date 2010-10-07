@@ -158,7 +158,7 @@ class Reports
   end
   
   #-------------------------------------------
-   # Individual diagnoses that each student has performed
+   # Individual diagnoses performed by site
    #-------------------------------------------    
     def self.dx_by_sites
     dxcats = DiagnosisCategory.all
@@ -204,7 +204,7 @@ class Reports
   end
   
   #-------------------------------------------
-  # Individual diagnoses that each student has performed
+  # Histories and Physicals Observed and Performed by student
   #-------------------------------------------    
    def self.hnp_observed_vs_performed
     sql = <<-EOF
@@ -227,7 +227,7 @@ class Reports
   end
  
   #-------------------------------------------
-   # Individual diagnoses that each student has performed
+  # Histories and Physicals Observed and Performed by site
    #-------------------------------------------    
     def self.site_hnp_observed_vs_performed
      sql = <<-EOF
@@ -248,11 +248,9 @@ class Reports
    end
   
   #-------------------------------------------
-  # Individual diagnoses that each student has performed
+  # Individual diagnoses that selected student has performed
   #-------------------------------------------    
-  def self.student_individual_dx(student_id)
-    # Need to populate the popup menu with all the users.
-       
+  def self.student_individual_dx(student_id)       
     sql = <<-EOF
       select edx.dx_id,  count(edx.dx_id) as 'cnt', diagnoses.name as 'dxname'
       from encounter_dx edx
@@ -267,11 +265,10 @@ class Reports
         
  end
  
- #-------------------------------------------
-  # Individual diagnoses at each site
+  #-------------------------------------------
+  # Individual diagnoses performed at selected site
   #-------------------------------------------    
   def self.site_individual_dx(site_id)
-       
     sql = <<-EOF
       	select edx.dx_id, count(edx.dx_id) as 'cnt', diagnoses.name as 'dxname'
       	from encounter_dx edx
@@ -285,7 +282,7 @@ class Reports
     sqlResult = ActiveRecord::Base.connection.select_all sql     
     sqlResult
         
- end
+  end
 
 
    def self.summary_dx_observed_vs_performed
@@ -296,22 +293,6 @@ class Reports
     #-------------------------------------------    
    def self.dx_observed_vs_performed
    end
-     
-   #-------------------------------------------
-   # Individual diagnoses at each site
-   #-------------------------------------------    
-   def self.clinic_table
-      
-     sql = <<-EOF
-       	SELECT c.care_setting AS  "CareSetting", c.clinic_name AS  "ClinicName", c.code AS  "Code", c.location AS  "Location", c.phone AS  "Phone", c.contact AS  "Contact"
-        FROM clinics c
-        GROUP BY c.location
-     EOF
-     sqlResult = ActiveRecord::Base.connection.select_all sql     
-     sqlResult
-       
-   end
-
-
+        
 end
 
