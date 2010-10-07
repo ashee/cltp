@@ -28,11 +28,7 @@
 	<tr>
 		<td class="b1 <%= cls_col_1 %>">	<%= reportline["FirstName"] %> </td>
 		<td class="b1 <%= cls_col_1 %>">	<%= reportline["LastName"] %> </td>
-		<td class="b1 <%= cls_col_1 %>">	<%= if reportline["UserName"].include? '@' then 
-													reportline["UserName"]
-												else 		
-													reportline["UserName"] + "@umich.edu" 
-												end %> </td>
+		<td class="b1 <%= cls_col_1 %>">	<%= reportline["Email"] %> </td>
 		<td class="b1 <%= cls_rest %>">		<%= reportline["hxObserved"] %> </td>
 		<td class="b1 <%= cls_rest %>">		<%= reportline["hxPerformed"] %> </td>
 		<td class="b1 <%= cls_rest %>">		<%= reportline["pxObserved"] %> </td>
