@@ -297,4 +297,21 @@ class Reports
    def self.dx_observed_vs_performed
    end
      
+   #-------------------------------------------
+   # Individual diagnoses at each site
+   #-------------------------------------------    
+   def self.clinic_table
+      
+     sql = <<-EOF
+       	SELECT c.care_setting AS  "CareSetting", c.clinic_name AS  "ClinicName", c.code AS  "Code", c.location AS  "Location", c.phone AS  "Phone", c.contact AS  "Contact"
+        FROM clinics c
+        GROUP BY c.location
+     EOF
+     sqlResult = ActiveRecord::Base.connection.select_all sql     
+     sqlResult
+       
+   end
+
+
 end
+

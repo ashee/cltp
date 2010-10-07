@@ -57,6 +57,11 @@ class ReportsController < ApplicationController
     render :layout => false
   end
 
+  def clinic_table
+    @reportlinearray = Reports.clinic_table
+  end
+
+
   def access_control
     if @user.primary_role == "Student"
       render :file => "public/401.html", :status => :unauthorized 
