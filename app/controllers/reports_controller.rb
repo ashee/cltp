@@ -66,10 +66,7 @@ class ReportsController < ApplicationController
   end
 
   def compliance_req_table
-    ActiveRecord::Base.logger.debug "•••• In ReportsController:compliance_req_table"
     @reportlinearray = ComplianceRequirement.all
-    ActiveRecord::Base.logger.debug "@reportlinearray: #{@reportlinearray}"
-    
   end
 
 
