@@ -31,6 +31,7 @@ CREATE TABLE `users` (
   `password` char(40) NULL,
   `email` varchar(255) NOT NULL,
   `last_login` datetime NOT NULL,
+  `login_count` int(11) NOT NULL,
   `created_by` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_by` int(11) DEFAULT NULL,

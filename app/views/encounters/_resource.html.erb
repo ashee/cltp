@@ -1,1 +1,2 @@
-<li><a href="<%= resource.url %>" target="_blank"><%= resource.title %></a></li>
+<% r = resource.resource; url = r.filelocation == 'local' ? root_url.chop + r.url : r.url %>
+<li><a href="<%= url %>" target="_blank"><%= resource.title %></a></li>

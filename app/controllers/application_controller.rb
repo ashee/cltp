@@ -30,6 +30,10 @@ private
       return
     end
     
+    @user.last_login = DateTime.now
+    @user.login_count += 1
+    @user.save
+    
     if @user.primary_role != "Student" && request.env['PATH_INFO'] == "/"
       redirect_to :controller => "reports", :action => "index"
     end
