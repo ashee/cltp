@@ -48,9 +48,18 @@ class FeedbacksController < ApplicationController
     # POST /feedbacks
     # POST /feedbacks.xml
     def create
+      ActiveRecord::Base.logger.debug "•••• In feedbackController - create"
       @feedback = Feedback.new(params[:feedback])
       @feedback.creator = @user
       @feedback.updater = @user
+      
+      # now subject is not visible - take 100 characters from body and make that the subject
+      body = []
+      body = @feedback.body
+      bodycount = body.length
+      slicesize = (bodycount > 100) ? 100 : bodycount
+      @feedback.subject = "THIS IS A SUBJECT LINE FOR FEEDBACK"
+      @feedback.subject = body.slice!(1, slicesize)
       
       respond_to do |format|
         if @feedback.save

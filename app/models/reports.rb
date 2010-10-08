@@ -68,7 +68,7 @@ class Reports
   #--------------------------------------------
   def self.encounters_by_care_settings
     sql = <<-EOF
-      select u.username as 'UserName', u.firstname as 'FirstName', u.lastname as 'LastName',
+      select u.email as 'Email', u.firstname as 'FirstName', u.lastname as 'LastName',
         sum(if(c.care_setting='OP',1,0)) as 'Outpatient',
         sum(if(c.care_setting='IP',1,0)) as 'Inpatient',
         sum(if(c.care_setting='NB',1,0)) as 'Newborn'
@@ -119,7 +119,7 @@ class Reports
       select 
           u.firstname as 'FirstName', 
           u.lastname as 'LastName',
-          u.username as 'UserName',
+          u.email as 'Email',
           #{partialSqlStatement}
         from encounters e 
         join users u on e.created_by = u.id
@@ -211,7 +211,7 @@ class Reports
     select 
        u.firstname as 'FirstName',
        u.lastname as 'LastName',
-       u.username as 'UserName',
+       u.email as 'Email',
         sum(if(e.hx='P' or e.hx='B',1,0)) as 'hxPerformed',
         sum(if(e.hx='O' or e.hx='B',1,0)) as 'hxObserved',
         sum(if(e.px='P' or e.px='B',1,0)) as 'pxPerformed',

@@ -65,6 +65,10 @@ class ReportsController < ApplicationController
     @reportlinearray = User.students
   end
 
+  def compliance_req_table
+    @reportlinearray = ComplianceRequirement.all
+  end
+
 
   def access_control
     if @user.primary_role == "Student"
