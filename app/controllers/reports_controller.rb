@@ -65,6 +65,13 @@ class ReportsController < ApplicationController
     @reportlinearray = User.students
   end
 
+  def compliance_req_table
+    ActiveRecord::Base.logger.debug "•••• In ReportsController:compliance_req_table"
+    @reportlinearray = ComplianceRequirement.all
+    ActiveRecord::Base.logger.debug "@reportlinearray: #{@reportlinearray}"
+    
+  end
+
 
   def access_control
     if @user.primary_role == "Student"
