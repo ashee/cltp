@@ -180,7 +180,7 @@ CREATE TABLE `clinics` (
 --
 -- Dumping data for table `users`
 --
-INSERT INTO `users` VALUES(1, 'amitava', 'Amitava', 'Shee', null, 'amitava@umich.edu', now(), 1, now(), 1, now());
+INSERT INTO `users` VALUES(1, 'amitava', 'Amitava', 'Shee', null, 'amitava@umich.edu', now(), 0, 1, now(), 1, now());
 
 --
 -- Dumping data for table `clinics`
