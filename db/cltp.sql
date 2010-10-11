@@ -31,7 +31,7 @@ CREATE TABLE `users` (
   `password` char(40) NULL,
   `email` varchar(255) NOT NULL,
   `last_login` datetime NOT NULL,
-  `login_count` int(11) NOT NULL,
+  `login_count` int(11) NOT NULL DEFAULT 0,
   `created_by` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_by` int(11) DEFAULT NULL,
@@ -180,7 +180,7 @@ CREATE TABLE `clinics` (
 --
 -- Dumping data for table `users`
 --
-INSERT INTO `users` VALUES(1, 'amitava', 'Amitava', 'Shee', null, 'amitava@umich.edu', now(), 1, now(), 1, now());
+INSERT INTO `users` VALUES(1, 'amitava', 'Amitava', 'Shee', null, 'amitava@umich.edu', now(), 0, 1, now(), 1, now());
 
 --
 -- Dumping data for table `clinics`
