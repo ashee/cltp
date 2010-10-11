@@ -1,6 +1,11 @@
 class DashboardController < ApplicationController
   
   def index
+    if @user.primary_role != "Student"
+      render :file => "public/401.html", :status => :unauthorized 
+      return
+    end
+
    clerkship_id = Clerkship.find_by_name 'Pediatrics'
    @statuses = Compliance.status_by_user(@user.id, clerkship_id)
    

@@ -1,11 +1,52 @@
 <h3 class="t3">Available reports</h3>
 <table>
 	<tr class="bg4">
-		<td>
-			<h3>By Student:</h3>
+		<td colspan="2" class="headingcenter">
+			<h3>Encounters by Care Setting</h3>
 		</td>
+		<td colspan="2" class="headingcenter">
+			<h3>Encounters by Diagnosis Categories</h3>
+		</td>
+		<td colspan="2" class="headingcenter">
+			<h3>H and P Observed vs Performed</h3>
+		</td>
+		<td colspan="2" class="headingcenter">
+			<h3>Diagnoses...</h3>
+		</td>
+	</tr>
+	<tr>
+		<td class="center">
+			<li><%= link_to "by Student", {:controller => "reports", :action => "encounters_by_care_settings"}, :class => "t4" %></li>
+		</td>
+		<td class="center">
+			<li><%= link_to "by Site", {:controller => "reports", :action => "site_encounters_by_care_settings"}, :class => "t4" %></li>
+		</td>
+		<td class="center">		
+			<li><%= link_to "by Student", {:controller => "reports", :action => "dx_by_students"}, :class => "t4" %></li>
+		</td>
+		<td class="center">
+			<li><%= link_to "by Site", {:controller => "reports", :action => "dx_by_sites"}, :class => "t4" %></li>
+		</td>
+		<td class="center">
+			<li><%= link_to "by Student", {:controller => "reports", :action => "hnp_observed_vs_performed"}, :class => "t4" %></li>
+		</td>
+		<td class="center">
+			<li><%= link_to "by Site", {:controller => "reports", :action => "site_hnp_observed_vs_performed"}, :class => "t4" %></li>
+		</td>
+		<td class="center">
+			<li><%= link_to "by Student", {:controller => "reports", :action => "student_individual_dx"}, :class => "t4" %></li>
+		</td>
+		<td class="center">
+			<li><%= link_to "by Site", {:controller => "reports", :action => "site_individual_dx"}, :class => "t4" %></li>
+		</td>
+	</tr>
+</table>
+
+
+	<!-- <tr>
 		<td>
 			<ul class="reports_toolbar">
+				
 			<li><%= link_to "Encounters by Care Setting", {:controller => "reports", :action => "encounters_by_care_settings"}, :class => "t4" %></li>
 			<li><%= link_to "Encounters by Diagnosis Categories", {:controller => "reports", :action => "dx_by_students"}, :class => "t4" %></li>
 			<li><%= link_to "H & P Observed vs Performed", {:controller => "reports", :action => "hnp_observed_vs_performed"}, :class => "t4" %></li>
@@ -28,10 +69,11 @@
 			</ul>
 		</td>
 	</tr>
-</tr>
+</tr> -->
+
+<table  align="center">
 <tr>
-<tr class="bg4">
-	<td>
+	<td class="bg4">
 		<h3>Admin Reports:</h3>
 	</td>
 	<td>
@@ -41,7 +83,8 @@
 		<li><%= link_to "Compliance Requirements Table", {:controller => "reports", :action => "compliance_req_table"}, :class => "t4" %></li>
 		</ul>
 	</td>
-</tr></table>
+</tr>
+</table>
 
 <style type="text/css">
 	div.box1 h1 { padding: 8px;}
