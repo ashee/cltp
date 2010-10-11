@@ -29,8 +29,9 @@ class EncountersController < ApplicationController
 
 	  @encounterDiagnoses = @encounter.diagnoses
 	  @encounterProcedures = @encounter.procedures
-    @resources = Resource.find_by_encounter(@encounter.id)
-    @rel_resources = Resource.find_related_by_encounter(@encounter.id)
+      @resources = Resource.find_by_encounter(@encounter.id)
+      @rel_resources = Resource.find_related_by_encounter(@encounter.id, 
+        @user.id, @user.primary_role)
     
     respond_to do |format|
       format.html # show.html.erb
