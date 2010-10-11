@@ -13,7 +13,9 @@ class Resource < ActiveRecord::Base
     
     ResourceInstance.find_by_sql [sql, encounter_id]
   end
-  
+
+  # TODO: Should we have the 'Admin' role hardcoded here? Should we specify a
+  # role ID here?
   def self.find_related_by_encounter(encounter_id, user_id, user_role)
     sql = <<-EOF
       select r.*, ri.*
@@ -38,5 +40,4 @@ class Resource < ActiveRecord::Base
   def self.find_by_tag(tag,tag_ids)
     ResourceInstance.find :all, :conditions => ["tag = ? and tag_id in (?)", tag, tag_ids], :include => :resource
   end
-  
 end

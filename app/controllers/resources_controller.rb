@@ -6,8 +6,19 @@ require 'fileutils'
 class ResourcesController < ApplicationController
   # GET /resources
   # GET /resources.xml
+  
+  # TODO: Verify and fix N+1 query problem.
+  # TODO: Find better fix for duplicate results than calling uniq on array
   def index
-    @resources = Resource.all
+    if @user.primary_role != 'Student'
+      @resources = Resource.find(:all, :order => 'score')
+    else
+      @resources = Resource.find(:all,
+        :joins => :resource_instances,
+        :conditions => ["resources.id = resource_instances.resource_id AND (resources.created_by = ? OR resource_instances.privacy = 'A')", @user.id],
+        :order => 'score')
+      @resources = @resources.uniq
+    end
     @clerkship = Clerkship.find_by_name('Pediatrics')    
     @dxcs = DiagnosisCategory.find_all_by_clerkship_id(@clerkship.id)
     @dxs = Diagnosis.find_all_by_clerkship_id(@clerkship.id)
