@@ -23,7 +23,7 @@ caption {
 		text-align:center;
 	}	
 tr.odd td	{
-	background:#f7fbff
+	background:#f7fbff;
 	}
 tr.odd .column1	{
 	background:#f4f9fe;
@@ -63,6 +63,24 @@ tfoot th em {
 	font-size: 1.1em;
 	font-style: normal;
 	}
+
+/* Reports table styles */
+td.center
+{
+	text-align: center;	
+}
+td.headingcenter
+{
+	text-align: center;	
+	border-style:solid;
+	border-color:#FFFFFF;
+}
+
+table.centertop
+{
+	vertical-align: top;
+}
+
 
 /*
 table {
@@ -583,7 +601,6 @@ height:16px;
 margin-left:4px;
 width:16px;
 }
-
 
 /* ---------------------------- LINK ICONS ------------------------------ */
 

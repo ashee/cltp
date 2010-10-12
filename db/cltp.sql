@@ -31,7 +31,7 @@ CREATE TABLE `users` (
   `password` char(40) NULL,
   `email` varchar(255) NOT NULL,
   `last_login` datetime NOT NULL,
-  `login_count` int(11) NOT NULL,
+  `login_count` int(11) NOT NULL DEFAULT 0,
   `created_by` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_by` int(11) DEFAULT NULL,
@@ -186,8 +186,8 @@ INSERT INTO `users` VALUES(1, 'amitava', 'Amitava', 'Shee', null, 'amitava@umich
 -- Dumping data for table `clinics`
 --
 
-INSERT INTO `clinics` VALUES(1, 'OP', 'Primary Care', 'Primary Care', 'EA', 'East Med Campus', '734-647-5670', 'Dr. Burrows');
-INSERT INTO `clinics` VALUES(2, 'OP', 'Primary Care', 'Primary Care', 'BWD', 'Briarwood, Bldg #2', '734-647-9000', 'Dr. Kileny');
+INSERT INTO `clinics` VALUES(1, 'OP', 'Primary Care', 'Primary Care', 'EA', 'East Ann Arbor', '734-647-5670', 'Dr. Burrows');
+INSERT INTO `clinics` VALUES(2, 'OP', 'Primary Care', 'Primary Care', 'BWD', 'Briarwood', '734-647-9000', 'Dr. Kileny');
 INSERT INTO `clinics` VALUES(3, 'OP', 'Primary Care', 'Primary Care', 'CAN', 'Canton', '734-844-5370', 'Dr. Mitchell');
 INSERT INTO `clinics` VALUES(4, 'OP', 'Primary Care', 'Primary Care', 'YPSI', 'Ypsilanti', '734-484-7288', 'Dr. Joiner');
 INSERT INTO `clinics` VALUES(5, 'OP', 'Primary Care', 'Primary Care', 'WA', 'West Ann Arbor', '734-998-7380', 'Dr. Ljungman');
@@ -196,7 +196,6 @@ INSERT INTO `clinics` VALUES(7, 'OP', 'Primary Care', 'Primary Care', 'LIV', 'Li
 INSERT INTO `clinics` VALUES(8, 'OP', 'Primary Care', 'Primary Care', 'HOW', 'Howell', '517-548-1020', 'Dr. Orringer');
 INSERT INTO `clinics` VALUES(9, 'OP', 'Primary Care', 'Primary Care', 'BRI', 'Brighton', '810-227-9510', 'Dr. Madison');
 INSERT INTO `clinics` VALUES(10, 'OP', 'Specialty', 'Adolescent-Briarwood', 'ADOL', 'Briarwood, Bldg #2', '734-647-9000', 'Dr. Christner  ');
-INSERT INTO `clinics` VALUES(11, 'OP', 'Specialty', 'Adolescent-Ypsilanti HC', 'ADOL-YHC', 'Ypsilanti', '734-484-7288', 'Dr. Christner  ');
 INSERT INTO `clinics` VALUES(12, 'OP', 'Specialty', 'Behavior', 'BEH', 'TC First Floor Area D', '734-936-4220', 'Dr. Felt');
 INSERT INTO `clinics` VALUES(13, 'OP', 'Specialty', 'Cardiology', 'CAR', 'Mott F1217', '734-764-5176', 'Dr. Armstrong');
 INSERT INTO `clinics` VALUES(14, 'OP', 'Specialty', 'Coagulation', 'COAG', 'Cancer Ctr. B1-358 ', '734-936-6393', 'Dr. Pipe');
@@ -213,8 +212,7 @@ INSERT INTO `clinics` VALUES(24, 'OP', 'Specialty', 'Physical Med & Rehab', 'PMR
 INSERT INTO `clinics` VALUES(25, 'OP', 'Specialty', 'Pulmonary', 'PUL', 'TC First Floor Area D', '734-763-7545', 'Dr.  Nasr');
 INSERT INTO `clinics` VALUES(26, 'OP', 'Specialty', 'Rheumatology', 'RHE', 'TC First Floor Area D', '734-615-1688', 'Dr. Adams');
 INSERT INTO `clinics` VALUES(27, 'OP', 'Specialty', 'Sleep Clinic', 'SLP', 'TC First Floor Area D-green staff room', '734-936-4179', 'Dr. Hoban');
-INSERT INTO `clinics` VALUES(28, 'OP', 'Specialty', 'Seminar', 'SEM', 'Ford Auditorium', '734-647-4740', 'Sara Weir  - (Weekly M3 Seminar)');
-INSERT INTO `clinics` VALUES(29, 'OP', 'Specialty', 'Hematology/Oncology', 'Heme/Onc', 'Mott 7 West', '734-764-6170', 'Attending on Heme/Onc');
+INSERT INTO `clinics` VALUES(29, 'OP', 'Specialty', 'Hematology/Oncology', 'Hem/Onc', 'Mott 7 West', '734-764-6170', 'Attending on Heme/Onc');
 INSERT INTO `clinics` VALUES(30, 'OP', 'Emergency', 'Peds Emergency', 'ER', 'UH B1 A236', '734-763-1271', 'Dr. Sikavitsas');
 INSERT INTO `clinics` VALUES(31, 'NB', 'Newborn', 'Newborn', 'NB', 'University Nursery F4760', '734-764-8134', 'Attending on Newborn');
 INSERT INTO `clinics` VALUES(32, 'IP', 'Inpatient', 'Inpatient', 'Gold', 'Mott 5 East & 5 West', '734-763-4387 (E)\r734-764-7102 (W)', 'Senior Resident for Gold or Silver');
@@ -222,6 +220,7 @@ INSERT INTO `clinics` VALUES(33, 'IP', 'Inpatient', 'Inpatient', 'Maize', 'Mott 
 INSERT INTO `clinics` VALUES(34, 'IP', 'Inpatient', 'Inpatient', 'Blue', 'Mott 6 West', '734-764-7112', 'Senior Resident for Blue');
 INSERT INTO `clinics` VALUES(35, 'IP', 'Inpatient', 'Inpatient', 'Silver', 'Mott 5 East & 5 West', '734-763-4387 (E)\r734-764-7102 (W)', 'Senior Resident for Gold or Silver');
 INSERT INTO `clinics` VALUES(36, 'IP', 'Inpatient', 'Inpatient', 'Plaid', 'TBD', 'TBD', 'TBD');
+INSERT INTO `clinics` VALUES(37, 'IP', 'Inpatient', 'Inpatient', 'Hematology/Oncology', 'IP-Hem/Onc', 'TBD', 'TBD');
 
 -- --------------------------------------------------------
 
