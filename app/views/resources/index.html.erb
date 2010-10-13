@@ -87,7 +87,7 @@
 		</div>
 	    </td>
 	    <td><%= @By.firstname+' '+@By.lastname %></td>
-	    <td><%=h resource['created_at'] %></td>
+	    <td><%= resource['created_at'][0..10] %></td>
 	    <td><%= (resource['privacy'] == 'A') ? 'All' : 'Only Me' %></td>
 	  </tr>
 
