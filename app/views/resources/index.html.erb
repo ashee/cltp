@@ -150,6 +150,11 @@
 		</select>
 	</td>
 </tr>
+<tr>
+	<td>
+		<input type="submit" value="Save Resource" />
+	</td>
+</tr>
 </table>
 
 <%end%>
@@ -158,13 +163,13 @@
 <script>
 $(function() {
 
-$("#add_resource_form").bind('submit', function() {
-	$(this).ajaxSubmit({
-		target: '#error'
-	});
-	$(this).dialog('close');
-	window.location.reload();
-	return false; 
+$("#add_resource_form").ajaxForm({
+		resetForm: true,
+		//beforeSubmit: function() { alert('beforeSubmit'); return true; },
+		success: function() {
+			window.location.reload();
+			return false;
+		}
 });
 
 $("#add_resource_form").dialog({
@@ -172,17 +177,7 @@ $("#add_resource_form").dialog({
 	autoOpen: false,
 	height: 450,
 	width: 700,
-	modal: true,
-	buttons: {
-		'Save Resource': function() {
-			$(this).submit();
-			$(this).dialog('close');
-			window.location.refresh();
-		},
-		'Cancel': function() {
-			$(this).dialog('close');
-		}
-	}
+	modal: true
 });
 $('#add_artifact').click(function() {
 		$('#add_resource_form').dialog('open');
