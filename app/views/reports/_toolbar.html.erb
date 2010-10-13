@@ -78,9 +78,10 @@
 	</td>
 	<td>
 		<ul class="reports_toolbar">
-		<li><%= link_to "Clinics Table", {:controller => "reports", :action => "clinic_table"}, :class => "t4" %></li>
-		<li><%= link_to "Students Table", {:controller => "reports", :action => "student_table"}, :class => "t4" %></li>
-		<li><%= link_to "Compliance Requirements Table", {:controller => "reports", :action => "compliance_req_table"}, :class => "t4" %></li>
+		<li><%= link_to "Clinics", {:controller => "reports", :action => "clinic_table"}, :class => "t4" %></li>
+		<li><%= link_to "Students", {:controller => "reports", :action => "student_table"}, :class => "t4" %></li>
+		<li><%= link_to "Compliance Requirements", {:controller => "reports", :action => "compliance_req_table"}, :class => "t4" %></li>
+		<li><%= link_to "Other Diagnoses", {:controller => "reports", :action => "other_dx"}, :class => "t4" %></li>
 		</ul>
 	</td>
 </tr>
