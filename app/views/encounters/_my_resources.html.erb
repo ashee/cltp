@@ -52,15 +52,24 @@
 			</optgroup>
 			<optgroup label="Diagnosis">
 				<% for dx in @encounter.diagnoses do %>
-				<option value="dx_<%= dx.dx_id %>"><%= h dx.diagnosis.name %></option>
+					<% if dx.diagnosis.name != 'Other' then %>
+						<option value="dx_<%= dx.dx_id %>"><%= h dx.diagnosis.name %></option>
+					<%end%>
 				<%end%>
 			</optgroup>
 			<optgroup label="Procedure">
 				<% for p in @encounter.procedures do %>
-				<option value="procedures_<%= p.procedure_id %>"><%= h p.procedure.name %></option>
+					<% if p.procedure.name != 'Other' then %>
+						<option value="procedures_<%= p.procedure_id %>"><%= h p.procedure.name %></option>
+					<%end%>
 				<%end%>
 			</optgroup>
 		</select>
+	</td>
+</tr>
+<tr>
+	<td>
+		<input type="submit" value="Save Resource" />
 	</td>
 </tr>
 </table>
@@ -72,12 +81,13 @@
 <script>
 $(function() {
 
-	$("#add_resource_form").bind('submit', function() {
-		$(this).ajaxSubmit({
-			target: '#error'
-		});
-		window.location.reload();
-		return false; 
+	$("#add_resource_form").ajaxForm({
+			resetForm: true,
+			//beforeSubmit: function() { alert('beforeSubmit'); return true; },
+			success: function() {
+				window.location.reload();
+				return false;
+			}
 	});
 	
 	$("#add_resource_form").dialog({
@@ -85,21 +95,7 @@ $(function() {
 		autoOpen: false,
 		height: 400,
 		width: 550,
-		modal: true,
-		buttons: {
-			'Save Resource': function() {
-				// send ajax request to save
-				// $.post("/resources/create", $("#add_resource_form").serialize(), function(data,status) {
-				// 	alert(data);
-				// });
-				$(this).submit();
-				$(this).dialog('close');
-				window.location.reload(true);
-			},
-			'Cancel': function() {
-				$(this).dialog('close');
-			}
-		}
+		modal: true
 	});
 	
 	$('#add_artifact')
