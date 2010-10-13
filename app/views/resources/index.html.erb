@@ -163,6 +163,8 @@ $("#add_resource_form").bind('submit', function() {
 	$(this).ajaxSubmit({
 		target: '#error'
 	});
+	$(this).dialog('close');
+	window.location.reload();
 	return false; 
 });
 
@@ -174,35 +176,17 @@ $("#add_resource_form").dialog({
 	modal: true,
 	buttons: {
 		'Save Resource': function() {
-			if ($(this).submit()) {
-				$(this).dialog('close');
-				window.location.reload();
-			}
+			$(this).submit();
+			$(this).dialog('close');
+			window.location.refresh();
 		},
 		'Cancel': function() {
 			$(this).dialog('close');
 		}
 	}
 });
-$('#add_artifact')
-	.click(function() {
+$('#add_artifact').click(function() {
 		$('#add_resource_form').dialog('open');
-		jQuery.validator.messages.required = "";
-$("#add_resource_form").validate({
-		invalidHandler: function(e, validator) {
-					var errors = validator.numberOfInvalids();
-					if (errors) {
-						var message = errors == 1
-							? 'You missed 1 field. It has been highlighted below'
-							: 'You missed ' + errors + ' fields.  They have been highlighted below';
-						$("div.error span").html(message);
-						$("div.error").show();
-					} else {
-						$("div.error").hide();
-					}
-				},
-				onkeyup: false
-});
 });
 $('#artifact_description').autoResize();
 $('.hide').hide();

@@ -456,24 +456,22 @@ a.bt1:visited {
 	font-weight: normal;	
 }
 .bt3 {
-	background-color: #F6F6F6;
-	border: 1px solid #999999;
-	margin: 15px; 
-	padding: 5px;
-}
-.bt3:hover {
 	background-color: #1A5FAE;
 	color: #FFFFFF;
-}
-.bt3 a {
+	border: 1px solid #FFFFFF;
+	margin: 15px; 
+	padding: 4px 12px;
 	font-family: Arial;
-	color: #999999;
+	color: #FFFFFF;
 	font-size: 13px;
 	font-weight: bold;	
 	text-decoration: none;
-}	
-.bt3:hover a {
-	color: #FFFFFF;
+}
+.bt3:visited { color: #FFFFFF; }
+.bt3:hover {
+	border: 1px solid #666666;
+	background-color: #F6F6F6;
+	color: #666666;
 }
 
 .bg1 {
