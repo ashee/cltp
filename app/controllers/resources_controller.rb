@@ -74,10 +74,12 @@ class ResourcesController < ApplicationController
     if r2.nil? 
       # Resource not in database
       
-      # move uploaded file to 'uploads' folder
-      ext = ri.filename_orig.split('.').last
-      dest = Rails.root.join "public", UPLOAD_DIR, "#{rsha1}.#{ext}"
-      FileUtils.mv tempfile.path, dest if r.filelocation
+      # move uploaded file to 'uploads' folder if local resource
+      if r.filelocation == 'local'
+        ext = ri.filename_orig.split('.').last
+        dest = Rails.root.join "public", UPLOAD_DIR, "#{rsha1}.#{ext}"
+        FileUtils.mv tempfile.path, dest
+      end
       
       # save resource_instance and its parent resource in database
       ri.resource = r
