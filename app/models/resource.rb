@@ -31,4 +31,17 @@ class Resource < ActiveRecord::Base
     ResourceInstance.find :all, :conditions => ["tag = ? and tag_id in (?)", tag, tag_ids], :include => :resource
   end
   
+	def self.find_all_permitted(user_id)
+     sql = <<-EOF
+        select  ri.created_at, ri.created_by, ri.title, ri.privacy, ri.tag, ri.tag_id, r.filelocation, r.url, r.id, r.score
+        from resources r join resource_instances ri on ri.resource_id = r.id
+        where 
+        (ri.privacy = 'A') OR
+        (ri.privacy = 'P' AND ri.created_by = #{user_id})
+        order by ri.created_at desc, ri.title asc
+        EOF
+     ret = ActiveRecord::Base.connection.select_all sql
+     return ret
+   	end
+  
 end

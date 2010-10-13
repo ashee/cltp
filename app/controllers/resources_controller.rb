@@ -7,7 +7,8 @@ class ResourcesController < ApplicationController
   # GET /resources
   # GET /resources.xml
   def index
-    @resources = Resource.all
+    @resources = Resource.find_all_permitted(@user.id)
+    logger.debug { @resources.inspect }
     @clerkship = Clerkship.find_by_name('Pediatrics')    
     @dxcs = DiagnosisCategory.find_all_by_clerkship_id(@clerkship.id)
     @dxs = Diagnosis.find_all_by_clerkship_id(@clerkship.id)
