@@ -1,6 +1,7 @@
 <div class="yui-gf">
 
 <div class="yui-u first">
+<% debug(@resources) %>
 
 <div style="margin: 12px;">
 	<span class="ui-corner-all bg3" style="margin-left: 12px; padding: 5px;cursor: pointer;">
@@ -58,9 +59,10 @@
 	</thead>
 	<tbody>
 	
-	<% @resources.each do |resource| cls = cycle("bg4", "bg5") 
-			tag = resource.resource_instances.last.tag
-			tag_id = resource.resource_instances.last.tag_id
+	<% for resource in @resources do 
+	 		cls = cycle("bg5","bg4", :name => 'rest_cols')
+			tag = resource['tag']
+			tag_id = resource['tag_id']
 			if (tag == 'dx') then 
 				tag_text = Diagnosis.find(tag_id).name 
 				category_text = DiagnosisCategory.find(Diagnosis.find(tag_id).category_id).name
@@ -68,28 +70,25 @@
 			#if (tag == 'encounters') then tag_text = '<a href="/encounters/show/'+tag_id.to_s()+'">Encounter</a>' end
 			if (tag == 'encounters') then tag_text = link_to "Encounter", encounter_path(tag_id) end
 			if (tag == 'procedures') then tag_text = Procedure.find(tag_id).name end
-			ri = resource.resource_instances.last;
+			@By = User.find(resource['created_by'])
 	%>
 	  <tr class='<%= cls %>' valign="top" align="left">
-	  	<td><a target="_blank" href="<%= (resource.filelocation == 'remote' && resource.url[0,4] != 'http') ? 'http://'+resource.url : resource.url %>"><%=h ri.title %></a></td>
+	  	<td><a target="_blank" href="<%= (resource['filelocation'] == 'remote' && resource['url'][0,4] != 'http') ? 'http://'+resource['url'] : resource['url'] %>"><%=h resource['title'] %></a></td>
 		<td><%= category_text %></td>
 		<td><%= tag_text %></td>
-		<td><%= resource.score.to_i %></td>
+		<td><%= resource['score'].to_i %></td>
 	    <td nowrap="nowrap">
 	    <div class="entry">
-			<span id="votes_count_<%=h resource.id %>" class="votes_count"><%=h resource.score.to_i %></span>
+			<span id="votes_count_<%=h resource['id'] %>" class="votes_count"><%=h resource['score'].to_i %></span>
 			<span id="vote_buttons" class="vote_buttons">
-				<a id="vote_up_<%=h resource.id %>" class="vote_up" href="#" title="This resource is useful and clear" alt="Vote Up!"></a>
-				<a id="vote_down_<%=h resource.id %>" class="vote_down" href="#" title="This resource is unclear or not useful" alt="Vote Down!"></a>
+				<a id="vote_up_<%=h resource['id'] %>" class="vote_up" href="#" title="This resource is useful and clear" alt="Vote Up!"></a>
+				<a id="vote_down_<%=h resource['id'] %>" class="vote_down" href="#" title="This resource is unclear or not useful" alt="Vote Down!"></a>
 			</span>
 		</div>
 	    </td>
-	    <td>
-	    	<% @By = User.find(ri.created_by) %>
-	    	<%=h @By.firstname %> <%=h @By.lastname %>
-	     </td>
-	    <td><%=h ri.created_at.strftime '%m/%d/%Y' %></td>
-	    <td><%= (ri.privacy == 'A') ? 'All' : 'Only Me' %></td>
+	    <td><%= @By.firstname+' '+@By.lastname %></td>
+	    <td><%= resource['created_at'][0..10] %></td>
+	    <td><%= (resource['privacy'] == 'A') ? 'All' : 'Only Me' %></td>
 	  </tr>
 
 	<% end %>	
@@ -151,6 +150,11 @@
 		</select>
 	</td>
 </tr>
+<tr>
+	<td>
+		<input type="submit" value="Save Resource" />
+	</td>
+</tr>
 </table>
 
 <%end%>
@@ -159,11 +163,13 @@
 <script>
 $(function() {
 
-$("#add_resource_form").bind('submit', function() {
-	$(this).ajaxSubmit({
-		target: '#error'
-	});
-	return false; 
+$("#add_resource_form").ajaxForm({
+		resetForm: true,
+		//beforeSubmit: function() { alert('beforeSubmit'); return true; },
+		success: function() {
+			window.location.reload();
+			return false;
+		}
 });
 
 $("#add_resource_form").dialog({
@@ -171,38 +177,10 @@ $("#add_resource_form").dialog({
 	autoOpen: false,
 	height: 450,
 	width: 700,
-	modal: true,
-	buttons: {
-		'Save Resource': function() {
-			if ($(this).submit()) {
-				$(this).dialog('close');
-				window.location.reload();
-			}
-		},
-		'Cancel': function() {
-			$(this).dialog('close');
-		}
-	}
+	modal: true
 });
-$('#add_artifact')
-	.click(function() {
+$('#add_artifact').click(function() {
 		$('#add_resource_form').dialog('open');
-		jQuery.validator.messages.required = "";
-$("#add_resource_form").validate({
-		invalidHandler: function(e, validator) {
-					var errors = validator.numberOfInvalids();
-					if (errors) {
-						var message = errors == 1
-							? 'You missed 1 field. It has been highlighted below'
-							: 'You missed ' + errors + ' fields.  They have been highlighted below';
-						$("div.error span").html(message);
-						$("div.error").show();
-					} else {
-						$("div.error").hide();
-					}
-				},
-				onkeyup: false
-});
 });
 $('#artifact_description').autoResize();
 $('.hide').hide();
@@ -266,7 +244,7 @@ $('.add_resource').button();
 		$(".user_filter").click( function (e) {
 			e.preventDefault();
 			var val = this.title;
-			oTable.fnFilter( val, 4 );
+			oTable.fnFilter(val, 5);
 			
 			$(this).siblings().removeClass("outline");
 			$(this).addClass("outline");

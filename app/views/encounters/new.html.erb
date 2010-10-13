@@ -7,12 +7,8 @@
   <input type="hidden" name="encounter[clerkship_id]" value="<%= @clerkship.id %>" />
   
 <fieldset class="outline2 bg5" style="background-color: #FFF; border: 0; float: right;">
-  	<span class="ui-corner-all bt3">
-    	<a class="submit_encounter" href="#">Save</a>
-  	</span>
-  	<span class="ui-corner-all bt3">
-		<%= link_to "Cancel and Return", encounters_path %>
-  	</span>
+    	<a class="ui-corner-all bt3 submit_encounter" href="#">Save</a>
+		<%= link_to "Cancel and Return", encounters_path, :class => 'ui-corner-all bt3' %>
 </fieldset>
 
 <div style="clear:both"></div>
@@ -99,12 +95,8 @@
 </fieldset>
 
 <fieldset class="outline2 bg5" style="background-color: #FFF; border: 0; float: right;">
-  	<span class="ui-corner-all bt3">
-    	<a class="submit_encounter" href="#">Save</a>
-  	</span>
-  	<span class="ui-corner-all bt3">
- 		<%= link_to "Cancel and Return", encounters_path %>
- 	</span>
+    	<a class="ui-corner-all bt3 submit_encounter" href="#">Save</a>
+ 		<%= link_to "Cancel and Return", encounters_path, :class => 'ui-corner-all bt3' %>
 </fieldset>
 
 <% end %>

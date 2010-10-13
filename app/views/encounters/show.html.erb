@@ -108,7 +108,7 @@
 <fieldset class="outline2 bg5">
 	<p>
 		<%= f.label :notes %>
-		<div class="edit_area" id="notes" name="notes"><%=h @encounter.notes %></div>
+		<div id="notes" name="notes"><%=h @encounter.notes %></div>
 	</p>
 </fieldset>
 
@@ -140,20 +140,3 @@
 </div> <!-- end yui-u -->
 
 </div> <!-- end yui-ge -->
-
-<script>
-$(function() {
-	$('.edit_area').each(function(i) {
-		<%url = url_for :controller => "encounters", :action => "inplaceupdate"%>
-	  	$(this).editable('<%= url %>/<%= @encounter.id %>', {
-	    	type	:		'textarea',
-	    	cancel	:	'Cancel',
-	    	submit	:	'OK',
-	    	indicator:	'Saving...',
-	    	tooltip	:	'Click to edit...',
-	    	submitdata:	function(value, settings) {return {_method: "put", authenticity_token: AUTH_TOKEN, field: $(this).attr('id')}; },
-	    	rows:		4
-	  	});
-	});
-});
-</script>

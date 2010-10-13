@@ -1,41 +1,35 @@
 <%= render "toolbar" %>
 
 <div class="box1" style="margin: 15px;">
-<h1 class="t3">	Individual Diagnoses Per Site</h1>
+<h1 class="t3">	Other Diagnoses</h1>
 
 <table  id="encList" class="display">
-<thead>
-	<% fields = @reportarray[0] %>
-	<tr>
-		<th class="t5 bg2" colspan="3">Site</th>
-		<th class="t5 bg2" colspan=" <%= fields.size - 3 %> ">Diagnoses</th>
-	</tr>
-	<tr>
-	    <% fields.each do |fieldname|%>
-		<th class="t4 bg4" css_right> <%= fieldname %></th>
+	<thead>
+		<tr>
+				<th class="t4 bg4" css_right>First<br/>Name</th>
+			<th class="t4 bg4" css_right>Last<br/>Name</th>
+			<th class="t4 bg4" css_right>Care<br/>Setting</th>
+			<th class="t4 bg4" css_right>Clinic<br />Name</th>
+			<th class="t4 bg4" css_right>Clinic<br />Location</th>
+			<th class="t4 bg4" css_right>Other<br />Diagnoses</th>
+		</tr>
+	</thead>
+	<tbody>
+	    <% for reportline in @reportlinearray do 
+		 	cls_rest = cycle("bg5","bg4", :name => 'rest_cols')
+		 	cls_col_1 = cycle("bg8","bg7", :name => 'first_col')
+		%>
+		<tr>
+			<td class="b1 <%= cls_rest %>"> <%= reportline["firstname"] %> </td>
+			<td class="b1 <%= cls_rest %>"> <%= reportline["lastname"] %> </td>
+			<td class="b1 <%= cls_rest %>"> <%= reportline["care_setting"] %> </td>
+			<td class="b1 <%= cls_rest %>"> <%= reportline["clinic_name"] %> </td>
+			<td class="b1 <%= cls_rest %>"> <%= reportline["location"] %> </td>
+			<td class="b1 <%= cls_rest %>"> <%= reportline["other"] %> </td>
+		</tr>
 		<% end %>
 
-	</tr>
-</thead>
-<tbody>
-     <% rows = @reportarray[1]
-		for arow in rows do 
-	 	cls_rest = cycle("bg5","bg4", :name => 'rest_cols')
-	 	cls_col_1 = cycle("bg8","bg7", :name => 'first_col')
-	%>
-	<tr>	
-		<!-- The following two lines of Ruby are to pop off the last 
-		two elements which contain the first name and last name -->			 
-		<td class="b1 <%= cls_col_1 %>">	<%= arow.shift %> </td>
-		<td class="b1 <%= cls_col_1 %>">	<%= arow.shift %> </td>
-			
-		<% 	for aval in arow do %>
-		<td class="b1 <%= cls_rest %>"> <%= aval %></td>
-		<% end %>
-	</tr>
-	<% end %>
-
-</tbody>
+	</tbody>
 
 </table>
 </div>
@@ -53,8 +47,8 @@ $(function() {
 		"sDom": 'T<"clear"><"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"if>rt<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"lp>',
 		"bJQueryUI": true,
 		"bPaginate": true,
-		"aaSorting": [[2,"desc"]],
-		"aoColumns": [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+		"aaSorting": [[0,"asc"]],
+		"aoColumns": [null,null,null,null,null,null],
 		"iDisplayLength": 10,
 		"sPaginationType" : "full_numbers"
 	} );

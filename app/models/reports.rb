@@ -284,6 +284,24 @@ class Reports
         
   end
 
+   #-------------------------------------------
+   # Diagnoses reported as as Other
+   #-------------------------------------------    
+   def self.other_dx
+     sql = <<-EOF
+        select u.firstname, u.lastname, c.care_setting, c.clinic_name, c.location, edx.other
+        from encounter_dx edx
+          join users u on edx.created_by = u.id
+          join encounters es on es.id = edx.encounter_id
+          join clinics c on c.id = es.clinic_id 
+        where edx.dx_id=166
+      EOF
+     sqlResult = ActiveRecord::Base.connection.select_all sql     
+     sqlResult
+
+   end
+
+
 
    def self.summary_dx_observed_vs_performed
    end

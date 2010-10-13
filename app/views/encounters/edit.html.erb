@@ -8,12 +8,8 @@
   <input type="hidden" name="encounter[encounter_id]" value="<%= @encounter.id %>" />
   
 <fieldset class="outline2 bg5" style="background-color: #FFF; border: 0; float: right;">
-  	<span class="ui-corner-all bt3">
-    	<a class="submit_encounter" href="#">Save</a>
-  	</span>
-  	<span class="ui-corner-all bt3">
-		<%= link_to "Cancel and Return", encounter_path(@encounter), :class => "cancel_encounter" %>
-  	</span>
+    	<a class="ui-corner-all bt3 submit_encounter" href="#">Save</a>
+		<%= link_to "Cancel and Return", encounter_path(@encounter), :class => "ui-corner-all bt3 cancel_encounter" %>
 </fieldset>
 
 <div style="clear:both"></div>
@@ -137,12 +133,8 @@
 </fieldset>
 
 <fieldset class="outline2 bg5" style="background-color: #FFF; border: 0; float: right;">
-  	<span class="ui-corner-all bt3">
-    	<a class="submit_encounter" href="#">Save</a>
-  	</span>
-  	<span class="ui-corner-all bt3">
-		<%= link_to "Cancel and Return", encounter_path(@encounter), :class => "cancel_encounter" %>
-  	</span>
+    	<a class="ui-corner-all bt3 submit_encounter" href="#">Save</a>
+		<%= link_to "Cancel and Return", encounter_path(@encounter), :class => "ui-corner-all bt3 cancel_encounter" %>
 </fieldset>
 
 <% end %>
