@@ -42,5 +42,5 @@ Rails::Initializer.run do |config|
   # cltp custom config's
   UPLOAD_DIR = 'uploads'
   GA_KEY = 'UA-XXXXXXX-X' # change this to your own GA key
-  VERSION_NUMBER = '0.070' # update this every time we put out a new build
+  VERSION_NUMBER = '0.082' # update this every time we put out a new build
 end
