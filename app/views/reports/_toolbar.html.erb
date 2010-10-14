@@ -43,47 +43,31 @@
 </table>
 
 
-	<!-- <tr>
-		<td>
-			<ul class="reports_toolbar">
-				
-			<li><%= link_to "Encounters by Care Setting", {:controller => "reports", :action => "encounters_by_care_settings"}, :class => "t4" %></li>
-			<li><%= link_to "Encounters by Diagnosis Categories", {:controller => "reports", :action => "dx_by_students"}, :class => "t4" %></li>
-			<li><%= link_to "H & P Observed vs Performed", {:controller => "reports", :action => "hnp_observed_vs_performed"}, :class => "t4" %></li>
-			<li><%= link_to "Diagnoses", {:controller => "reports", :action => "student_individual_dx"}, :class => "t4" %></li>
-			</ul>
-		</td>
-	</tr>
-	</tr>
-	<tr>
-	<tr class="bg4">
-		<td>
-			<h3>By Site:</h3>
-		</td>
-		<td>
-			<ul class="reports_toolbar">
-			<li><%= link_to "Encounters by Care Setting", {:controller => "reports", :action => "site_encounters_by_care_settings"}, :class => "t4" %></li>
-			<li><%= link_to "Encounters by Diagnosis Categories", {:controller => "reports", :action => "dx_by_sites"}, :class => "t4" %></li>
-			<li><%= link_to "H & P Observed vs Performed", {:controller => "reports", :action => "site_hnp_observed_vs_performed"}, :class => "t4" %></li>
-			<li><%= link_to "Diagnoses", {:controller => "reports", :action => "site_individual_dx"}, :class => "t4" %></li>
-			</ul>
-		</td>
-	</tr>
-</tr> -->
-
 <table  align="center">
 <tr>
 	<td class="bg4">
 		<h3>Admin Reports:</h3>
 	</td>
-	<td>
-		<ul class="reports_toolbar">
+	<td class="center">
 		<li><%= link_to "Clinics", {:controller => "reports", :action => "clinic_table"}, :class => "t4" %></li>
-		<li><%= link_to "Students", {:controller => "reports", :action => "student_table"}, :class => "t4" %></li>
-		<li><%= link_to "Compliance Requirements", {:controller => "reports", :action => "compliance_req_table"}, :class => "t4" %></li>
-		<li><%= link_to "Other Diagnoses", {:controller => "reports", :action => "other_dx"}, :class => "t4" %></li>
-		</ul>
 	</td>
+	<td class="center">
+		<li><%= link_to "Students", {:controller => "reports", :action => "student_table"}, :class => "t4" %></li>
+	</td>
+	<td class="center">
+		<li><%= link_to "Compliance Requirements", {:controller => "reports", :action => "compliance_req_table"}, :class => "t4" %></li>
+	</td>
+	<td class="center">
+		<li><%= link_to "Other Diagnoses", {:controller => "reports", :action => "other_dx"}, :class => "t4" %></li>
+	</td>
+	<td class="center">
+		<li><%= link_to "Health Maintenance Well Care dx by age range", {:controller => "reports", :action => "health_m_dx_by_age"}, :class => "t4" %></li>
+	</td>
+	<!-- <td>
+		<ul class="reports_toolbar">
+		
+		</ul>
+	</td> -->
 </tr>
 </table>
 
