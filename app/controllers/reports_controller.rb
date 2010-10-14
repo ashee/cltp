@@ -73,6 +73,10 @@ class ReportsController < ApplicationController
      @reportlinearray = Reports.other_dx
    end
 
+   def health_m_dx_by_age
+      @reportlinearray = Reports.health_m_dx_by_age
+    end
+
   def access_control
     if @user.primary_role == "Student"
       render :file => "public/401.html", :status => :unauthorized 

@@ -301,6 +301,27 @@ class Reports
 
    end
 
+   #-------------------------------------------
+    # Health Maintenance Diagnoses reported by age range sub category
+    #-------------------------------------------    
+    def self.health_m_dx_by_age
+      sql = <<-EOF
+      SELECT c.care_setting, c.clinic_name, c.location, 
+        sum(if(edx.dx_id=92,1,0)) as 'infant1-12',
+        sum(if(edx.dx_id=93,1,0)) as 'Well Care Infant 1-12 months',
+        sum(if(edx.dx_id=94,1,0)) as 'Well Care Child 1-5 years',
+        sum(if(edx.dx_id=95,1,0)) as 'Well Care Child 6-12 years',
+        sum(if(edx.dx_id=96,1,0)) as 'Well Care Child 13-18 years',
+        sum(if(edx.dx_id=97,1,0)) as 'Well Care Young Adult 19-23 years'
+     from encounter_dx edx 
+        join users u on edx.created_by = u.id
+        join encounters es on es.id = edx.encounter_id
+        join clinics c on c.id = es.clinic_id
+      EOF
+      sqlResult = ActiveRecord::Base.connection.select_all sql     
+      sqlResult
+
+    end
 
 
    def self.summary_dx_observed_vs_performed
