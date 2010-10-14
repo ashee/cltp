@@ -1,308 +1,332 @@
 <div class="yui-gf">
 
-<div class="yui-u first">
-<% debug(@resources) %>
+  <div class="yui-u first">
+    <% debug(@resources) %>
 
-<div style="margin: 12px;">
-	<span class="ui-corner-all bg3" style="margin-left: 12px; padding: 5px;cursor: pointer;">
-		<a id="add_artifact" class="bt1" title="Add a Resource"><%= image_tag("add.png") %> Add Resource</a>	
-	</span>
-</div>
+    <div style="margin: 12px;">
+      <span class="ui-corner-all bg3" style="margin-left: 12px; padding: 5px;cursor: pointer;">
+        <a id="add_artifact" class="bt1" title="Add a Resource"><%= image_tag("add.png") %> Add Resource</a>
+      </span>
+    </div>
 
-	<h3 class="b2 bg2 filter_header">Filter Resources By Problem:</h3>
-	<ul id="resources" class="filter_list">
-		<li class="bg4"><a class="category_filter" href="#" id="" title=""></span> All Problems </a><span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></li>
-		<% @dxcs.each do |dxc| cls = cycle("bg5", "bg4") %>
-		<li class="<%= cls %>"><a class="category_filter" href="#" id="<%=h dxc.id %>" title="<%=h dxc.name %>"><span id="category_filter_img_<%=h dxc.id %>" class="ui-icon ui-icon-triangle-1-e" style="float:left;"></span> <%=h dxc.name %></a>
-			<ul class="diagnoses_list filter_list" id="diagnoses_list_<%=h dxc.id %>">
-				<% dxc.diagnoses.each do |dx| %>
-				<li><a class="diagnosis_filter" href="#" title="<%=h dx.name %>"><%=h dx.name %></a></li>
-				<% end %>
-			</ul>
-		</li>
-		<% end %>
-	</ul>
-	<!--
+    <h3 class="b2 bg2 filter_header">Filter Resources By Problem:</h3>
+    <ul id="resources" class="filter_list">
+      <li class="bg4"><a class="category_filter" href="#" id="" title=""></span> All Problems </a><span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></li>
+      <% @dxcs.each do |dxc| cls = cycle("bg5", "bg4") %>
+        <li class="<%= cls %>"><a class="category_filter" href="#" id="<%=h dxc.id %>" title="<%=h dxc.name %>"><span id="category_filter_img_<%=h dxc.id %>" class="ui-icon ui-icon-triangle-1-e" style="float:left;"></span> <%=h dxc.name %></a>
+          <ul class="diagnoses_list filter_list" id="diagnoses_list_<%=h dxc.id %>">
+            <% dxc.diagnoses.each do |dx| %>
+              <li><a class="diagnosis_filter" href="#" title="<%=h dx.name %>"><%=h dx.name %></a></li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+    </ul>
+    <!--
 	<h3 class="b2 bg2 filter_header">Filter Resources By Procedure:</h3>
 	<ul id="resources" class="filter_list">
 		<li class="bg4"><a class="category_filter" href="#" id="" title=""></span> All Procedures </a><span class="ui-icon ui-icon-triangle-1-e" style="float:right;"></span></li>
-		<% @procedures.each do |procedure| cls = cycle("bg5", "bg4") %>
-		<li class="<%= cls %>"><a class="procedure_filter" href="#" id="<%=h procedure.id %>" title="<%=h procedure.name %>"><span id="procedure_filter_img_<%=h procedure.id %>" class="ui-icon ui-icon-triangle-1-e" style="float:left;"></span> <%=h procedure.name %></a></li>
-		<% end %>
+    <% @procedures.each do |procedure| cls = cycle("bg5", "bg4") %>
+                <li class="<%= cls %>"><a class="procedure_filter" href="#" id="<%=h procedure.id %>" title="<%=h procedure.name %>"><span id="procedure_filter_img_<%=h procedure.id %>" class="ui-icon ui-icon-triangle-1-e" style="float:left;"></span> <%=h procedure.name %></a></li>
+    <% end %>
 	</ul>
--->
-</div> <!-- end yui-u first -->
+    -->
+  </div> <!-- end yui-u first -->
 
-<div class="yui-u">
+  <div class="yui-u">
 
-<p class="b1" style="padding-top: 8px">Filter by:
-	<span class="b3">
-		<a class="user_filter" href="#" title="">All Resources</a>
-		<a class="user_filter" href="#" title="Faculty">Faculty Resources</a>
-		<a class="user_filter" href="#" title="<%= @user.firstname+' '+@user.lastname %>">My Resources</a>
-	</span>
-</p>
+    <p class="b1" style="padding-top: 8px">Filter by:
+      <span class="b3">
+        <a class="user_filter" href="#" title="">All Resources</a>
+        <a class="user_filter" href="#" title="Faculty">Faculty Resources</a>
+        <a class="user_filter" href="#" title="<%= @user.firstname+' '+@user.lastname %>">My Resources</a>
+      </span>
+    </p>
 
-	<div id="resource_grid">
-	<table id="resourceList" class="display">
-	<thead>
-	  <tr>
-	  	<th>Title</th>
-		<th>Category</th>
-		<th>Tag</th>
-		<th>Rating</th>
-	   	<th>Rating</th>
-	    <th>From</th>
-	    <th>Date</th>
-	    <th>Who Can View?</th>
-	  </tr>
-	</thead>
-	<tbody>
-	
-	<% for resource in @resources do 
-	 		cls = cycle("bg5","bg4", :name => 'rest_cols')
-			tag = resource['tag']
-			tag_id = resource['tag_id']
-			if (tag == 'dx') then 
-				tag_text = Diagnosis.find(tag_id).name 
-				category_text = DiagnosisCategory.find(Diagnosis.find(tag_id).category_id).name
-			end
-			#if (tag == 'encounters') then tag_text = '<a href="/encounters/show/'+tag_id.to_s()+'">Encounter</a>' end
-			if (tag == 'encounters') then tag_text = link_to "Encounter", encounter_path(tag_id) end
-			if (tag == 'procedures') then tag_text = Procedure.find(tag_id).name end
-			@By = User.find(resource['created_by'])
-	%>
-	  <tr class='<%= cls %>' valign="top" align="left">
-	  	<td><a target="_blank" href="<%= (resource['filelocation'] == 'remote' && resource['url'][0,4] != 'http') ? 'http://'+resource['url'] : resource['url'] %>"><%=h resource['title'] %></a></td>
-		<td><%= category_text %></td>
-		<td><%= tag_text %></td>
-		<td><%= resource['score'].to_i %></td>
-	    <td nowrap="nowrap">
-	    <div class="entry">
-			<span id="votes_count_<%=h resource['id'] %>" class="votes_count"><%=h resource['score'].to_i %></span>
-			<span id="vote_buttons" class="vote_buttons">
-				<a id="vote_up_<%=h resource['id'] %>" class="vote_up" href="#" title="This resource is useful and clear" alt="Vote Up!"></a>
-				<a id="vote_down_<%=h resource['id'] %>" class="vote_down" href="#" title="This resource is unclear or not useful" alt="Vote Down!"></a>
-			</span>
-		</div>
-	    </td>
-	    <td><%= @By.firstname+' '+@By.lastname %></td>
-	    <td><%= resource['created_at'][0..10] %></td>
-	    <td><%= (resource['privacy'] == 'A') ? 'All' : 'Only Me' %></td>
-	  </tr>
+    <div id="resource_grid">
+      <table id="resourceList" class="display">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Tag</th>
+            <th>Rating</th>
+            <th>Rating</th>
+            <th>From</th>
+            <th>Date</th>
+            <th>Who Can View?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% # deduplicate resource instances that point to the same resource
+          @resources.each do |resource| cls = cycle("bg4", "bg5")
+            ri = resource.resource_instances.first.clone
+            if resource.resource_instances.count > 0
+              resource.resource_instances.each do |res_inst|
+                if ((res_inst.created_by == @user.id) &&
+                      (res_inst.updated_at > ri.updated_at))
+                  ri = res_inst.clone
+                elsif (res_inst.created_by == @user.id)
+                  ri = res_inst.clone
+                elsif ((res_inst.updated_at >= ri.updated_at) &&
+                      (ri.created_by != @user.id))
+                  ri = res_inst.clone
+                end
+              end
+            end
+            tag = ri.tag
+            tag_id = ri.tag_id
+            if (tag == 'dx') then
+              tag_text = Diagnosis.find(tag_id).name
+              category_text = DiagnosisCategory.find(Diagnosis.find(tag_id).category_id).name
+            end
+            if (tag == 'encounters') then tag_text = '<a href="/encounters/show/'+tag_id.to_s()+'">Encounter</a>' end
+            if (tag == 'encounters') then tag_text = link_to "Encounter", encounter_path(tag_id) end
+            if (tag == 'procedures') then tag_text = Procedure.find(tag_id).name end
 
-	<% end %>	
-	
-	</tbody>
+            cls = cycle("bg5","bg4", :name => 'rest_cols')
+            tag = resource['tag']
+            tag_id = resource['tag_id']
+            if (tag == 'dx') then
+              tag_text = Diagnosis.find(tag_id).name
+              category_text = DiagnosisCategory.find(Diagnosis.find(tag_id).category_id).name
+            end
+            #if (tag == 'encounters') then tag_text = '<a href="/encounters/show/'+tag_id.to_s()+'">Encounter</a>' end
+            if (tag == 'encounters') then tag_text = link_to "Encounter", encounter_path(tag_id) end
+            if (tag == 'procedures') then tag_text = Procedure.find(tag_id).name end
+            @By = User.find(ri['created_by'])
+          %>
+            <tr class='<%= cls %>' valign="top" align="left">
+              <td><a target="_blank" href="<%= (resource['filelocation'] == 'remote' && resource['url'][0,4] != 'http') ? 'http://'+resource['url'] : resource['url'] %>"><%=h ri['title'] %></a></td>
+              <td><%= category_text %></td>
+              <td><%= tag_text %></td>
+              <td><%= resource['score'].to_i %></td>
+              <td nowrap="nowrap">
+                <div class="entry">
+                  <span id="votes_count_<%=h resource['id'] %>" class="votes_count"><%=h resource['score'].to_i %></span>
+                  <span id="vote_buttons" class="vote_buttons">
+                    <a id="vote_up_<%=h resource['id'] %>" class="vote_up" href="#" title="This resource is useful and clear" alt="Vote Up!"></a>
+                    <a id="vote_down_<%=h resource['id'] %>" class="vote_down" href="#" title="This resource is unclear or not useful" alt="Vote Down!"></a>
+                  </span>
+                </div>
+              </td>
+              <td><%= @By.firstname+' '+@By.lastname %></td>
+              <td><%= resource['created_at'] %></td>
+              <td><%= (ri['privacy'] == 'A') ? 'All' : 'Only Me' %></td>
+            </tr>
 
-	</table>
-	</div>
-	
-	<% form_tag(url_for(:controller => 'resources', :action => 'create'), :multipart => true, :id => 'add_resource_form', :class => 'form') do %>
-	
-<div class="error" style="display:none;">
- 	<%= image_tag("warning.gif") %>
-  	<span></span>.<br clear="all" />
-</div>
+          <% end %>
 
-<table>
-<tr>
-	<th><label>From:</label></th>
-	<td>
-		<input type="radio" id="resource[filelocation]" name="resource[filelocation]" class="from required" value="local" /> Your Computer 
-		<br> 
-		<input type="radio" id="resource[filelocation]" name="resource[filelocation]" class="from required" value="remote" /> Internet link
-	</td>
-</tr>
-<tr class="hide" id="from_local">
-	<th><label>Upload File:</label></th>
-	<td><div id="upldDiv"><input type="file" id="filename_orig" name="resource_instance[filename_orig]" value=""></div></td>
-</tr>
-<tr class="hide" id="from_remote">
-	<th>Enter a link:</th>
-	<td><input type="text" name="resource[url]" size="25" value=""/></td>
-</tr>
-<tr>
-	<th>Title</th>
-	<td><input type="text" name="resource_instance[title]" id="resource_instance[title]" class="required" size="31" /></td>
-</tr>
-<tr>
-	<th>Description</th>
-	<td><textarea name="resource_instance[description]" id="artifact_description" style="width:100%"></textarea></td>
-</tr>
-<tr>
-	<th>Privacy Settings</th>
-	<td><select name="resource_instance[privacy]"><option value="A">Everybody can view</option>
-		<option value="P">Only I can view</option></select></td>
-</tr>
-<tr>
-	<th>Tagged With</th>
-	<td><!-- drop down here -->
-		<select name="resource_instance[tag]" id="resource_instance[tag]">
-				<% for dx in @dxs 
-						@dxcs.each do |dxc|
-						if (dxc.id == dx.category_id) then %>
-<option value="dx_<%= dx.id %>"><%= dxc.name %> > <%= dx.name %></option>
-<% 		
-						end  
-					end  
-				end %>
-		</select>
-	</td>
-</tr>
-<tr>
-	<td>
-		<input type="submit" value="Save Resource" />
-	</td>
-</tr>
-</table>
+        </tbody>
 
-<%end%>
-</div>
+      </table>
+    </div>
 
-<script>
-$(function() {
+    <% form_tag(url_for(:controller => 'resources', :action => 'create'), :multipart => true, :id => 'add_resource_form', :class => 'form') do %>
 
-$("#add_resource_form").ajaxForm({
-		resetForm: true,
-		//beforeSubmit: function() { alert('beforeSubmit'); return true; },
-		success: function() {
-			window.location.reload();
-			return false;
-		}
-});
+      <div class="error" style="display:none;">
+        <%= image_tag("warning.gif") %>
+        <span></span>.<br clear="all" />
+      </div>
 
-$("#add_resource_form").dialog({
-	title: 'Add a Resource',
-	autoOpen: false,
-	height: 450,
-	width: 700,
-	modal: true
-});
-$('#add_artifact').click(function() {
-		$('#add_resource_form').dialog('open');
-});
-$('#artifact_description').autoResize();
-$('.hide').hide();
-$('.from').change(function(e) {
-	$('.hide').hide();
-	$('#from_'+$(this).val()).toggle();
-});
-$('.add_resource').button();
-});
-</script>
+      <table>
+        <tr>
+          <th><label>From:</label></th>
+          <td>
+            <input type="radio" id="resource[filelocation]" name="resource[filelocation]" class="from required" value="local" /> Your Computer
+            <br>
+            <input type="radio" id="resource[filelocation]" name="resource[filelocation]" class="from required" value="remote" /> Internet link
+          </td>
+        </tr>
+        <tr class="hide" id="from_local">
+          <th><label>Upload File:</label></th>
+          <td><div id="upldDiv"><input type="file" id="filename_orig" name="resource_instance[filename_orig]" value=""></div></td>
+        </tr>
+        <tr class="hide" id="from_remote">
+          <th>Enter a link:</th>
+          <td><input type="text" name="resource[url]" size="25" value=""/></td>
+        </tr>
+        <tr>
+          <th>Title</th>
+          <td><input type="text" name="resource_instance[title]" id="resource_instance[title]" class="required" size="31" /></td>
+        </tr>
+        <tr>
+          <th>Description</th>
+          <td><textarea name="resource_instance[description]" id="artifact_description" style="width:100%"></textarea></td>
+        </tr>
+        <tr>
+          <th>Privacy Settings</th>
+          <td><select name="resource_instance[privacy]"><option value="A">Everybody can view</option>
+              <option value="P">Only I can view</option></select></td>
+        </tr>
+        <tr>
+          <th>Tagged With</th>
+          <td><!-- drop down here -->
+            <select name="resource_instance[tag]" id="resource_instance[tag]">
+              <% for dx in @dxs
+                @dxcs.each do |dxc|
+                  if (dxc.id == dx.category_id) then %>
+                    <option value="dx_<%= dx.id %>"><%= dxc.name %> > <%= dx.name %></option>
+                  <%
+                  end
+                end
+              end %>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="submit" value="Save Resource" />
+          </td>
+        </tr>
+      </table>
 
-	<script>
-	var oTable;
-	var asInitVals = new Array();
-			//"sDom": 'T<"clear">lfrtip',
-	$(function() {
-		oTable = $('#resourceList').dataTable( {
-			"oLanguage": {
-				"sSearch": "Search all columns:"
-			},
-			"sDom": '<"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"if>rt<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"lp>',
-			"bJQueryUI": true,
-			"aaSorting": [[3,'desc']],
-			//"aoColumns": [null,{ "bVisible": false },{ "bVisible": false },null,null,null,null,{ "bSortable": false }],
-			"aoColumns": [null,null,null,{ "bVisible": false },null,null,null,null],
+    <%end%>
+  </div>
 
-			"iDisplayLength": 10,
-			"sPaginationType" : "full_numbers"
-		} );
+  <script>
+    $(function() {
+
+      $("#add_resource_form").ajaxForm({
+        resetForm: true,
+        //beforeSubmit: function() { alert('beforeSubmit'); return true; },
+        success: function() {
+          window.location.reload();
+          return false;
+        }
+      });
+
+      $("#add_resource_form").dialog({
+        title: 'Add a Resource',
+        autoOpen: false,
+        height: 450,
+        width: 700,
+        modal: true
+      });
+      $('#add_artifact').click(function() {
+        $('#add_resource_form').dialog('open');
+      });
+      $('#artifact_description').autoResize();
+      $('.hide').hide();
+      $('.from').change(function(e) {
+        $('.hide').hide();
+        $('#from_'+$(this).val()).toggle();
+      });
+      $('.add_resource').button();
+    });
+  </script>
+
+  <script>
+    var oTable;
+    var asInitVals = new Array();
+    //"sDom": 'T<"clear">lfrtip',
+    $(function() {
+      oTable = $('#resourceList').dataTable( {
+        "oLanguage": {
+          "sSearch": "Search all columns:"
+        },
+        "sDom": '<"fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix"if>rt<"fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"lp>',
+        "bJQueryUI": true,
+        "aaSorting": [[3,'desc']],
+        //"aoColumns": [null,{ "bVisible": false },{ "bVisible": false },null,null,null,null,{ "bSortable": false }],
+        "aoColumns": [null,null,null,{ "bVisible": false },null,null,null,null],
+
+        "iDisplayLength": 10,
+        "sPaginationType" : "full_numbers"
+      } );
 		
-		$(".category_filter").click( function (e) {
-			e.preventDefault();
-			var val = this.title;
-			var dxcid = this.id;
-			oTable.fnFilter("",2,false);
-			oTable.fnFilter( val, 1 );
-			$(this).parent().siblings().removeClass("outline");
-			if ($('#category_filter_img_'+dxcid).hasClass('ui-icon-triangle-1-e') ) {
-				$('#category_filter_img_'+dxcid).removeClass("ui-icon-triangle-1-e");
-	    		$('#category_filter_img_'+dxcid).addClass("ui-icon-triangle-1-s");
-			} else {
-				$('#category_filter_img_'+dxcid).removeClass("ui-icon-triangle-1-s");
-	    		$('#category_filter_img_'+dxcid).addClass("ui-icon-triangle-1-e");
-			}
-			$(this).parent().addClass("outline");
-			$("#diagnoses_list_"+dxcid).toggle();
-		} );
+      $(".category_filter").click( function (e) {
+        e.preventDefault();
+        var val = this.title;
+        var dxcid = this.id;
+        oTable.fnFilter("",2,false);
+        oTable.fnFilter( val, 1 );
+        $(this).parent().siblings().removeClass("outline");
+        if ($('#category_filter_img_'+dxcid).hasClass('ui-icon-triangle-1-e') ) {
+          $('#category_filter_img_'+dxcid).removeClass("ui-icon-triangle-1-e");
+          $('#category_filter_img_'+dxcid).addClass("ui-icon-triangle-1-s");
+        } else {
+          $('#category_filter_img_'+dxcid).removeClass("ui-icon-triangle-1-s");
+          $('#category_filter_img_'+dxcid).addClass("ui-icon-triangle-1-e");
+        }
+        $(this).parent().addClass("outline");
+        $("#diagnoses_list_"+dxcid).toggle();
+      } );
 		
-		$(".diagnosis_filter").click( function (e) {
-			e.preventDefault();
-			var val = this.title;
-			oTable.fnFilter("",1,false);
-			oTable.fnFilter( val, 2 );
+      $(".diagnosis_filter").click( function (e) {
+        e.preventDefault();
+        var val = this.title;
+        oTable.fnFilter("",1,false);
+        oTable.fnFilter( val, 2 );
 			
-			$(this).parent().siblings().removeClass("outline");
-			$(this).parent().addClass("outline");
-		} );
+        $(this).parent().siblings().removeClass("outline");
+        $(this).parent().addClass("outline");
+      } );
 
-		$(".diagnoses_list").hide();
+      $(".diagnoses_list").hide();
 		
-		$(".user_filter").click( function (e) {
-			e.preventDefault();
-			var val = this.title;
-			oTable.fnFilter(val, 5);
+      $(".user_filter").click( function (e) {
+        e.preventDefault();
+        var val = this.title;
+        oTable.fnFilter(val, 5);
 			
-			$(this).siblings().removeClass("outline");
-			$(this).addClass("outline");
-		} );
+        $(this).siblings().removeClass("outline");
+        $(this).addClass("outline");
+      } );
 		
-		$(".procedure_filter").click( function (e) {
-			e.preventDefault();
-			var val = this.title;
-			oTable.fnFilter( val, 2 );
+      $(".procedure_filter").click( function (e) {
+        e.preventDefault();
+        var val = this.title;
+        oTable.fnFilter( val, 2 );
 			
-			$(this).parent().siblings().removeClass("outline");
-			$(this).parent().addClass("outline");
-		} );
+        $(this).parent().siblings().removeClass("outline");
+        $(this).parent().addClass("outline");
+      } );
 		
-		$('.vote_up').click(function(e) {
-			e.preventDefault();
-			var vote_up_id = this.id.substring(8);
-			if (!$(this).hasClass('alreadyvoted')) {
-				$.ajax({
-					url: '<%= url_for :controller => "resources", :action => "up_vote" %>/'+vote_up_id,
-					dataType: 'script',
-					success: function(data) {
-						$('#votes_count_'+vote_up_id).html(data);
-					}	
-				});
-			}
-		} );
+      $('.vote_up').click(function(e) {
+        e.preventDefault();
+        var vote_up_id = this.id.substring(8);
+        if (!$(this).hasClass('alreadyvoted')) {
+          $.ajax({
+            url: '<%= url_for :controller => "resources", :action => "up_vote" %>/'+vote_up_id,
+            dataType: 'script',
+            success: function(data) {
+              $('#votes_count_'+vote_up_id).html(data);
+            }
+          });
+        }
+      } );
 		
-		$('.vote_down').click(function(e) {
-			e.preventDefault();
-			var vote_down_id = this.id.substring(10);
-			if (!$(this).hasClass('alreadyvoted')) {
-				$.ajax({
-					url: '<%= url_for :controller => "resources", :action => "down_vote" %>/'+vote_down_id,
-					dataType: 'script',
-					success: function(data) {
-						$('#votes_count_'+vote_down_id).html(data);
-					}	
-				});
-			}
-		} );
-	} );
-	</script>
-	
-	<style>
-	.filter_list {
-		margin-left: 25px;
-	}
-	.filter_list li {
-		padding: 6px 12px;
-	}
-	.filter_header {
-		margin-left: 25px;
-		padding: 4px;
-		font-size: 122%;		
-	}
-	</style>	
-	
+      $('.vote_down').click(function(e) {
+        e.preventDefault();
+        var vote_down_id = this.id.substring(10);
+        if (!$(this).hasClass('alreadyvoted')) {
+          $.ajax({
+            url: '<%= url_for :controller => "resources", :action => "down_vote" %>/'+vote_down_id,
+            dataType: 'script',
+            success: function(data) {
+              $('#votes_count_'+vote_down_id).html(data);
+            }
+          });
+        }
+      } );
+    } );
+  </script>
+
+  <style>
+    .filter_list {
+      margin-left: 25px;
+    }
+    .filter_list li {
+      padding: 6px 12px;
+    }
+    .filter_header {
+      margin-left: 25px;
+      padding: 4px;
+      font-size: 122%;
+    }
+  </style>
+
 </div> <!-- end yui-u -->
 
 </div> <!-- end yui-ge -->

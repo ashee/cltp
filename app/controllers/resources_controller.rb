@@ -11,12 +11,14 @@ class ResourcesController < ApplicationController
   # TODO: Find better fix for duplicate results than calling uniq on array
   def index
     if @user.primary_role != 'Student'
-      @resources = Resource.find(:all, :order => 'score')
+      @resources = Resource.find(:all,
+        :include => :resource_instances,
+        :order => 'score DESC')
     else
       @resources = Resource.find(:all,
-        :joins => :resource_instances,
+        :include => :resource_instances,
         :conditions => ["resources.id = resource_instances.resource_id AND (resources.created_by = ? OR resource_instances.privacy = 'A')", @user.id],
-        :order => 'score')
+        :order => 'score DESC')
       @resources = @resources.uniq
     end
     @clerkship = Clerkship.find_by_name('Pediatrics')    
