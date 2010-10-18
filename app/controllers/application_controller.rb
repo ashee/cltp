@@ -37,8 +37,11 @@ private
       @user.save
     end
     
-    if @user.primary_role != "Student" && request.env['PATH_INFO'] == "/"
-      redirect_to :controller => "reports", :action => "index"
+    pi = request.env['PATH_INFO']
+    flag = pi.nil? || pi.strip == "" || pi.strip == "/"
+    if @user.primary_role != "Student" && flag
+      proto = request.ssl? ? "https://" : "http://"
+      redirect_to :protocol => proto, :controller => "reports", :action => "index"
     end
     
   end
