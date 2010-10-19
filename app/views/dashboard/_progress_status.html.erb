@@ -26,7 +26,7 @@
 			<th class="t5 bg2" colspan="3">Physical Exams</th>
 		</tr>
 		<tr>
-			<th class="t4 bg7"></th>
+			<th class="t4 bg7">Setting</th>
 			<th class="t4 bg4">Done</th>
 			<th class="t4 bg4">Required</th>
 			<th class="t4 bg4">Diff</th>
@@ -43,39 +43,39 @@
 		%>
 		<tr>
 			<td class="b1 <%= cls_col_1 %>"><%= status.care_setting.name %></td>
-			<td class="b1 <%= cls_rest %>"><%= status.hx_done %></td>
-			<td class="b1 <%= cls_rest %>"><%= status.hx_required %></td>
+			<td class="b1 datacenter <%= cls_rest %>"><%= status.hx_done %></td>
+			<td class="b1 datacenter <%= cls_rest %>"><%= status.hx_required %></td>
 			<% if status.hx_diff >= 0 %>
-			<td class="b1 <%= cls_rest %> pos"><%= status.hx_diff %></td>
+			<td class="b1 datacenter <%= cls_rest %> pos"><%= status.hx_diff %></td>
 			<% else %>
-			<td class="b1 <%= cls_rest %> neg"><%= status.hx_diff %></td>
+			<td class="b1 datacenter <%= cls_rest %> neg"><%= status.hx_diff %></td>
 			<% end %>
-			<td class="b1 <%= cls_rest %>"></td>
-			<td class="b1 <%= cls_rest %>"><%= status.px_done %></td>
-			<td class="b1 <%= cls_rest %>"><%= status.px_required %></td>
+			<td class="b1 datacenter <%= cls_rest %>"></td>
+			<td class="b1 datacenter <%= cls_rest %>"><%= status.px_done %></td>
+			<td class="b1 datacenter <%= cls_rest %>"><%= status.px_required %></td>
 			<% if status.px_diff >= 0 %>
-			<td class="b1 <%= cls_rest %> pos"><%= status.px_diff %></td>
+			<td class="b1 datacenter <%= cls_rest %> pos"><%= status.px_diff %></td>
 			<% else %>
-			<td class="b1 <%= cls_rest %> neg"><%= status.px_diff %></td>
+			<td class="b1 datacenter <%= cls_rest %> neg"><%= status.px_diff %></td>
 			<% end %>
 		</tr>
 		<% end %>
 		<tr>
 			<td class="t4 bg8">Total</td>
-			<td class="t4 bg5"><%= @hx_total %></td>
-			<td class="t4 bg5"><%= @hx_required_total %></td>
+			<td class="t4 datacenter bg5"><%= @hx_total %></td>
+			<td class="t4 datacenter bg5"><%= @hx_required_total %></td>
 			<% if @hx_diff_total >= 0 %>
-			<td class="t4 bg5 pos"><%= @hx_diff_total %></td>
+			<td class="t4 datacenter bg5 pos"><%= @hx_diff_total %></td>
 			<% else %>
-			<td class="t4 bg5 neg"><%= @hx_diff_total %></td>
+			<td class="t4 datacenter bg5 neg"><%= @hx_diff_total %></td>
 			<% end %>
 			<td class="t4 bg5"></td>
-			<td class="t4 bg5"><%= @px_total %></td>
-			<td class="t4 bg5"><%= @px_required_total %></td>
+			<td class="t4 datacenter bg5"><%= @px_total %></td>
+			<td class="t4 datacenter bg5"><%= @px_required_total %></td>
 			<% if @px_diff_total >= 0 %>
-			<td class="t4 bg5 pos"><%= @px_diff_total %></td>
+			<td class="t4 datacenter bg5 pos"><%= @px_diff_total %></td>
 			<% else %>
-			<td class="t4 bg5 neg"><%= @px_diff_total %></td>
+			<td class="t4 datacenter bg5 neg"><%= @px_diff_total %></td>
 			<% end %>
 		</tr>
 		</tbody>
@@ -87,7 +87,7 @@
 	<table style="margin: 30px 30px 30px 30px;">
 	<tr valign="top">
 		<td>
-			<h1 class="t3" style="margin-left: 30px;">Pediatrics Diagnoses: <%= @problems.count %></h1>
+			<h1 class="t3" style="margin-left: 30px;">Pediatrics Problems Seen:  <%= @problems.count %></h1>
 			<table style="margin: 0px 30px 30px 30px;">
 			<thead>
 				<tr>
@@ -110,7 +110,7 @@
 			</table>
 		</td>
 		<td>
-			<h1 class="t3" style="margin-left: 30px;">Pediatrics Procedures: <%= @procedures.count %></h1>
+			<h1 class="t3" style="margin-left: 30px;">Pediatrics Procedures Observed:  <%= @procedures.count %></h1>
 			<table style="margin: 0px 30px 30px 30px;">
 			<thead>
 				<tr>
