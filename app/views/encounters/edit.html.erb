@@ -38,7 +38,10 @@
 
 <fieldset class="outline2 bg5">
 	<p>
-	    <%= f.label :patient_id, "Patient ID" %><br />
+	    <%= f.label :patient_id, "Patient ID" %>
+	    <br />
+	    <span class="copy">UMHS = CPI #, VA = Last 4 SSN, Other = Initials</span>
+	    <br />
     	<%= f.text_field :patient_id, :size=>15, :class=>'ui-widget ui-widget-content outline1 required', :tabindex=>33  %>
 	</p>
 	<p>
@@ -70,7 +73,9 @@
 	<div style="clear:both"></div>
 	
 	<p>
-    	<%= f.label :primary_problem %><br />
+    	<%= f.label :primary_problem %>
+    	<span>Type in the problem or click the arrow to the right to see all options. If an option does not exist for the problem, please enter your own term.</span>
+    	<br />
     	<% @encounterDiagnoses.each do |edx| %> 
 			<% if (edx.dx_type == 'P') %>
 				<% if (edx.diagnosis.name == 'Other') %> 
@@ -87,7 +92,9 @@
 	<div style="clear:both"></div>
 	
 	<p>
-	   	<%= f.label :secondary_problems %><br />
+	   	<%= f.label :secondary_problems %>
+	   	<span>Type in the problem(s) or use the arrow to see all options. If an option does not exist for the problem, please enter your own term(s). You can enter more than one problem. Separate each prolbem with a comma.</span>
+	   	<br />
 	  	<textarea tabindex="100" rows="1" name="encounter[secondary_problems]" id="encounter_secondary_problems" cols="50" class="ui-widget ui-widget-content outline1"><% 
 		$sps = ''
 	  	@encounterDiagnoses.each do |edx|
@@ -107,7 +114,9 @@
 	<div style="clear:both"></div>
 	
 	<p>
-		<%= f.label :procedures_observed, "Procedures Observed/Performed" %><br />
+		<%= f.label :procedures_observed, "Procedures Observed/Performed" %>
+		<span>Type in the procedure or use the arrow to see all options. If an option does not exist for the procedure, please enter your own term(s). You can enter more than one procedure. Separate each procedure with a comma.</span>
+		<br />
 		<textarea tabindex="120" rows="1" name="encounter[procedures_observed]" id="encounter_procedures_observed" cols="50" class="ui-widget ui-widget-content outline1"><% 
 	$procs = ''
 	@encounterProcedures.each do |ep| 

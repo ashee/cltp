@@ -37,7 +37,10 @@
 
 <fieldset class="outline2 bg5">
 	<p>
-	    <%= f.label :patient_id, "Patient ID" %><br />
+	    <%= f.label :patient_id, "Patient ID" %>
+	    <br />
+	    <span class="copy">UMHS = CPI #, VA = Last 4 SSN, Other = Initials</span>
+	    <br />
     	<%= f.text_field :patient_id, :size=>15, :class=>'ui-widget ui-widget-content outline1 required', :tabindex=>33  %>
 	</p>
 	<p>

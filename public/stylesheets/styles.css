@@ -183,7 +183,7 @@ form.encounter label {
   	margin-right: 16px;
   	color: #203460;
 }
-form.encounter label + span {
+form.encounter label + span, form.encounter span.copy {
 	display: inline-block;
   	line-height: 1.8;
   	vertical-align: bottom;
