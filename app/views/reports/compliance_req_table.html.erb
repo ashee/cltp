@@ -18,13 +18,13 @@
 		 	cls_rest = cycle("bg5","bg4", :name => 'rest_cols')
 		 	cls_col_1 = cycle("bg8","bg7", :name => 'first_col')
 		
-			ActiveRecord::Base.logger.debug "@reportline: #{@reportline}"
+			# ActiveRecord::Base.logger.debug "@reportline: #{@reportline}"
 		%>
 		<tr>
 			<td class="b1 <%= cls_rest %>"> <%= Clerkship.find_by_id(reportline.clerkship_id).name %> </td>
 			<td class="b1 <%= cls_rest %>"> <%= CareSetting.find_by_id(reportline.care_setting_id).name %> </td>
-			<td class="b1 <%= cls_rest %>"> <%= reportline.hx_required %> </td>
-			<td class="b1 <%= cls_rest %>"> <%= reportline.px_required %> </td>
+			<td class="b1 datacenter <%= cls_rest %>"> <%= reportline.hx_required %> </td>
+			<td class="b1 datacenter <%= cls_rest %>"> <%= reportline.px_required %> </td>
 		</tr>
 		<% end %>
 
