@@ -72,6 +72,11 @@ td.center
 
 td.datacenter
 {
+	text-align: center;	
+}
+
+td.dataright
+{
 	text-align: right;	
 }
 
