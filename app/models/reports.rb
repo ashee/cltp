@@ -102,7 +102,7 @@ class Reports
     ActiveRecord::Base.connection.select_all sql
   end
   
-  #-------------------------------------------
+   #-------------------------------------------
    # Individual diagnoses that each student has performed
    #-------------------------------------------    
     def self.dx_by_students
@@ -155,6 +155,35 @@ class Reports
     fieldNamesAndDataArray = Array.new
     fieldNamesAndDataArray << fieldNames << rows
     return fieldNamesAndDataArray
+  end
+  
+   #-------------------------------------------
+   # diagnoses by Category
+   #-------------------------------------------    
+    def self.student_dx_by_category(student_id)
+       sql = <<-EOF
+        (select dc.name, count(edx.dx_id) as count
+          from encounter_dx edx
+          join dx on edx.dx_id = dx.id
+          join dx_categories dc on dx.category_id = dc.id
+        where edx.created_by =  #{student_id}
+          group by dc.id)
+        union
+        (select dc3.name as name, 0 as count
+          from dx_categories dc3
+        where not exists (
+          select 1
+            from encounter_dx edx2
+            join dx dx2 on edx2.dx_id = dx2.id
+            join dx_categories dc2 on dx2.category_id = dc2.id
+          where edx2.created_by = #{student_id} and dc2.id = dc3.id	
+          )
+        )
+        order by name;
+        EOF
+   
+        ret = ActiveRecord::Base.connection.select_all sql  
+     return ret
   end
   
   #-------------------------------------------

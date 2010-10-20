@@ -30,6 +30,11 @@ class DashboardController < ApplicationController
    @procedures = Reports.student_encounter_procedures @user.id
    # ActiveRecord::Base.logger.debug "@procedures.count: #{@procedures.count}"
    # ActiveRecord::Base.logger.debug "@procedures: #{@procedures}"
+ 
+   # get data for the Dx by Category table
+   @dx_by_category = Reports.student_dx_by_category @user.id
+   # ActiveRecord::Base.logger.debug "@procedures.count: #{@procedures.count}"
+   # ActiveRecord::Base.logger.debug "@procedures: #{@procedures}"
 
 
    respond_to do |format|
