@@ -33,7 +33,7 @@
 
 <fieldset class="outline2 bg5">
 	<p>
-	    <%= f.label :patient_id %>
+	    <%= f.label :patient_id, "Patient ID" %>
 	    <br />
 	    <span id="patient_id" name="patient_id"><%=h @encounter.patient_id %></span>
 	</p>
@@ -90,7 +90,7 @@
 	<div style="clear:both"></div>
 
 	<p>
-	   	<%= f.label :procedures_observed %><br />
+	   	<%= f.label :procedures_observed, "Procedures Observed/Performed" %><br />
 	  	<% @encounterProcedures.each do |ep| %>
 	  		<% if (ep.participation_type == 'O') %> 
 	  			<% if (ep.procedure.name == 'Other') %> 
