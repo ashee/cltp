@@ -58,8 +58,7 @@ class FeedbacksController < ApplicationController
       body = @feedback.body
       bodycount = body.length
       slicesize = (bodycount > 100) ? 100 : bodycount
-      @feedback.subject = "THIS IS A SUBJECT LINE FOR FEEDBACK"
-      @feedback.subject = body.slice!(1, slicesize)
+      @feedback.subject = body.slice(1, slicesize) || " "
       
       respond_to do |format|
         if @feedback.save
