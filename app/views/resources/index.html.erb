@@ -97,7 +97,9 @@
             @By = User.find(ri['created_by'])
           %>
             <tr class='<%= cls %>' valign="top" align="left">
-              <td><a target="_blank" href="<%= (resource['filelocation'] == 'remote' && resource['url'][0,4] != 'http') ? 'http://'+resource['url'] : resource['url'] %>"><%=h ri['title'] %></a></td>
+              <td>
+	<% r = resource; url = r.filelocation == 'local' ? root_url.chop + r.url : r.url %>
+	<a target="_blank" href="<%= url %>"><%=h ri['title'] %></a></td>
               <td><%= category_text %></td>
               <td><%= tag_text %></td>
               <td><%= resource['score'].to_i %></td>
