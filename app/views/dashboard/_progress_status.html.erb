@@ -1,5 +1,3 @@
-<%= javascript_include_tag "jquery.sparkline.min", :cache => true %>
-
 <h1 class="t2" style="margin: 15px;">Dashboard</h1>
 
 <div>
@@ -162,12 +160,6 @@
 	</div>
 </div>
 
-<script>
-$(function() {
-	$('.bullet').sparkline('html', {type: 'bullet', targetColor: '#1A5FAE', targetWidth: '3', performanceColor: '#999999' });
-	$('.completed_bullet').sparkline('html', {type: 'bullet', targetColor: 'green', targetWidth: '3', performanceColor: '#999999' });
-});
-</script>
 <style>
 .completed_goal {
 	background-color: green;	

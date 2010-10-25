@@ -80,7 +80,6 @@
               tag_text = Diagnosis.find(tag_id).name
               category_text = DiagnosisCategory.find(Diagnosis.find(tag_id).category_id).name
             end
-            if (tag == 'encounters') then tag_text = '<a href="/encounters/show/'+tag_id.to_s()+'">Encounter</a>' end
             if (tag == 'encounters') then tag_text = link_to "Encounter", encounter_path(tag_id) end
             if (tag == 'procedures') then tag_text = Procedure.find(tag_id).name end
 
@@ -113,7 +112,7 @@
                 </div>
               </td>
               <td><%= @By.firstname+' '+@By.lastname %></td>
-              <td><%= resource['created_at'] %></td>
+              <td><%= resource['created_at'].strftime("%m/%d/%Y") %></td>
               <td><%= (ri['privacy'] == 'A') ? 'All' : 'Only Me' %></td>
             </tr>
 
