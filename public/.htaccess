@@ -1,0 +1,5 @@
+# Asset Expiration
+ExpiresActive On
+<FilesMatch "\.(ico|gif|jpe?g|png)$">
+  ExpiresDefault "access plus 1 year"
+</FilesMatch>
