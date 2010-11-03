@@ -21,8 +21,6 @@ class DashboardController < ApplicationController
    end
 
    @current_clerkship = @user.current_clerkship
-   ActiveRecord::Base.logger.debug "===================== @user: #{@user}"
-   ActiveRecord::Base.logger.debug "===================== @user.current_clerkship: #{ @user.current_clerkship}"
    # get data for the problems table
    @problems = Reports.student_encounter_diagnoses @user.id
    

@@ -6,14 +6,15 @@
 <table  id="encList" class="display">
 	<thead>
 		<tr>
-			<th class="t4 bg4" css_right>Care<br/>Setting</th>
-			<th class="t4 bg4" css_right>Clinic<br />Name</th>
-			<th class="t4 bg4" css_right>Clinic<br />Location</th>
-			<th class="t4 bg4" css_right>Well Care<br />Infant 1-12 months</td>
-			<th class="t4 bg4" css_right>Well Care<br />Child 1-5 years</td>
-			<th class="t4 bg4" css_right>Well Care<br />Child 6-12 years</td>
-			<th class="t4 bg4" css_right>Well Care<br />Child 13-18 years</td>
-			<th class="t4 bg4" css_right>Well Care<br />Young Adult 19-23 years</td>
+			<th class="t4 bg4" >Care<br/>Setting</th>
+			<th class="t4 bg4" >Clinic<br />Name</th>
+			<th class="t4 bg4" >Clinic<br />Location</th>
+			<th class="t4 bg4" >Well Care<br />Newborn 0-1 month</td>
+			<th class="t4 bg4" >Well Care<br />Infant 1-12 months</td>
+			<th class="t4 bg4" >Well Care<br />Child 1-5 years</td>
+			<th class="t4 bg4" >Well Care<br />Child 6-12 years</td>
+			<th class="t4 bg4" >Well Care<br />Child 13-18 years</td>
+			<th class="t4 bg4" >Well Care<br />Young Adult 19-23 years</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -25,6 +26,7 @@
 			<td class="b1 <%= cls_rest %>"> <%= reportline["care_setting"] %> </td>
 			<td class="b1 <%= cls_rest %>"> <%= reportline["clinic_name"] %> </td>
 			<td class="b1 <%= cls_rest %>"> <%= reportline["location"] %> </td>
+			<td class="b1 datacenter <%= cls_rest %>"> <%= reportline["Well Care Newborn 0-1 month"] %> </td>
 			<td class="b1 datacenter <%= cls_rest %>"> <%= reportline["Well Care Infant 1-12 months"] %> </td>
 			<td class="b1 datacenter <%= cls_rest %>"> <%= reportline["Well Care Child 1-5 years"] %> </td>
 			<td class="b1 datacenter <%= cls_rest %>"> <%= reportline["Well Care Child 6-12 years"] %> </td>
@@ -52,8 +54,8 @@ $(function() {
 		"bJQueryUI": true,
 		"bPaginate": true,
 		"aaSorting": [[2,"asc"]],
-		"aoColumns": [null,null,null,null,null,null,null,null],
-		"iDisplayLength": 10,
+		"aoColumns": [null,null,null,{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" }],
+		"iDisplayLength": 25,
 		"sPaginationType" : "full_numbers"
 	} );
 	
