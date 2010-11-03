@@ -151,7 +151,7 @@ class EncountersController < ApplicationController
         	dx_other = primary_problem
         end
         
-        @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'P', "dx_id" => dx_xref.id, "other" => dx_other, "created_by" => @user, "updated_by" => @user)
+        @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'P', "dx_id" => dx_xref.id, "other" => dx_other, "created_by" => @user.id, "updated_by" => @user.id)
         @edx.save
         
         #loop and save secondary problems
@@ -221,7 +221,7 @@ class EncountersController < ApplicationController
         	dx_xref = Diagnosis.find_by_name 'Other'
         	dx_other = params[:encounter]['primary_problem']
         end
-        @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'P', "dx_id" => dx_xref.id, "other" => dx_other, "created_by" => @user, "updated_by" => @user)
+        @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'P', "dx_id" => dx_xref.id, "other" => dx_other, "created_by" => @user.id, "updated_by" => @user.id)
         @edx.save
         
         #loop and save secondary problems
@@ -233,7 +233,7 @@ class EncountersController < ApplicationController
 				dx_xref = Diagnosis.find_by_name 'Other'
 				dx_other = sdx
 			end        
-          	@edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'S', "dx_id" => dx_xref.id, "other" => dx_other, "created_by" => @user, "updated_by" => @user)
+          	@edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'S', "dx_id" => dx_xref.id, "other" => dx_other, "created_by" => @user.id, "updated_by" => @user.id)
           	@edx.save
         end #for dx loop
         #destroy existing procedures
@@ -248,7 +248,7 @@ class EncountersController < ApplicationController
 				proc_xref = Procedure.find_by_name('Other')
 				proc_other = po
 			end
-          @po_new = @encounter.procedures.new("encounter_id" => @encounter.id, "participation_type" => 'O', "procedure_id" => proc_xref.id, "other" => proc_other, "created_by" => @user, "updated_by" => @user)
+          @po_new = @encounter.procedures.new("encounter_id" => @encounter.id, "participation_type" => 'O', "procedure_id" => proc_xref.id, "other" => proc_other, "created_by" => @user.id, "updated_by" => @user.id)
           @po_new.save
         end #for procedures observed loop
         
