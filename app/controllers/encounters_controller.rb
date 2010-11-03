@@ -151,7 +151,7 @@ class EncountersController < ApplicationController
         	dx_other = primary_problem
         end
         
-        @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'P', "dx_id" => dx_xref.id, "other" => dx_other, "created_by" => @user, "updated_by" => @user)
+        @edx = @encounter.diagnoses.new("encounter_id" => @encounter.id, "dx_type" => 'P', "dx_id" => dx_xref.id, "other" => dx_other, "created_by" => @user.id, "updated_by" => @user.id)
         @edx.save
         
         #loop and save secondary problems
