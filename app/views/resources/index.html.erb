@@ -53,6 +53,7 @@
             <th>Rating</th>
             <th>Rating</th>
             <th>From</th>
+            <th>Role</th>
             <th>Date</th>
             <th>Who Can View?</th>
           </tr>
@@ -112,6 +113,7 @@
                 </div>
               </td>
               <td><%= @By.firstname+' '+@By.lastname %></td>
+              <td><%= @By.primary_role %></td>
               <td><%= resource['created_at'].strftime("%m/%d/%Y") %></td>
               <td><%= (ri['privacy'] == 'A') ? 'All' : 'Only Me' %></td>
             </tr>
@@ -230,7 +232,7 @@
         "bJQueryUI": true,
         "aaSorting": [[3,'desc']],
         //"aoColumns": [null,{ "bVisible": false },{ "bVisible": false },null,null,null,null,{ "bSortable": false }],
-        "aoColumns": [null,null,null,{ "bVisible": false },null,null,null,null],
+        "aoColumns": [null,null,null,{ "bVisible": false },null,null,{ "bVisible": false },null,null],
 
         "iDisplayLength": 10,
         "sPaginationType" : "full_numbers"
@@ -269,8 +271,11 @@
       $(".user_filter").click( function (e) {
         e.preventDefault();
         var val = this.title;
-        oTable.fnFilter(val, 5);
-			
+        if (val == 'Faculty') {
+	        oTable.fnFilter(val, 6);
+        } else {
+        	oTable.fnFilter(val, 5);
+        }	
         $(this).siblings().removeClass("outline");
         $(this).addClass("outline");
       } );

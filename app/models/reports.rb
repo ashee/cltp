@@ -108,7 +108,7 @@ class Reports
     def self.dx_by_students
     dxcats = DiagnosisCategory.all
 
-    template = %Q{sum(if(edx.dx_id=%s,1,0)) as '%s'}
+    template = %Q{sum(if(dx.category_id=%s,1,0)) as '%s'}
 
     partialSqlStatement = dxcats.map { |dxc| 
     sprintf template, dxc["id"], dxc["name"]
@@ -124,6 +124,7 @@ class Reports
         from encounters e 
         join users u on e.created_by = u.id
         join encounter_dx edx on edx.encounter_id = e.id
+        join dx on dx.id = edx.dx_id
         where e.clerkship_id = 1
         group by e.created_by;
     EOF
@@ -179,7 +180,7 @@ class Reports
           where edx2.created_by = #{student_id} and dc2.id = dc3.id	
           )
         )
-        order by name;
+        order by count DESC;
         EOF
    
         ret = ActiveRecord::Base.connection.select_all sql  
@@ -192,7 +193,7 @@ class Reports
     def self.dx_by_sites
     dxcats = DiagnosisCategory.all
 
-    template = %Q{sum(if(edx.dx_id=%s,1,0)) as '%s'}
+    template = %Q{sum(if(dx.category_id=%s,1,0)) as '%s'}
 
     partialSqlStatement = dxcats.map { |dxc| 
     sprintf template, dxc["id"], dxc["name"]
@@ -205,6 +206,7 @@ class Reports
         from encounters e 
         join encounter_dx edx on e.id = edx.encounter_id
         join clinics c on c.id = e.clinic_id
+        join dx on dx.id = edx.dx_id
         where e.clerkship_id = 1
         group by c.location;
     EOF
@@ -336,7 +338,7 @@ class Reports
     def self.health_m_dx_by_age
       sql = <<-EOF
       SELECT c.care_setting, c.clinic_name, c.location, 
-        sum(if(edx.dx_id=92,1,0)) as 'infant1-12',
+        sum(if(edx.dx_id=92,1,0)) as 'Well Care Newborn 0-1 month',
         sum(if(edx.dx_id=93,1,0)) as 'Well Care Infant 1-12 months',
         sum(if(edx.dx_id=94,1,0)) as 'Well Care Child 1-5 years',
         sum(if(edx.dx_id=95,1,0)) as 'Well Care Child 6-12 years',
@@ -346,6 +348,7 @@ class Reports
         join users u on edx.created_by = u.id
         join encounters es on es.id = edx.encounter_id
         join clinics c on c.id = es.clinic_id
+        group by c.clinic_name
       EOF
       sqlResult = ActiveRecord::Base.connection.select_all sql     
       sqlResult
