@@ -106,57 +106,96 @@ class Reports
    # Individual diagnoses that each student has performed
    #-------------------------------------------    
     def self.dx_by_students
-    dxcats = DiagnosisCategory.all
 
-    template = %Q{sum(if(dx.category_id=%s,1,0)) as '%s'}
-
-    partialSqlStatement = dxcats.map { |dxc| 
-    sprintf template, dxc["id"], dxc["name"]
-    }.join(",\n")
-    
-    
-    sql = <<-EOF
-      select 
-          u.firstname as 'FirstName', 
-          u.lastname as 'LastName',
-          u.email as 'Email',
-          #{partialSqlStatement}
-        from encounters e 
-        join users u on e.created_by = u.id
-        join encounter_dx edx on edx.encounter_id = e.id
-        join dx on dx.id = edx.dx_id
-        where e.clerkship_id = 1
-        group by e.created_by;
-    EOF
-
-    # Calling ActiveRecord::Base.connection.execute(sql) in order to get the fields of each record returned
-    # in the correct order.  Using the select_all method returns a hash of the rows but they are not ordered 
-    # correctly
-    sqlResult = ActiveRecord::Base.connection.execute sql     
-
-    # this returns a Mysql::Result object.
-    # first check whether something was returned
-    if sqlResult != nil
-      # first extract the field names
-      fieldObjectArray = sqlResult.fetch_fields()
-
+      dxcats = DiagnosisCategory.all
       fieldNames = Array.new
-      fieldObjectArray.each do |aField|
+      dxcats.each do |aField|
+           ActiveRecord::Base.logger.debug "aField: #{aField}"
           fieldNames << aField.name
-      end                           
+      end                               
 
-      # now extract the rows of data
-      rows = Array.new
-      sqlResult.each do |row|
-        rows << row
-      end               
-      sqlResult.free;
-    end
- 
-    fieldNamesAndDataArray = Array.new
-    fieldNamesAndDataArray << fieldNames << rows
-    return fieldNamesAndDataArray
-  end
+      sql = <<-EOF
+      select FirstName, LastName, Email,
+       if (dxcatid = 1, dxcatcount,0) as '#{dxcats[0].name}',
+       if (dxcatid = 2, dxcatcount,0) as '#{dxcats[1].name}',
+       if (dxcatid = 3, dxcatcount,0) as '#{dxcats[2].name}',
+       if (dxcatid = 4, dxcatcount,0) as '#{dxcats[3].name}',
+       if (dxcatid = 5, dxcatcount,0) as '#{dxcats[4].name}',
+       if (dxcatid = 6, dxcatcount,0) as '#{dxcats[5].name}',
+       if (dxcatid = 7, dxcatcount,0) as '#{dxcats[6].name}',
+       if (dxcatid = 8, dxcatcount,0) as '#{dxcats[7].name}',
+       if (dxcatid = 9, dxcatcount,0) as '#{dxcats[8].name}',
+       if (dxcatid = 10, dxcatcount,0) as '#{dxcats[9].name}',
+       if (dxcatid = 11, dxcatcount,0) as '#{dxcats[10].name}',
+       if (dxcatid = 12, dxcatcount,0) as '#{dxcats[11].name}',
+       if (dxcatid = 13, dxcatcount,0) as '#{dxcats[12].name}',
+       if (dxcatid = 14, dxcatcount,0) as '#{dxcats[13].name}',
+       if (dxcatid = 15, dxcatcount,0) as '#{dxcats[14].name}'
+       from (select   u.firstname as 'FirstName', 
+                   u.lastname as 'LastName',
+                   u.email as 'Email',
+                   edx.created_by, dc.id as dxcatid, count(*) as dxcatcount
+             from encounter_dx edx 
+                 join users u on edx.created_by = u.id
+                 join dx d on edx.dx_id = d.id
+                 join dx_categories dc on d.category_id = dc.id
+             group by edx.created_by,dc.id) as derivedTable
+     EOF
+
+     # Calling ActiveRecord::Base.connection.execute(sql) in order to get the fields of each record returned
+     # in the correct order.  Using the select_all method returns a hash of the rows but they are not ordered 
+     # correctly
+     sqlResult = ActiveRecord::Base.connection.execute sql     
+
+     # this returns a Mysql::Result object.
+     # first check whether something was returned
+     if sqlResult != nil then       
+       # first extract the field names
+       fieldObjectArray = sqlResult.fetch_fields()
+
+       fieldNames = Array.new
+       fieldObjectArray.each do |aField|
+           fieldNames << aField.name
+       end               
+
+       # now extract the rows of data
+       rows = Array.new
+       sqlResult.each do |row|
+         rows << row
+       end                            
+       sqlResult.free;
+
+       currentrow = ["", "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+       nextrow = ["", "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+       buckets = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+       outputrows = []
+       rows.each do |row|
+         currentrow = nextrow
+         nextrow = row
+         # check for a new student and check for first iteration where currentrow[2] == ""
+         if ((currentrow[2] != nextrow[2]) and (currentrow[2] != ""))
+           currentrow[3..18] = buckets
+           outputrows << currentrow
+           buckets = nextrow[3..18]
+         else
+           for index in (0..14)
+             buckets[index] = buckets[index].to_i + nextrow[index+3].to_i
+           end # for loop
+         end # if currentrow[2] != nextrow[2]
+       end # rows.each
+
+       # will alway have to write out the last record after exiting the loop
+       currentrow = nextrow
+       currentrow[3..18] = buckets
+       outputrows << currentrow 
+     end # if sql_result
+
+
+     fieldNamesAndDataArray = Array.new
+     fieldNamesAndDataArray << fieldNames << outputrows
+     return fieldNamesAndDataArray
+   end
   
    #-------------------------------------------
    # diagnoses by Category
