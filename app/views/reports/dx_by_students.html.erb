@@ -20,20 +20,21 @@
 <tbody>
      <% rows = @reportarray[1]
 		for arow in rows do 
-	 	cls_rest = cycle("bg5","bg4", :name => 'rest_cols')
-	 	cls_col_1 = cycle("bg8","bg7", :name => 'first_col')
+	 		cls_rest = cycle("bg5","bg4", :name => 'rest_cols')
+	 		cls_col_1 = cycle("bg8","bg7", :name => 'first_col')
 	%>
-	<tr>	
-		<!-- The following two lines of Ruby are to pop off the first three 
-		 	elements which contain the first name, last name & username -->			 
-		<td class="b1 <%= cls_col_1 %>">	<%= arow.shift %> </td>
-		<td class="b1 <%= cls_col_1 %>">	<%= arow.shift %> </td>
-		<td class="b1 <%= cls_col_1 %>">	<%= arow.shift %> </td>
+		<tr>	
+			<!-- The following two lines of Ruby are to pop off the first three 
+			 	 elements which contain the first name, last name & username -->			 
+			<td class="b1 <%= cls_col_1 %>">	<%= arow.shift %> </td>
+			<td class="b1 <%= cls_col_1 %>">	<%= arow.shift %> </td>
+			<td class="b1 <%= cls_col_1 %>"><%= format_email(arow.shift) %></td>
+
 			
-		<% 	for aval in arow do %>
-		<td class="b1 datacenter <%= cls_rest %>"> <%= aval %></td>
-		<% end %>
-	</tr>
+			<% 	for aval in arow do %>
+			<td class="b1 datacenter <%= cls_rest %>"> <%= aval %></td>
+			<% end %>
+		</tr>
 	<% end %>
 
 </tbody>
@@ -55,7 +56,7 @@ $(function() {
 		"bJQueryUI": true,
 		"bPaginate": true,
 		"aaSorting": [[1,"asc"]],
-		"aoColumns": [null,null,null,{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" }],
+		"aoColumns": [null,null,{ "sType": "noSel","sWidth": "200"},{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" },{ "sType": "numeric" }],
 		"iDisplayLength": 25,
 		"sPaginationType" : "full_numbers"
 	} );

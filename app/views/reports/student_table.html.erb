@@ -23,7 +23,7 @@
 			<td class="b1 <%= cls_rest %>"> <%= reportline.username %> </td>
 			<td class="b1 <%= cls_rest %>"> <%= reportline.firstname %> </td>
 			<td class="b1 <%= cls_rest %>"> <%= reportline.lastname %> </td>
-			<td class="b1 <%= cls_rest %>"> <%= reportline.email %> </td>
+			<td class="b1 <%= cls_rest %>"> <%= format_email(reportline.email) %> </td>
 			<td class="b1 <%= cls_rest %>"> <%= reportline.last_login %> </td>
 			<td class="b1 datacenter <%= cls_rest %>"> <%= reportline.login_count %> </td>
 		</tr>
