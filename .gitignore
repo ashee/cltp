@@ -11,3 +11,4 @@ nbproject
 .DS_Store
 public/uploads/*
 config/ga.key
+public/javascripts/all.js
